@@ -1,0 +1,78 @@
+---
+import { getLocale, useTranslations } from "../i18n/ui";
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+
+<section class="author">
+  <div class="row">
+    <div class="arch">
+      <svg width="140" height="150" viewBox="0 0 140 150" role="img" aria-label={t("author.photo")}>
+        <defs>
+          <pattern id="author-dots" width="6" height="6" patternUnits="userSpaceOnUse">
+            <circle class="dot" cx="3" cy="3" r="2"></circle>
+          </pattern>
+        </defs>
+        <circle cx="70" cy="62" r="30" fill="url(#author-dots)"></circle>
+        <path d="M12 150c3-36 27-56 58-56s55 20 58 56z" fill="url(#author-dots)"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="kicker">{t("author.kicker")}</p>
+      <p class="line" set:html={t("author.line")} />
+      <p class="signature">— Mialy</p>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="photo">{t("author.photo")}</span>
+    <a href={`/${locale}/about/`}>{t("author.about")}</a>
+  </div>
+</section>
+
+<style>
+  .author { padding: 52px 24px 0; }
+  .row { display: flex; gap: 20px; align-items: flex-end; }
+  .arch {
+    position: relative;
+    flex-shrink: 0;
+    width: 140px;
+    height: 175px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 999px 999px 14px 14px;
+    background: var(--blush);
+    box-shadow: 5px 5px 0 var(--shadow);
+  }
+  .arch svg { position: absolute; left: 0; bottom: 0; }
+  .dot { fill: var(--accent); }
+  .kicker {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .line {
+    margin: 8px 0 0;
+    font-family: var(--font-serif);
+    font-size: 23px;
+    line-height: 1.15;
+  }
+  .signature {
+    margin: 8px 0 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--accent-text);
+  }
+  .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .photo {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .foot a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 500; }
+</style>

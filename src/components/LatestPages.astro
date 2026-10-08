@@ -1,0 +1,85 @@
+---
+import { getLocale, useTranslations } from "../i18n/ui";
+import { latestChapters, chapterUrl, pad } from "../data/books";
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const entries = latestChapters();
+---
+
+<section class="latest">
+  <div class="head">
+    <h2 set:html={t("latest.title")} />
+    <a href={`/${locale}/shelf/`}>{t("latest.all")}</a>
+  </div>
+  <ol class="list">
+    {entries.map(({ book, chapter }) => (
+      <li>
+        <a href={chapterUrl(locale, book, chapter)}>
+          <span class="bar" style={`background: var(--book-${book.color})`}></span>
+          <span class="text">
+            <span class="label">
+              {book.name[locale]} · {t(chapter.kind === "day" ? "label.day" : "label.chapter")} {pad(chapter.number)}
+            </span>
+            <span class="title">{chapter.title[locale]}</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .latest { padding: 52px 20px 0; }
+  .head { display: flex; align-items: baseline; justify-content: space-between; }
+  h2 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1;
+  }
+  .head a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .list {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  li + li { border-top: 1px solid var(--rule); }
+  .list a {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px 16px 16px 0;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .bar { width: 5px; flex-shrink: 0; border-radius: 0 4px 4px 0; }
+  .text { flex-grow: 1; }
+  .label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .title {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.15;
+  }
+  .arrow { align-self: center; color: var(--accent-text); }
+</style>

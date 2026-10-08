@@ -1,0 +1,40 @@
+---
+import { getLocale, useTranslations } from "../i18n/ui";
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+
+<footer class="site-footer">
+  <span>@ellebuild · 2026</span>
+  <nav>
+    <a href={`/${locale}/about/`}>{t("footer.about")}</a>
+    <span aria-hidden="true">·</span>
+    <a href={`/${locale}/blog/`}>{t("footer.blog")}</a>
+  </nav>
+</footer>
+
+<style>
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 64px;
+    padding: 12px 24px 24px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  nav { display: flex; align-items: center; gap: 4px; }
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 4px;
+    color: var(--ink-muted);
+    text-decoration: none;
+  }
+  a:hover { color: var(--accent-text); }
+</style>

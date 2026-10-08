@@ -1,0 +1,51 @@
+---
+import { getLocale, useTranslations, plural } from "../i18n/ui";
+import { stats } from "../data/books";
+const t = useTranslations(getLocale(Astro.currentLocale));
+
+const items = [
+  { n: stats.openBooks, label: plural(stats.openBooks, t("stats.books.one"), t("stats.books.other")) },
+  { n: stats.publishedChapters, label: plural(stats.publishedChapters, t("stats.chapters.one"), t("stats.chapters.other")) },
+  { n: stats.livingBooks, label: plural(stats.livingBooks, t("stats.living.one"), t("stats.living.other")) },
+];
+---
+
+<ul class="stats">
+  {items.map((item) => (
+    <li>
+      <span class="n">{item.n}</span>
+      <span class="label">{item.label}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 36px 20px 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    padding: 14px 12px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .n {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 40px;
+    line-height: 1;
+    color: var(--accent-text);
+  }
+  .label {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--ink-soft);
+  }
+</style>

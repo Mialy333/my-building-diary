@@ -1,0 +1,55 @@
+---
+import { getLocale, useTranslations } from "../i18n/ui";
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+
+<section class="loop" aria-label={t("loop.label")}>
+  <div class="arc"><span>{t("loop.audit")}</span></div>
+  <p class="steps">
+    <span>{t("loop.retrieve")}</span>
+    <span class="arrow" aria-hidden="true">→</span>
+    <span>{t("loop.cite")} <span class="or">{t("loop.or")}</span> {t("loop.refuse")}</span>
+    <span class="arrow" aria-hidden="true">→</span>
+    <span>{t("loop.trace")}</span>
+  </p>
+</section>
+
+<style>
+  .loop { padding: 40px 28px 0; }
+  .arc { position: relative; height: 32px; margin: 0 14px; }
+  .arc::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 14px;
+    height: 18px;
+    border: 1px solid var(--arc, #D9C6CC);
+    border-bottom: none;
+    border-radius: 14px 14px 0 0;
+  }
+  .arc span {
+    position: absolute;
+    left: 50%; top: 0;
+    transform: translateX(-50%);
+    padding: 0 10px;
+    background: var(--paper);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--accent-text);
+  }
+  .steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 8px;
+    margin: 8px 0 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .or { color: var(--ink-muted); text-transform: none; }
+  .arrow { color: var(--ink-faint); }
+</style>
