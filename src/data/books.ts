@@ -115,11 +115,11 @@ export const books: Book[] = [
         repo: "https://github.com/Mialy333/support-chatbot-bedrock-agentcore",
       },
       {
-        number: 2, kind: "chapter", published: false,
+        number: 2, kind: "chapter", published: true,
         title: { fr: "AI Support Agent", en: "AI Support Agent" },
         teaser: {
-          fr: "Un agent de support sur AgentCore : commandes, remboursements, RAG, mémoire long terme, Code Interpreter et Browser.",
-          en: "A support agent on AgentCore: orders, refunds, RAG, long-term memory, Code Interpreter and Browser.",
+          fr: "Six outils, quatre sources, une infrastructure montée à la main : valider chaque couche seule avant de l'empiler.",
+          en: "Six tools, four sources, infrastructure built by hand: validate each layer alone before stacking it.",
         },
         repo: "https://github.com/Mialy333/agentcore-customer-support-agent",
       },
