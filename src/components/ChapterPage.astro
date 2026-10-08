@@ -1,0 +1,138 @@
+---
+import { getEntry, render } from "astro:content";
+import { getLocale, useTranslations } from "../i18n/ui";
+import { books, type Book, type Chapter, pad, bookUrl, chapterUrl, chapterLabel } from "../data/books";
+
+interface Props {
+  book: Book;
+  chapter: Chapter;
+}
+
+const { book, chapter } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const slug = chapter.slug ?? `${chapter.kind}-${pad(chapter.number)}`;
+const id = `${locale}/${book.slug}/${slug}`;
+const entry = await getEntry("chapters", id);
+const missingPath = `src/content/chapters/${id}.md`;
+
+if (!entry && import.meta.env.PROD) {
+  throw new Error(`Chapitre publié sans texte : ${missingPath}`);
+}
+
+const Content = entry ? (await render(entry)).Content : null;
+const workedOn = entry?.data.workedOn
+  ? new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(entry.data.workedOn)
+  : null;
+
+const baa = books.find((b) => b.slug === "baa-101");
+const concept = chapter.concept && baa ? baa.chapters.find((c) => c.number === chapter.concept) : undefined;
+const repo = chapter.repo ?? book.repo;
+const index = book.chapters.indexOf(chapter);
+const next = book.chapters[index + 1];
+---
+
+<article class="chapter">
+  <a class="back" href={bookUrl(locale, book)}>← {t("chapter.back")} · {book.name[locale]}</a>
+
+  <header>
+    <p class="label">
+      <span class="bar" style={`background: var(--book-${book.color})`} aria-hidden="true"></span>
+      {book.name[locale]} · {chapterLabel(chapter, t)}
+    </p>
+    <h1>{chapter.title[locale]}</h1>
+    {workedOn && <p class="meta">{t("chapter.workedOn")} {workedOn}</p>}
+  </header>
+
+  {Content ? (
+    <div class="prose"><Content /></div>
+  ) : (
+    <p class="missing">{t("chapter.missing")} <code>{missingPath}</code></p>
+  )}
+
+  <footer class="end">
+    {concept && baa && (
+      <div class="block">
+        <p class="mono-label">{t("book.concept")}</p>
+        <div class="concept-row">
+          {concept.published ? (
+            <a href={chapterUrl(locale, baa, concept)}>{concept.title[locale]}</a>
+          ) : (
+            <>
+              <span class="concept-tag">{concept.title[locale]}</span>
+              <span class="mono">{t("unit.toCome")}</span>
+            </>
+          )}
+        </div>
+      </div>
+    )}
+
+    {repo && <a class="code" href={repo} rel="noopener">{t("chapter.code")}</a>}
+
+    {next && (
+      <div class="block">
+        <p class="mono-label">{t("chapter.next")}</p>
+        {next.published ? (
+          <a class="next-link" href={chapterUrl(locale, book, next)}>
+            <span class="mono">{chapterLabel(next, t)}</span>
+            <span class="next-title">{next.title[locale]} →</span>
+          </a>
+        ) : (
+          <p class="next-pending">
+            <span class="mono">{chapterLabel(next, t)} · {t("unit.toCome")}</span>
+            <span class="next-title">{next.title[locale]}</span>
+          </p>
+        )}
+      </div>
+    )}
+  </footer>
+</article>
+
+<style>
+  .chapter { padding: 24px 24px 0; }
+  .back { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 500; text-decoration: none; }
+  header { margin-top: 16px; }
+  .label {
+    display: flex; align-items: center; gap: 10px; margin: 0;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
+  }
+  .bar { width: 5px; height: 16px; border-radius: 2px; }
+  h1 { margin: 14px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 40px; line-height: 1.02; letter-spacing: -0.5px; }
+  .meta { margin: 12px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+
+  .prose { margin-top: 32px; font-family: var(--font-reading); font-size: 19px; line-height: 1.6; }
+  .prose :global(p) { margin: 0 0 1em; }
+  .prose :global(h2) { margin: 1.8em 0 0.5em; font-family: var(--font-serif); font-weight: 400; font-size: 28px; line-height: 1.1; }
+  .prose :global(ul), .prose :global(ol) { margin: 0 0 1em; padding-left: 1.2em; }
+  .prose :global(li) { margin-bottom: 0.5em; }
+  .prose :global(strong) { font-weight: 500; }
+  .prose :global(code) {
+    font-family: var(--font-mono); font-size: 0.8em; padding: 1px 5px;
+    border-radius: 4px; background: var(--rule);
+  }
+  .prose :global(blockquote) {
+    margin: 0 0 1em; padding: 4px 0 4px 18px; border-left: 3px solid var(--accent-text);
+    font-family: var(--font-serif); font-style: italic; font-size: 24px; line-height: 1.2;
+  }
+  .prose :global(blockquote p) { margin: 0; }
+  .prose :global(a) { text-underline-offset: 3px; }
+
+  .missing { margin-top: 32px; padding: 16px 18px; border: 1px dashed var(--accent-text); border-radius: 12px; font-size: 15px; }
+
+  .end { margin-top: 40px; padding-top: 8px; border-top: 1px solid var(--line); }
+  .block { margin-top: 20px; }
+  .mono-label { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
+  .mono { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .concept-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+  .concept-tag { font-size: 14px; color: var(--ink-soft); border: 1px dashed var(--ink-faint); border-radius: 999px; padding: 5px 12px; }
+  .code { display: inline-flex; align-items: center; min-height: 44px; margin-top: 16px; font-size: 15px; font-weight: 600; }
+  .next-link, .next-pending {
+    display: flex; flex-direction: column; gap: 2px; margin: 8px 0 0; padding: 14px 18px;
+    border-radius: 14px; text-decoration: none; color: var(--ink);
+  }
+  .next-link { background: var(--card); border: 1px solid var(--line); }
+  .next-pending { border: 1px dashed var(--ink-faint); }
+  .next-title { font-family: var(--font-serif); font-size: 22px; line-height: 1.15; }
+  .next-pending .next-title { color: var(--ink-soft); }
+</style>

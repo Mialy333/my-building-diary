@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import ChapterPage from "../../../../components/ChapterPage.astro";
+import { books, pad, type Book, type Chapter } from "../../../../data/books";
+import { getLocale } from "../../../../i18n/ui";
+
+export function getStaticPaths() {
+  return books.flatMap((book) =>
+    book.chapters
+      .filter((chapter) => chapter.published)
+      .map((chapter) => ({
+        params: { slug: book.slug, chapter: chapter.slug ?? `${chapter.kind}-${pad(chapter.number)}` },
+        props: { book, chapter },
+      })),
+  );
+}
+
+interface Props {
+  book: Book;
+  chapter: Chapter;
+}
+
+const { book, chapter } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+---
+
+<BaseLayout title={`${chapter.title[locale]} — ${book.name[locale]}`}>
+  <ChapterPage book={book} chapter={chapter} />
+</BaseLayout>
