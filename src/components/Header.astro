@@ -1,0 +1,89 @@
+---
+import { locales, getLocale, useTranslations } from "../i18n/ui";
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const pathFor = (target: string) =>
+  Astro.url.pathname.replace(/^\/(en|fr)(?=\/|$)/, `/${target}`);
+---
+
+<header class="site-header">
+  <a class="brand" href={`/${locale}/`}>
+    <span class="ribbon" aria-hidden="true"></span>
+    <span class="brand-name">My Building <em>Diary</em></span>
+  </a>
+
+  <nav class="lang" aria-label={t("lang.label")}>
+    {locales.map((l, i) => (
+      <>
+        {i > 0 && <span class="sep" aria-hidden="true">/</span>}
+        {l === locale ? (
+          <span class="current" aria-current="true">{l.toUpperCase()}</span>
+        ) : (
+          <a href={pathFor(l)} hreflang={l} lang={l} aria-label={t(`lang.${l}`)}>
+            {l.toUpperCase()}
+          </a>
+        )}
+      </>
+    ))}
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 12px 0 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .ribbon {
+    width: 10px;
+    height: 16px;
+    background: var(--accent);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%);
+  }
+  .brand-name {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    line-height: 1;
+  }
+  .lang {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  .lang a,
+  .lang .current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .lang .current {
+    color: var(--ink);
+  }
+  .lang a {
+    color: var(--ink-muted);
+    text-decoration: none;
+  }
+  .lang a:hover {
+    color: var(--accent-text);
+  }
+  .sep {
+    color: var(--ink-faint);
+  }
+</style>

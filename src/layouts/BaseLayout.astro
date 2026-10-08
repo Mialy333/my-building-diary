@@ -1,5 +1,6 @@
 ---
 import { Font } from "astro:assets";
+import Header from "../components/Header.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -21,6 +22,9 @@ const { title = "My Building Diary" } = Astro.props;
     <Font cssVariable="--font-reading" />
   </head>
   <body>
-    <slot />
+    <Header />
+    <main>
+      <slot />
+    </main>
   </body>
 </html>

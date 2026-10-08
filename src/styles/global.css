@@ -3,6 +3,8 @@
   --ink-muted: #6E6069; --ink-faint: #B3A5AC; --line: #E6DCD9; --rule: #EFE7E3;
   --accent: #7A2E5C; --accent-text: #7A2E5C; --accent-hover: #5A1F43; --on-accent: #FFFFFF;
   --blush: #F4DDE2; --shadow: #EBCBD3; --published-bg: #DCEBDD; --published-ink: #2F5A36;
+  --book-sage: #A9C4AB; --book-apricot: #EFBF93; --book-rose: #E3A0AA;
+  --gauge-apricot: #E0A071; --gauge-rose: #D98391;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -15,6 +17,6 @@
 }
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.6; }
-h1 { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 62px; line-height: 0.94; letter-spacing: -1.5px; }
 em { font-style: italic; color: var(--accent-text); }
 a { color: var(--accent-text); }
+:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; }
