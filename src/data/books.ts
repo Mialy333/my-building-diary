@@ -176,8 +176,20 @@ export const books: Book[] = [
           en: "A tags filter, two rejected changes, and one rule: only the diff counts.",
         },
       }),
-      session(2, "L'adapter de modèle", "The model adapter"),
-      session(3, "Sorties structurées", "Structured outputs"),
+      session(2, "L'adapter de modèle", "The model adapter", {
+        published: true,
+        teaser: {
+          fr: "Une seule porte vers tous les modèles, une panne qui devient un refus, et un délai fixé par la mesure.",
+          en: "One door to every model, an outage that becomes a refusal, and a timeout set by measurement.",
+        },
+      }),
+      session(3, "Sorties structurées", "Structured outputs", {
+        published: true,
+        teaser: {
+          fr: "Un parser strict, un seul retry, et un golden set testé avant d'être étiqueté.",
+          en: "A strict parser, a single retry, and a golden set tested before it's labeled.",
+        },
+      }),
       session(4, "Outils bornés", "Bounded tools"),
       session(5, "Mini-agent déterministe", "A deterministic mini-agent"),
       session(6, "Baseline de récupération", "Retrieval baseline"),
