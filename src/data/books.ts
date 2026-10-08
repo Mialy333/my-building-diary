@@ -124,7 +124,7 @@ export const books: Book[] = [
         repo: "https://github.com/Mialy333/agentcore-customer-support-agent",
       },
       {
-        number: 3, kind: "chapter", published: false,
+        number: 3, kind: "chapter", published: true,
         title: { fr: "NovaMart Multi-Agent Support", en: "NovaMart Multi-Agent Support" },
         teaser: {
           fr: "Cinq agents Strands, trois Knowledge Bases interrogées en parallèle, un guardrail : 120/120.",
