@@ -1,18 +1,12 @@
 ---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
 const subtitle =
   "Agents that cite their sources, refuse when nothing backs the answer, and leave a trace you can audit.";
 ---
 
-<html lang={Astro.currentLocale}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>My Building Diary</title>
-  </head>
-  <body>
-    <h1>Building AI agents <em>in public…</em></h1>
-    <p>{subtitle}</p>
-    <a href="/fr/">Français</a>
-  </body>
-</html>
+<BaseLayout>
+  <h1>Building AI agents <em>in public…</em></h1>
+  <p>{subtitle}</p>
+  <a href="/fr/">Français</a>
+</BaseLayout>
