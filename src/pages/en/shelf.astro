@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ShelfPage from "../../components/ShelfPage.astro";
+import { useTranslations } from "../../i18n/ui";
+const t = useTranslations("en");
+---
+
+<BaseLayout title={t("shelf.pageTitle")}>
+  <ShelfPage />
+</BaseLayout>

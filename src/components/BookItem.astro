@@ -1,0 +1,92 @@
+---
+import { getLocale, useTranslations, plural } from "../i18n/ui";
+import { type Book, bookUrl, publishedCount, progressPercent } from "../data/books";
+import BookCover from "./BookCover.astro";
+
+interface Props {
+  book: Book;
+  solo?: boolean;
+}
+
+const { book, solo = false } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const published = publishedCount(book);
+const toCome = book.chapters.length - published;
+const isDay = book.chapters[0]?.kind === "day";
+const unit = (n: number) =>
+  isDay
+    ? plural(n, t("unit.day.one"), t("unit.day.other"))
+    : plural(n, t("unit.chapter.one"), t("unit.chapter.other"));
+
+const gaugeColor = book.color === "apricot" ? "var(--gauge-apricot)" : "var(--gauge-rose)";
+---
+
+<article class:list={["item", { solo }]}>
+  {book.forthcoming ? (
+    <BookCover book={book} />
+  ) : (
+    <a class="cover-link" href={bookUrl(locale, book)}>
+      <BookCover book={book} />
+    </a>
+  )}
+
+  <div class="details">
+    {solo && book.description && <p class="description">{book.description[locale]}</p>}
+
+    {book.living && (
+      <div class="living">
+        <span class="living-title">{t("book.living")}</span>
+        <span class="mono">
+          {published > 0 ? `${published} ${unit(published)}` : `${toCome} ${unit(toCome)} ${t("unit.toCome")}`}
+        </span>
+      </div>
+    )}
+
+    {book.total && (
+      <div class="gauge">
+        <div class="rail"><div class="fill" style={`width: ${progressPercent(book)}%; background: ${gaugeColor}`}></div></div>
+        <div class="gauge-label mono">
+          <span>{published}/{book.total} {unit(book.total)}</span>
+          <span class="percent">{progressPercent(book)} %</span>
+        </div>
+      </div>
+    )}
+
+    {book.forthcoming && (
+      <div class="gauge">
+        <div class="rail"></div>
+        <div class="gauge-label mono"><span>{t("book.forthcoming")}</span></div>
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  .item.solo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+  }
+  .cover-link { display: block; text-decoration: none; }
+  .details { padding-top: 2px; }
+  .item:not(.solo) .details { margin-top: 16px; }
+  .description { margin: 0 0 16px; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+  .mono { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .living { padding-top: 12px; border-top: 1px solid var(--line); }
+  .living-title {
+    display: block;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.1;
+    color: var(--accent-text);
+  }
+  .living .mono { display: block; margin-top: 4px; }
+  .rail { height: 6px; border-radius: 3px; background: var(--rule); overflow: hidden; }
+  .fill { height: 6px; border-radius: 3px; }
+  .gauge-label { display: flex; justify-content: space-between; margin-top: 8px; }
+  .percent { color: var(--ink); }
+</style>
