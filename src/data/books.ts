@@ -190,8 +190,20 @@ export const books: Book[] = [
           en: "A strict parser, a single retry, and a golden set tested before it's labeled.",
         },
       }),
-      session(4, "Outils bornés", "Bounded tools"),
-      session(5, "Mini-agent déterministe", "A deterministic mini-agent"),
+      session(4, "Outils bornés", "Bounded tools", {
+        published: true,
+        teaser: {
+          fr: "Un outil valide avant d'agir, et ce qu'il renvoie est une donnée, jamais un ordre.",
+          en: "A tool validates before acting, and what it returns is data, never an order.",
+        },
+      }),
+      session(5, "Mini-agent déterministe", "A deterministic mini-agent", {
+        published: true,
+        teaser: {
+          fr: "Une boucle qui s'arrête toujours, en disant pourquoi : quatre sorties, un budget compté avant l'appel.",
+          en: "A loop that always stops, and says why: four exits, a budget counted before the call.",
+        },
+      }),
       session(6, "Baseline de récupération", "Retrieval baseline"),
       session(7, "Métriques de récupération et d'ancrage", "Retrieval and grounding metrics"),
       session(8, "Boucles et graphes", "Loops and graphs"),
