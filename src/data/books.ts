@@ -82,10 +82,16 @@ export const books: Book[] = [
     color: "apricot",
     gauge: true,
     heading: { text: { fr: "Future Agent ", en: "Future Agent " }, accent: { fr: "Engineer", en: "Engineer" } },
-    meta: { fr: "AWS & AI Scholars · Udacity", en: "AWS & AI Scholars · Udacity" },
+    meta: { fr: "AWS & AI Scholars · Udacity · 3 projets validés", en: "AWS & AI Scholars · Udacity · 3 projects approved" },
     summary: {
-      fr: ["Le parcours Future Agent Engineer du programme AWS & AI Scholars. Au chapitre 2, un agent de support client sur Amazon Bedrock AgentCore, validé par le mentor Udacity : il suit les commandes, traite les remboursements, répond par RAG, se souvient du client entre les sessions et calcule des remises exactes."],
-      en: ["The Future Agent Engineer track of the AWS & AI Scholars program. In chapter 2, a customer support agent on Amazon Bedrock AgentCore, approved by the Udacity mentor: it tracks orders, processes refunds, answers through RAG, remembers the customer across sessions and computes exact discounts."],
+      fr: [
+        "Le parcours Future Agent Engineer du programme AWS & AI Scholars : trois projets de support client sur Amazon Bedrock AgentCore, tous validés par le mentor Udacity.",
+        "Un chatbot dont tout le routage vit dans le prompt système, puis un agent Strands avec outils, RAG et mémoire long terme, puis un système de cinq agents qui coopèrent derrière un guardrail.",
+      ],
+      en: [
+        "The Future Agent Engineer track of the AWS & AI Scholars program: three customer support projects on Amazon Bedrock AgentCore, all approved by the Udacity mentor.",
+        "A chatbot whose routing lives entirely in its system prompt, then a Strands agent with tools, RAG and long-term memory, then a system of five cooperating agents behind a guardrail.",
+      ],
     },
     callout: {
       label: { fr: "Fil rouge", en: "Common thread" },
@@ -102,18 +108,30 @@ export const books: Book[] = [
       {
         number: 1, kind: "chapter", published: true,
         title: { fr: "Customer Support Chatbot with Amazon Bedrock AgentCore", en: "Customer Support Chatbot with Amazon Bedrock AgentCore" },
-        repo: "https://github.com/Mialy333/aws-c1-prompting-llm-reasoning-nd905-cd14762-project",
+        teaser: {
+          fr: "Tout le routage dans le prompt, 0.92 à l'évaluation, et des numéros de ticket inventés que seul DynamoDB a révélés.",
+          en: "All routing in the prompt, 0.92 on evaluation, and invented ticket numbers that only DynamoDB revealed.",
+        },
+        repo: "https://github.com/Mialy333/support-chatbot-bedrock-agentcore",
       },
       {
-        number: 2, kind: "chapter", published: true,
+        number: 2, kind: "chapter", published: false,
         title: { fr: "AI Support Agent", en: "AI Support Agent" },
         teaser: {
           fr: "Un agent de support sur AgentCore : commandes, remboursements, RAG, mémoire long terme, Code Interpreter et Browser.",
           en: "A support agent on AgentCore: orders, refunds, RAG, long-term memory, Code Interpreter and Browser.",
         },
-        repo: "https://github.com/Mialy333/cd14763-project-starter",
+        repo: "https://github.com/Mialy333/agentcore-customer-support-agent",
       },
-      { number: 3, kind: "chapter", title: { fr: "[…]", en: "[…]" }, published: false },
+      {
+        number: 3, kind: "chapter", published: false,
+        title: { fr: "NovaMart Multi-Agent Support", en: "NovaMart Multi-Agent Support" },
+        teaser: {
+          fr: "Cinq agents Strands, trois Knowledge Bases interrogées en parallèle, un guardrail : 120/120.",
+          en: "Five Strands agents, three knowledge bases queried in parallel, one guardrail: 120/120.",
+        },
+        repo: "https://github.com/Mialy333/novamart-multi-agent-support",
+      },
     ],
   },
   {
@@ -172,7 +190,7 @@ export const books: Book[] = [
       session(13, "Sécuriser un serveur MCP", "Securing an MCP server"),
       session(14, "Déployer et exploiter", "Deploying and operating"),
       { number: 15, kind: "step", code: "cap01", slug: "cap01", title: { fr: "Notebook du final", en: "The final's notebook" }, published: false },
-      { number: 16, kind: "step", code: "Final", slug: "final", title: { fr: "Final assignment", en: "Final assignment" }, published: false, repo: "https://github.com/Mialy333/my-final-assignment" },
+      { number: 16, kind: "step", code: "Final", slug: "final", title: { fr: "Final assignment", en: "Final assignment" }, published: false, repo: "https://github.com/Mialy333/grounded-research-agent" },
       { number: 17, kind: "step", code: "Gecko", slug: "gecko", title: { fr: "Gecko capstone", en: "Gecko capstone" }, published: false, repo: "https://github.com/Mialy333/my-gecko-buyer" },
     ],
   },
