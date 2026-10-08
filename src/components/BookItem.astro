@@ -55,8 +55,15 @@ const gaugeColor = book.color === "apricot" ? "var(--gauge-apricot)" : "var(--ga
 </article>
 
 <style>
-  .item.solo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
-  .solo .cover-slot { max-width: 200px; }
+  .item.solo {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: subgrid;
+    column-gap: 18px;
+    align-items: start;
+  }
+  .solo .details { grid-column: 2 / -1; }
   .cover-link { display: block; text-decoration: none; }
   .item:not(.solo) .details { margin-top: 16px; }
   .description { margin: 0 0 16px; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
@@ -66,6 +73,7 @@ const gaugeColor = book.color === "apricot" ? "var(--gauge-apricot)" : "var(--ga
   .living .mono { display: block; margin-top: 4px; }
   .rail { height: 6px; border-radius: 3px; background: var(--rule); overflow: hidden; }
   .fill { height: 6px; border-radius: 3px; }
-  .gauge-label { display: flex; justify-content: space-between; margin-top: 8px; }
+  .gauge-label { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 8px; margin-top: 8px; }
+  .gauge-label span { white-space: nowrap; }
   .percent { color: var(--ink); }
 </style>
