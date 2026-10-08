@@ -1,10 +1,11 @@
 ---
 import { getLocale, useTranslations, plural, type UiKey } from "../i18n/ui";
 import {
-  books, type Book, type Chapter, pad, publishedCount, progressPercent, chapterUrl, bookUrl, chapterLabel,
+  books, baa, conceptsOf, appliedIn, type Book, type Chapter, pad, publishedCount, progressPercent, chapterUrl, bookUrl, chapterLabel,
 } from "../data/books";
 import BookCover from "./BookCover.astro";
 import Breadcrumb from "./Breadcrumb.astro";
+import ConceptList from "./ConceptList.astro";
 
 interface Props {
   book: Book;
@@ -15,19 +16,12 @@ const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
 const label = (c: Chapter) => chapterLabel(c, t);
 
-const baa = books.find((b) => b.slug === "baa-101");
 const journeys = books.filter((b) => b.shelf === "journeys");
 
 const published = book.chapters.filter((c) => c.published);
 const upcoming = book.chapters.filter((c) => !c.published);
 const nextRows = upcoming.slice(0, 3);
 const later = upcoming.slice(3);
-
-const conceptOf = (c: Chapter) => (c.concept && baa ? baa.chapters.find((bc) => bc.number === c.concept) : undefined);
-const appliedIn = (bc: Chapter) =>
-  books
-    .filter((b) => b.slug !== "baa-101")
-    .flatMap((b) => b.chapters.filter((c) => c.concept === bc.number && c.published).map((c) => ({ book: b, chapter: c })));
 
 const unit = (n: number) => plural(n, t("unit.chapter.one"), t("unit.chapter.other"));
 const gaugeColor = book.color === "apricot" ? "var(--gauge-apricot)" : "var(--gauge-rose)";
@@ -130,7 +124,7 @@ const crumbs = [
       <>
         <ol class="list">
           {published.map((c) => {
-            const concept = conceptOf(c);
+            const concepts = conceptsOf(c);
             return (
               <li class="card">
                 <div class="card-head">
@@ -142,21 +136,7 @@ const crumbs = [
                   {c.teaser && <span class="teaser">{c.teaser[locale]}</span>}
                   <span class="read">{t("book.read")}</span>
                 </a>
-                {concept && baa && (
-                  <div class="concept">
-                    <p class="mono-label">{t("book.concept")}</p>
-                    <div class="concept-row">
-                      {concept.published ? (
-                        <a href={chapterUrl(locale, baa, concept)}>{concept.title[locale]}</a>
-                      ) : (
-                        <>
-                          <span class="concept-tag">{concept.title[locale]}</span>
-                          <span class="mono">{t("unit.toCome")}</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                )}
+                <ConceptList concepts={concepts} />
               </li>
             );
           })}
@@ -254,8 +234,6 @@ const crumbs = [
   .read { display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: var(--accent-text); }
   .concept { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
   .mono-label { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
-  .concept-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
-  .concept-tag { font-size: 14px; color: var(--ink-soft); border: 1px dashed var(--ink-faint); border-radius: 999px; padding: 5px 12px; }
   .applied { display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-decoration: none; }
   .row {
     display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 10px 18px;

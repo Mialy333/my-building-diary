@@ -14,7 +14,7 @@ export interface Chapter {
   title: L;
   published: boolean;
   teaser?: L;
-  concept?: number;
+  concepts?: number[];
   repo?: string;
 }
 
@@ -39,6 +39,10 @@ export interface Book {
 
 const session = (number: number, fr: string, en: string, extra: Partial<Chapter> = {}): Chapter => ({
   number, kind: "session", title: { fr, en }, published: false, ...extra,
+});
+
+const concept = (number: number, fr: string, en: string, extra: Partial<Chapter> = {}): Chapter => ({
+  number, kind: "chapter", title: { fr, en }, published: false, ...extra,
 });
 
 export const books: Book[] = [
@@ -72,7 +76,17 @@ export const books: Book[] = [
       bars: [30, 55, 80, 100],
     },
     chapters: [
-      { number: 1, kind: "chapter", title: { fr: "Instructions de repo", en: "Repo instructions" }, published: false },
+      concept(1, "Vérifier l'effet, pas la parole", "Verify the effect, not the claim"),
+      concept(2, "La boucle d'agent et ses sorties", "The agent loop and its exits"),
+      concept(3, "L'outil vu par le modèle", "The tool as the model sees it"),
+      concept(4, "Une donnée n'est jamais un ordre", "Data is never an order"),
+      concept(5, "La sortie du modèle est une donnée non fiable", "The model's output is untrusted data"),
+      concept(6, "Le refus est un état", "Refusal is a state"),
+      concept(7, "La bonne page doit arriver", "The right page must arrive"),
+      concept(8, "Lire l'appel d'outil, pas la réponse", "Read the tool call, not the answer"),
+      concept(9, "Évaluer sans se mentir", "Evaluate without lying to yourself"),
+      concept(10, "La mémoire a un propriétaire", "Memory has an owner"),
+      concept(11, "Ce qui doit toujours arriver s'impose dans le code", "What must always happen is enforced in code"),
     ],
   },
   {
@@ -108,6 +122,7 @@ export const books: Book[] = [
       {
         number: 1, kind: "chapter", published: true,
         title: { fr: "Customer Support Chatbot with Amazon Bedrock AgentCore", en: "Customer Support Chatbot with Amazon Bedrock AgentCore" },
+        concepts: [1, 4, 9, 11],
         teaser: {
           fr: "Tout le routage dans le prompt, 0.92 à l'évaluation, et des numéros de ticket inventés que seul DynamoDB a révélés.",
           en: "All routing in the prompt, 0.92 on evaluation, and invented ticket numbers that only DynamoDB revealed.",
@@ -117,6 +132,7 @@ export const books: Book[] = [
       {
         number: 2, kind: "chapter", published: true,
         title: { fr: "AI Support Agent", en: "AI Support Agent" },
+        concepts: [2, 3, 8, 10],
         teaser: {
           fr: "Six outils, quatre sources, une infrastructure montée à la main : valider chaque couche seule avant de l'empiler.",
           en: "Six tools, four sources, infrastructure built by hand: validate each layer alone before stacking it.",
@@ -126,6 +142,7 @@ export const books: Book[] = [
       {
         number: 3, kind: "chapter", published: true,
         title: { fr: "NovaMart Multi-Agent Support", en: "NovaMart Multi-Agent Support" },
+        concepts: [4, 8, 10, 11],
         teaser: {
           fr: "Cinq agents Strands, trois Knowledge Bases interrogées en parallèle, un guardrail : 120/120.",
           en: "Five Strands agents, three knowledge bases queried in parallel, one guardrail: 120/120.",
@@ -170,7 +187,7 @@ export const books: Book[] = [
     chapters: [
       session(1, "Configurer l'assistant", "Setting up the assistant", {
         published: true,
-        concept: 1,
+        concepts: [1],
         teaser: {
           fr: "Un filtre tags, deux changements refusés, et une règle : seul le diff fait foi.",
           en: "A tags filter, two rejected changes, and one rule: only the diff counts.",
@@ -178,6 +195,7 @@ export const books: Book[] = [
       }),
       session(2, "L'adapter de modèle", "The model adapter", {
         published: true,
+        concepts: [6],
         teaser: {
           fr: "Une seule porte vers tous les modèles, une panne qui devient un refus, et un délai fixé par la mesure.",
           en: "One door to every model, an outage that becomes a refusal, and a timeout set by measurement.",
@@ -185,6 +203,7 @@ export const books: Book[] = [
       }),
       session(3, "Sorties structurées", "Structured outputs", {
         published: true,
+        concepts: [4, 5, 6],
         teaser: {
           fr: "Un parser strict, un seul retry, et un golden set testé avant d'être étiqueté.",
           en: "A strict parser, a single retry, and a golden set tested before it's labeled.",
@@ -192,6 +211,7 @@ export const books: Book[] = [
       }),
       session(4, "Outils bornés", "Bounded tools", {
         published: true,
+        concepts: [3, 4],
         teaser: {
           fr: "Un outil valide avant d'agir, et ce qu'il renvoie est une donnée, jamais un ordre.",
           en: "A tool validates before acting, and what it returns is data, never an order.",
@@ -199,6 +219,7 @@ export const books: Book[] = [
       }),
       session(5, "Mini-agent déterministe", "A deterministic mini-agent", {
         published: true,
+        concepts: [2],
         teaser: {
           fr: "Une boucle qui s'arrête toujours, en disant pourquoi : quatre sorties, un budget compté avant l'appel.",
           en: "A loop that always stops, and says why: four exits, a budget counted before the call.",
@@ -206,6 +227,7 @@ export const books: Book[] = [
       }),
       session(6, "Baseline de récupération", "Retrieval baseline", {
         published: true,
+        concepts: [6, 7],
         teaser: {
           fr: "Une recherche par mots, un chargeur qui refuse, et des verdicts lus dans les résultats, pas dans le score.",
           en: "A word-based search, a loader that refuses, and verdicts read in the results, not in the score.",
@@ -213,6 +235,7 @@ export const books: Book[] = [
       }),
       session(7, "Métriques de récupération et d'ancrage", "Retrieval and grounding metrics", {
         published: true,
+        concepts: [7, 9],
         teaser: {
           fr: "Un correctif à 100 % qui casse les cas inédits, et un faux modèle tricheur qui obtient 50 %.",
           en: "A fix at 100% that breaks unseen cases, and a cheating fake model that scores 50%.",
@@ -220,6 +243,7 @@ export const books: Book[] = [
       }),
       session(8, "Boucles et graphes", "Loops and graphs", {
         published: true,
+        concepts: [2],
         teaser: {
           fr: "Chaîne, boucle ou réflexion : compter les appels, et une table où un refus ne devient jamais une réponse.",
           en: "Chain, loop or reflection: count the calls, and a table where a refusal never becomes an answer.",
@@ -227,6 +251,7 @@ export const books: Book[] = [
       }),
       session(9, "Tracer et évaluer", "Tracing and evaluation", {
         published: true,
+        concepts: [8],
         teaser: {
           fr: "La trace dit où est la panne, et les secrets y entrent masqués, jamais supprimés.",
           en: "The trace says where the failure is, and secrets go in masked, never deleted.",
@@ -234,6 +259,7 @@ export const books: Book[] = [
       }),
       session(10, "Skills et ADR", "Skills and ADRs", {
         published: true,
+        concepts: [4],
         teaser: {
           fr: "Un acheteur qui refuse avant de payer, un ADR avec son seuil de retour, et un skill jugé sur preuve.",
           en: "A buyer that refuses before paying, an ADR with its reversal threshold, and a skill judged on evidence.",
@@ -241,6 +267,7 @@ export const books: Book[] = [
       }),
       session(11, "État et mémoire", "State and memory", {
         published: true,
+        concepts: [10],
         teaser: {
           fr: "Une mémoire rangée par propriétaire, plafonnée, et une politique écrite avant le premier enregistrement.",
           en: "Memory filed by owner, capped, with a policy written before the first record.",
@@ -248,6 +275,7 @@ export const books: Book[] = [
       }),
       session(12, "Architecture MCP", "MCP architecture", {
         published: true,
+        concepts: [3],
         teaser: {
           fr: "Seize outils annoncés, deux qui font bouger l'argent : lire un serveur MCP comme un prospectus.",
           en: "Sixteen advertised tools, two that move money: reading an MCP server like a prospectus.",
@@ -255,6 +283,7 @@ export const books: Book[] = [
       }),
       session(13, "Sécuriser un serveur MCP", "Securing an MCP server", {
         published: true,
+        concepts: [3],
         teaser: {
           fr: "Décider avant d'ouvrir la connexion, et ne cocher une attestation que si elle est vraie.",
           en: "Decide before opening the connection, and tick an attestation only if it's true.",
@@ -269,6 +298,7 @@ export const books: Book[] = [
       }),
       {
         number: 15, kind: "step", code: "cap01", slug: "cap01", published: true,
+        concepts: [9],
         title: { fr: "Notebook du final", en: "The final's notebook" },
         teaser: {
           fr: "Une évaluation verte sur un faux modèle prouve la tuyauterie, pas la fiabilité.",
@@ -277,6 +307,7 @@ export const books: Book[] = [
       },
       {
         number: 16, kind: "step", code: "Final", slug: "final", published: true,
+        concepts: [5, 7, 9, 11],
         title: { fr: "Final assignment", en: "Final assignment" },
         teaser: {
           fr: "Quatre retouches de prompt sans effet stable, puis une idée : le modèle choisit, le code recopie. 15/15.",
@@ -286,6 +317,7 @@ export const books: Book[] = [
       },
       {
         number: 17, kind: "step", code: "Gecko", slug: "gecko", published: true,
+        concepts: [1, 4, 6, 11],
         title: { fr: "Gecko capstone", en: "Gecko capstone" },
         teaser: {
           fr: "Un acheteur qui épingle la demande, vérifie chaque champ, et ne signe que si tout concorde : un vrai achat sur devnet.",
@@ -312,6 +344,22 @@ export const books: Book[] = [
     chapters: [],
   },
 ];
+
+export const baa = books.find((b) => b.slug === "baa-101");
+
+export const conceptsOf = (chapter: Chapter): Chapter[] =>
+  (chapter.concepts ?? [])
+    .map((n) => baa?.chapters.find((c) => c.number === n))
+    .filter((c): c is Chapter => c !== undefined);
+
+export const appliedIn = (concept: Chapter) =>
+  books
+    .filter((b) => b !== baa)
+    .flatMap((b) =>
+      b.chapters
+        .filter((c) => c.published && (c.concepts ?? []).includes(concept.number))
+        .map((chapter) => ({ book: b, chapter })),
+    );
 
 export const pad = (n: number) => String(n).padStart(2, "0");
 export const publishedCount = (book: Book) => book.chapters.filter((c) => c.published).length;

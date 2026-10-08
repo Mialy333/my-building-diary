@@ -1,0 +1,51 @@
+---
+import { getLocale, useTranslations, plural } from "../i18n/ui";
+import { baa, chapterUrl, type Chapter } from "../data/books";
+
+interface Props {
+  concepts: Chapter[];
+  bordered?: boolean;
+}
+
+const { concepts, bordered = true } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const label = plural(concepts.length, t("book.concept.one"), t("book.concept.other"));
+---
+
+{baa && concepts.length > 0 && (
+  <div class:list={["concepts", { bordered }]}>
+    <p class="label">{label}</p>
+    <ul>
+      {concepts.map((c) => (
+        <li>
+          {c.published ? (
+            <a class="chip" href={chapterUrl(locale, baa, c)}>{c.title[locale]}</a>
+          ) : (
+            <span class="chip pending">
+              {c.title[locale]}
+              <span class="soon">· {t("unit.toCome")}</span>
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<style>
+  .concepts { margin-top: 12px; }
+  .concepts.bordered { padding-top: 12px; border-top: 1px solid var(--rule); }
+  .label {
+    margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ink-muted);
+  }
+  ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; padding: 0; list-style: none; }
+  .chip {
+    display: inline-flex; flex-wrap: wrap; align-items: center; column-gap: 6px; min-height: 44px; padding: 6px 14px;
+    border: 1px solid var(--line); border-radius: 18px; background: var(--paper);
+    font-size: 14px; line-height: 1.25; color: var(--accent-text); text-decoration: none;
+  }
+  .chip.pending { min-height: 36px; border-style: dashed; border-color: var(--ink-faint); color: var(--ink-soft); }
+  .soon { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); white-space: nowrap; }
+</style>
