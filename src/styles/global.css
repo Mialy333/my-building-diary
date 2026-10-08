@@ -1,0 +1,20 @@
+:root {
+  --paper: #FBF7F3; --card: #FFFFFF; --ink: #231A22; --ink-soft: #4A3F47;
+  --ink-muted: #6E6069; --ink-faint: #B3A5AC; --line: #E6DCD9; --rule: #EFE7E3;
+  --accent: #7A2E5C; --accent-text: #7A2E5C; --accent-hover: #5A1F43; --on-accent: #FFFFFF;
+  --blush: #F4DDE2; --shadow: #EBCBD3; --published-bg: #DCEBDD; --published-ink: #2F5A36;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1A1519; --card: #241D23; --ink: #F2EAEE; --ink-soft: #D6C9D0;
+    --ink-muted: #A89AA2; --ink-faint: #5A4B54; --line: #3A3037; --rule: #2F272D;
+    --accent-text: #E7A6C8; --blush: #3A2433; --shadow: #4A2E3F;
+    --published-bg: #1F3A26; --published-ink: #B5DDBB;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.6; }
+h1 { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 62px; line-height: 0.94; letter-spacing: -1.5px; }
+em { font-style: italic; color: var(--accent-text); }
+a { color: var(--accent-text); }
