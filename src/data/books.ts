@@ -275,8 +275,24 @@ export const books: Book[] = [
           en: "A green evaluation on a fake model proves the plumbing, not reliability.",
         },
       },
-      { number: 16, kind: "step", code: "Final", slug: "final", title: { fr: "Final assignment", en: "Final assignment" }, published: false, repo: "https://github.com/Mialy333/grounded-research-agent" },
-      { number: 17, kind: "step", code: "Gecko", slug: "gecko", title: { fr: "Gecko capstone", en: "Gecko capstone" }, published: false, repo: "https://github.com/Mialy333/my-gecko-buyer" },
+      {
+        number: 16, kind: "step", code: "Final", slug: "final", published: true,
+        title: { fr: "Final assignment", en: "Final assignment" },
+        teaser: {
+          fr: "Quatre retouches de prompt sans effet stable, puis une idée : le modèle choisit, le code recopie. 15/15.",
+          en: "Four prompt tweaks with no stable effect, then one idea: the model chooses, the code copies. 15/15.",
+        },
+        repo: "https://github.com/Mialy333/grounded-research-agent",
+      },
+      {
+        number: 17, kind: "step", code: "Gecko", slug: "gecko", published: true,
+        title: { fr: "Gecko capstone", en: "Gecko capstone" },
+        teaser: {
+          fr: "Un acheteur qui épingle la demande, vérifie chaque champ, et ne signe que si tout concorde : un vrai achat sur devnet.",
+          en: "A buyer that pins the request, checks every field, and signs only if everything matches: a real purchase on devnet.",
+        },
+        repo: "https://github.com/Mialy333/my-gecko-buyer",
+      },
     ],
   },
   {
