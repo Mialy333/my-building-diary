@@ -17,7 +17,7 @@ Each run returns a receipt: `{steps, stopped_because, answer, refusal}`.
 
 ## How I worked
 
-Same rule as in Session 4: the assistant writes the code, tests it against the real grader before handing it to me, and explains it; I review, run, hand in, and defend it.
+As since Session 4: the code is written by the assistant, tested against the real grader and explained line by line; I reran the check myself before handing in.
 
 ## What the hand-in contains
 

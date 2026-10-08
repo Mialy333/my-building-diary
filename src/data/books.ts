@@ -204,11 +204,41 @@ export const books: Book[] = [
           en: "A loop that always stops, and says why: four exits, a budget counted before the call.",
         },
       }),
-      session(6, "Baseline de récupération", "Retrieval baseline"),
-      session(7, "Métriques de récupération et d'ancrage", "Retrieval and grounding metrics"),
-      session(8, "Boucles et graphes", "Loops and graphs"),
-      session(9, "Tracer et évaluer", "Tracing and evaluation"),
-      session(10, "Skills et ADR", "Skills and ADRs"),
+      session(6, "Baseline de récupération", "Retrieval baseline", {
+        published: true,
+        teaser: {
+          fr: "Une recherche par mots, un chargeur qui refuse, et des verdicts lus dans les résultats, pas dans le score.",
+          en: "A word-based search, a loader that refuses, and verdicts read in the results, not in the score.",
+        },
+      }),
+      session(7, "Métriques de récupération et d'ancrage", "Retrieval and grounding metrics", {
+        published: true,
+        teaser: {
+          fr: "Un correctif à 100 % qui casse les cas inédits, et un faux modèle tricheur qui obtient 50 %.",
+          en: "A fix at 100% that breaks unseen cases, and a cheating fake model that scores 50%.",
+        },
+      }),
+      session(8, "Boucles et graphes", "Loops and graphs", {
+        published: true,
+        teaser: {
+          fr: "Chaîne, boucle ou réflexion : compter les appels, et une table où un refus ne devient jamais une réponse.",
+          en: "Chain, loop or reflection: count the calls, and a table where a refusal never becomes an answer.",
+        },
+      }),
+      session(9, "Tracer et évaluer", "Tracing and evaluation", {
+        published: true,
+        teaser: {
+          fr: "La trace dit où est la panne, et les secrets y entrent masqués, jamais supprimés.",
+          en: "The trace says where the failure is, and secrets go in masked, never deleted.",
+        },
+      }),
+      session(10, "Skills et ADR", "Skills and ADRs", {
+        published: true,
+        teaser: {
+          fr: "Un acheteur qui refuse avant de payer, un ADR avec son seuil de retour, et un skill jugé sur preuve.",
+          en: "A buyer that refuses before paying, an ADR with its reversal threshold, and a skill judged on evidence.",
+        },
+      }),
       session(11, "État et mémoire", "State and memory"),
       session(12, "Architecture MCP", "MCP architecture"),
       session(13, "Sécuriser un serveur MCP", "Securing an MCP server"),

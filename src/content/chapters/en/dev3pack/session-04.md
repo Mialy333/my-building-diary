@@ -15,7 +15,7 @@ Think of a bank counter. The teller checks the ID and the amount before opening 
 
 ## How I worked
 
-On October 2, with the deadline getting close, I changed my working rule: from then on, the assistant writes the exercise code, tests it against the real grader before handing it to me, and explains it line by line. I review it, run the check, hand it in, and must be able to defend every line. My runbook records, session by session, who wrote what.
+On October 2, I still had eleven hand-ins and the final assignment left before the deadline. I delegated writing the code to the assistant, not my trust: it had to test the code against the real grader before giving it to me, explain every line to me, and my runbook records who wrote what. I reran every check myself before handing in, and I handed in nothing I couldn't defend.
 
 ## What the hand-in contains
 

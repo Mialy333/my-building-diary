@@ -17,7 +17,7 @@ Chaque run rend un reçu : `{steps, stopped_because, answer, refusal}`.
 
 ## Comment j'ai travaillé
 
-Même règle qu'à la Session 4 : l'assistant écrit le code, le teste contre la vraie check avant de me le donner, et me l'explique ; je relis, je lance, je rends, et je le défends.
+Comme depuis la Session 4 : le code est écrit par l'assistant, testé contre la vraie check et expliqué ligne à ligne ; j'ai relancé la check moi-même avant de rendre.
 
 ## Ce que contient le rendu
 

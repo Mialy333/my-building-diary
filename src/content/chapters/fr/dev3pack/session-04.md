@@ -15,7 +15,7 @@ Pense à un guichet de banque. Le guichetier vérifie la pièce d'identité et l
 
 ## Comment j'ai travaillé
 
-Le 2 octobre, avec la date limite qui approchait, j'ai changé ma règle de travail : à partir de là, l'assistant écrit le code des exercices, le teste contre la vraie check avant de me le donner, et me l'explique ligne à ligne. Moi, je relis, je lance la check, je rends, et je dois pouvoir défendre chaque ligne. Mon runbook note, session par session, qui a écrit quoi.
+Le 2 octobre, il me restait onze rendus et le final assignment avant la date limite. J'ai délégué l'écriture du code à l'assistant, pas la confiance : il devait le tester contre la vraie check avant de me le donner, m'expliquer chaque ligne, et mon runbook note qui a écrit quoi. Je relançais moi-même chaque check avant de rendre, et je n'ai rien rendu que je ne savais pas défendre.
 
 ## Ce que contient le rendu
 
