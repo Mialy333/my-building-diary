@@ -239,11 +239,42 @@ export const books: Book[] = [
           en: "A buyer that refuses before paying, an ADR with its reversal threshold, and a skill judged on evidence.",
         },
       }),
-      session(11, "État et mémoire", "State and memory"),
-      session(12, "Architecture MCP", "MCP architecture"),
-      session(13, "Sécuriser un serveur MCP", "Securing an MCP server"),
-      session(14, "Déployer et exploiter", "Deploying and operating"),
-      { number: 15, kind: "step", code: "cap01", slug: "cap01", title: { fr: "Notebook du final", en: "The final's notebook" }, published: false },
+      session(11, "État et mémoire", "State and memory", {
+        published: true,
+        teaser: {
+          fr: "Une mémoire rangée par propriétaire, plafonnée, et une politique écrite avant le premier enregistrement.",
+          en: "Memory filed by owner, capped, with a policy written before the first record.",
+        },
+      }),
+      session(12, "Architecture MCP", "MCP architecture", {
+        published: true,
+        teaser: {
+          fr: "Seize outils annoncés, deux qui font bouger l'argent : lire un serveur MCP comme un prospectus.",
+          en: "Sixteen advertised tools, two that move money: reading an MCP server like a prospectus.",
+        },
+      }),
+      session(13, "Sécuriser un serveur MCP", "Securing an MCP server", {
+        published: true,
+        teaser: {
+          fr: "Décider avant d'ouvrir la connexion, et ne cocher une attestation que si elle est vraie.",
+          en: "Decide before opening the connection, and tick an attestation only if it's true.",
+        },
+      }),
+      session(14, "Déployer et exploiter", "Deploying and operating", {
+        published: true,
+        teaser: {
+          fr: "Un smoke test doit pouvoir échouer, et la phrase de rollback s'écrit avant la panne.",
+          en: "A smoke test must be able to fail, and the rollback sentence is written before the outage.",
+        },
+      }),
+      {
+        number: 15, kind: "step", code: "cap01", slug: "cap01", published: true,
+        title: { fr: "Notebook du final", en: "The final's notebook" },
+        teaser: {
+          fr: "Une évaluation verte sur un faux modèle prouve la tuyauterie, pas la fiabilité.",
+          en: "A green evaluation on a fake model proves the plumbing, not reliability.",
+        },
+      },
       { number: 16, kind: "step", code: "Final", slug: "final", title: { fr: "Final assignment", en: "Final assignment" }, published: false, repo: "https://github.com/Mialy333/grounded-research-agent" },
       { number: 17, kind: "step", code: "Gecko", slug: "gecko", title: { fr: "Gecko capstone", en: "Gecko capstone" }, published: false, repo: "https://github.com/Mialy333/my-gecko-buyer" },
     ],
