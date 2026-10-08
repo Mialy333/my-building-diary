@@ -8,6 +8,7 @@ const en = {
   "nav.label": "Main navigation",
   "nav.shelf": "Shelf",
   "breadcrumb.label": "Breadcrumb",
+  "theme.toggle": "Switch between light and dark theme",
   "hero.kicker": "Building diary",
   "hero.subtitle":
     "Agents that <strong>cite their sources</strong>, <strong>refuse</strong> when nothing backs the answer, and leave a <strong>trace you can audit</strong>.",
@@ -82,6 +83,7 @@ const fr: Record<keyof typeof en, string> = {
   "nav.label": "Navigation principale",
   "nav.shelf": "Étagère",
   "breadcrumb.label": "Fil d'Ariane",
+  "theme.toggle": "Basculer entre thème clair et sombre",
   "hero.kicker": "Journal de bord",
   "hero.subtitle":
     "Des agents qui <strong>citent leurs sources</strong>, <strong>refusent</strong> quand rien ne soutient la réponse, et laissent une <strong>trace vérifiable</strong>.",
