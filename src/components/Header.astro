@@ -6,6 +6,9 @@ const t = useTranslations(locale);
 
 const pathFor = (target: string) =>
   Astro.url.pathname.replace(/^\/(en|fr)(?=\/|$)/, `/${target}`);
+
+const shelfHref = `/${locale}/shelf/`;
+const onShelf = Astro.url.pathname.replace(/\/?$/, "/") === shelfHref;
 ---
 
 <header class="site-header">
@@ -14,20 +17,26 @@ const pathFor = (target: string) =>
     <span class="brand-name">My Building <em>Diary</em></span>
   </a>
 
-  <nav class="lang" aria-label={t("lang.label")}>
-    {locales.map((l, i) => (
-      <>
-        {i > 0 && <span class="sep" aria-hidden="true">/</span>}
-        {l === locale ? (
-          <span class="current" aria-current="true">{l.toUpperCase()}</span>
-        ) : (
-          <a href={pathFor(l)} hreflang={l} lang={l} aria-label={t(`lang.${l}`)}>
-            {l.toUpperCase()}
-          </a>
-        )}
-      </>
-    ))}
-  </nav>
+  <div class="right">
+    <nav aria-label={t("nav.label")}>
+      <a class="nav-link" href={shelfHref} aria-current={onShelf ? "page" : undefined}>{t("nav.shelf")}</a>
+    </nav>
+
+    <nav class="lang" aria-label={t("lang.label")}>
+      {locales.map((l, i) => (
+        <>
+          {i > 0 && <span class="sep" aria-hidden="true">/</span>}
+          {l === locale ? (
+            <span class="current" aria-current="true">{l.toUpperCase()}</span>
+          ) : (
+            <a href={pathFor(l)} hreflang={l} lang={l} aria-label={t(`lang.${l}`)}>
+              {l.toUpperCase()}
+            </a>
+          )}
+        </>
+      ))}
+    </nav>
+  </div>
 </header>
 
 <style>
@@ -35,8 +44,9 @@ const pathFor = (target: string) =>
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
     height: 64px;
-    padding: 0 12px 0 20px;
+    padding: 0 8px 0 20px;
     border-bottom: 1px solid var(--line);
   }
   .brand {
@@ -46,6 +56,7 @@ const pathFor = (target: string) =>
     min-height: 44px;
     color: var(--ink);
     text-decoration: none;
+    flex-shrink: 0;
   }
   .ribbon {
     width: 10px;
@@ -53,11 +64,22 @@ const pathFor = (target: string) =>
     background: var(--accent);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%);
   }
-  .brand-name {
-    font-family: var(--font-serif);
-    font-size: 24px;
-    line-height: 1;
+  .brand-name { font-family: var(--font-serif); font-size: 22px; line-height: 1; }
+  .right { display: flex; align-items: center; gap: 4px; }
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
   }
+  .nav-link:hover { color: var(--accent-text); }
+  .nav-link[aria-current="page"] { color: var(--accent-text); text-decoration: underline; text-underline-offset: 5px; }
   .lang {
     display: flex;
     align-items: center;
@@ -65,25 +87,15 @@ const pathFor = (target: string) =>
     font-size: 12px;
     letter-spacing: 1px;
   }
-  .lang a,
-  .lang .current {
+  .lang a, .lang .current {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 44px;
+    min-width: 36px;
     min-height: 44px;
   }
-  .lang .current {
-    color: var(--ink);
-  }
-  .lang a {
-    color: var(--ink-muted);
-    text-decoration: none;
-  }
-  .lang a:hover {
-    color: var(--accent-text);
-  }
-  .sep {
-    color: var(--ink-faint);
-  }
+  .lang .current { color: var(--ink); }
+  .lang a { color: var(--ink-muted); text-decoration: none; }
+  .lang a:hover { color: var(--accent-text); }
+  .sep { color: var(--ink-faint); }
 </style>

@@ -5,6 +5,9 @@ const en = {
   "lang.label": "Language",
   "lang.fr": "Français",
   "lang.en": "English",
+  "nav.label": "Main navigation",
+  "nav.shelf": "Shelf",
+  "breadcrumb.label": "Breadcrumb",
   "hero.kicker": "Building diary",
   "hero.subtitle":
     "Agents that <strong>cite their sources</strong>, <strong>refuse</strong> when nothing backs the answer, and leave a <strong>trace you can audit</strong>.",
@@ -75,6 +78,9 @@ const fr: Record<keyof typeof en, string> = {
   "lang.label": "Langue",
   "lang.fr": "Français",
   "lang.en": "English",
+  "nav.label": "Navigation principale",
+  "nav.shelf": "Étagère",
+  "breadcrumb.label": "Fil d'Ariane",
   "hero.kicker": "Journal de bord",
   "hero.subtitle":
     "Des agents qui <strong>citent leurs sources</strong>, <strong>refusent</strong> quand rien ne soutient la réponse, et laissent une <strong>trace vérifiable</strong>.",

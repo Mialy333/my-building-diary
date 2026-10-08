@@ -1,0 +1,54 @@
+---
+import { getLocale, useTranslations } from "../i18n/ui";
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+const t = useTranslations(getLocale(Astro.currentLocale));
+---
+
+<nav class="crumbs" aria-label={t("breadcrumb.label")}>
+  <ol>
+    {items.map((item, i) => (
+      <li>
+        {i > 0 && <span class="sep" aria-hidden="true">/</span>}
+        {item.href
+          ? <a href={item.href}>{item.label}</a>
+          : <span aria-current="page">{item.label}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  li { display: flex; align-items: center; }
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--accent-text);
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  [aria-current="page"] { color: var(--ink-muted); }
+  .sep { padding: 0 8px; color: var(--ink-faint); }
+</style>
