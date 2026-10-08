@@ -1,0 +1,285 @@
+---
+import { getLocale, useTranslations, plural, type UiKey } from "../i18n/ui";
+import {
+  books, type Book, type Chapter, pad, publishedCount, progressPercent, chapterUrl, bookUrl, chapterLabel,
+} from "../data/books";
+import BookCover from "./BookCover.astro";
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const label = (c: Chapter) => chapterLabel(c, t);
+
+const baa = books.find((b) => b.slug === "baa-101");
+const journeys = books.filter((b) => b.shelf === "journeys");
+
+const published = book.chapters.filter((c) => c.published);
+const upcoming = book.chapters.filter((c) => !c.published);
+const nextRows = upcoming.slice(0, 3);
+const later = upcoming.slice(3);
+
+const conceptOf = (c: Chapter) => (c.concept && baa ? baa.chapters.find((bc) => bc.number === c.concept) : undefined);
+const appliedIn = (bc: Chapter) =>
+  books
+    .filter((b) => b.slug !== "baa-101")
+    .flatMap((b) => b.chapters.filter((c) => c.concept === bc.number && c.published).map((c) => ({ book: b, chapter: c })));
+
+const unit = (n: number) => plural(n, t("unit.chapter.one"), t("unit.chapter.other"));
+const gaugeColor = book.color === "apricot" ? "var(--gauge-apricot)" : "var(--gauge-rose)";
+const count = book.living
+  ? t("book.open")
+  : `${published.length} ${plural(published.length, t("book.publishedCount.one"), t("book.publishedCount.other"))} · ${upcoming.length} ${t("unit.toCome")}`;
+---
+
+<article>
+  <header class="intro">
+    <p class="kicker">
+      <span class="dot" style={`background: var(--book-${book.color})`} aria-hidden="true"></span>
+      {t("shelf.rayon")} {t(`shelf.${book.shelf}` as UiKey)}
+    </p>
+    <div class="cover-wrap"><BookCover book={book} size="page" /></div>
+    <h1>{book.heading.text[locale]}<em>{book.heading.accent[locale]}</em></h1>
+    {book.meta && <p class="meta">{book.meta[locale]}</p>}
+
+    {book.gauge && (
+      <div class="gauge">
+        <div class="rail"><div class="fill" style={`width: ${progressPercent(book)}%; background: ${gaugeColor}`}></div></div>
+        <div class="gauge-label">
+          <span>{publishedCount(book)}/{book.chapters.length} {unit(book.chapters.length)}</span>
+          <span class="percent">{progressPercent(book)} %</span>
+        </div>
+      </div>
+    )}
+
+    {book.living && (
+      <p class="living">
+        <span class="living-title">{t("book.living")}</span>
+        <span class="mono">
+          · {published.length > 0
+            ? `${published.length} ${unit(published.length)}`
+            : `${book.chapters.length} ${unit(book.chapters.length)} ${t("unit.toCome")}`}
+        </span>
+      </p>
+    )}
+  </header>
+
+  {book.summary && (
+    <section class="reading">
+      <h2>{t("book.summary")}</h2>
+      {book.summary[locale].map((p) => <p class="body">{p}</p>)}
+      {book.callout && (
+        <aside class="callout">
+          <p class="callout-label">{book.callout.label[locale]}</p>
+          <p class="callout-text" set:html={book.callout.text[locale]} />
+        </aside>
+      )}
+    </section>
+  )}
+
+  <section class="contents">
+    <div class="head">
+      <h2>{t("book.contents")}</h2>
+      <span class="mono">{count}</span>
+    </div>
+
+    {book.living ? (
+      <ol class="list">
+        {book.chapters.map((c) => {
+          const uses = appliedIn(c);
+          return (
+            <li class="card">
+              <div class="card-head">
+                <span class="mono caps">{label(c)}</span>
+                {c.published
+                  ? <span class="pill">{t("book.published")}</span>
+                  : <span class="pill pending">{t("unit.toCome")}</span>}
+              </div>
+              {c.published
+                ? <a class="card-title link" href={chapterUrl(locale, book, c)}>{c.title[locale]}</a>
+                : <p class="card-title">{c.title[locale]}</p>}
+              {uses.length > 0 && (
+                <div class="concept">
+                  <p class="mono-label">{t("book.appliedIn")}</p>
+                  {uses.map((u) => (
+                    <a class="applied" href={chapterUrl(locale, u.book, u.chapter)}>
+                      {u.book.name[locale]} · {label(u.chapter)} →
+                    </a>
+                  ))}
+                </div>
+              )}
+            </li>
+          );
+        })}
+        <li class="next">
+          <span class="mono caps">{t("label.chapter")} {pad(book.chapters.length + 1)}</span>
+          <span class="next-text">{t("book.nextChapter")}</span>
+        </li>
+      </ol>
+    ) : (
+      <>
+        <ol class="list">
+          {published.map((c) => {
+            const concept = conceptOf(c);
+            return (
+              <li class="card">
+                <div class="card-head">
+                  <span class="mono caps">{label(c)}</span>
+                  <span class="pill">{t("book.published")}</span>
+                </div>
+                <a class="card-link" href={chapterUrl(locale, book, c)}>
+                  <span class="card-title">{c.title[locale]}</span>
+                  {c.teaser && <span class="teaser">{c.teaser[locale]}</span>}
+                  <span class="read">{t("book.read")}</span>
+                </a>
+                {concept && baa && (
+                  <div class="concept">
+                    <p class="mono-label">{t("book.concept")}</p>
+                    <div class="concept-row">
+                      {concept.published ? (
+                        <a href={chapterUrl(locale, baa, concept)}>{concept.title[locale]}</a>
+                      ) : (
+                        <>
+                          <span class="concept-tag">{concept.title[locale]}</span>
+                          <span class="mono">{t("unit.toCome")}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </li>
+            );
+          })}
+          {nextRows.map((c) => (
+            <li class="row">
+              <span class="row-text">
+                <span class="mono caps">{label(c)}</span>
+                <span class="row-title">{c.title[locale]}</span>
+              </span>
+              <span class="mono">{t("unit.toCome")}</span>
+            </li>
+          ))}
+        </ol>
+
+        {later.length > 0 && (
+          <details class="more">
+            <summary>+ {later.length} {t("unit.toCome")}</summary>
+            <ul class="later">
+              {later.map((c) => (
+                <li>
+                  <span class="mono caps">{label(c)}</span>
+                  <span class="later-title">{c.title[locale]}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
+      </>
+    )}
+  </section>
+
+  {!book.living && (book.repo || baa) && (
+    <div class="actions">
+      {book.repo && <a class="button" href={book.repo} rel="noopener">{t("book.repo")}</a>}
+      {baa && <a class="button primary" href={bookUrl(locale, baa)}>{t("book.seeBaa")}</a>}
+    </div>
+  )}
+
+  {book.living && (
+    <section class="fed">
+      <h2 set:html={t("book.fedBy")} />
+      <ul class="fed-list">
+        {journeys.map((j) => (
+          <li>
+            <a href={bookUrl(locale, j)} style={`--bar: var(--book-${j.color})`}>
+              <span class="mono">BOOK {pad(books.indexOf(j) + 1)}</span>
+              <span class="fed-title">{j.heading.text[locale]}{j.heading.accent[locale]}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</article>
+
+<style>
+  .intro { padding: 32px 24px 0; }
+  .kicker {
+    display: flex; align-items: center; gap: 10px; margin: 0;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .cover-wrap { display: flex; justify-content: center; margin-top: 26px; }
+  h1 { margin: 30px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 46px; line-height: 0.98; letter-spacing: -1px; }
+  .meta { margin: 12px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+  .mono { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .caps { letter-spacing: 2px; text-transform: uppercase; }
+  .gauge { margin-top: 20px; }
+  .rail { height: 6px; border-radius: 3px; background: var(--rule); overflow: hidden; }
+  .fill { height: 6px; border-radius: 3px; }
+  .gauge-label { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .percent { color: var(--ink); }
+  .living { display: flex; align-items: baseline; gap: 10px; margin: 14px 0 0; }
+  .living-title { font-family: var(--font-serif); font-style: italic; font-size: 24px; color: var(--accent-text); }
+
+  h2 { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 32px; line-height: 1; }
+  .reading { padding: 44px 24px 0; }
+  .body { margin: 14px 0 0; font-family: var(--font-reading); font-size: 19px; line-height: 1.6; }
+  .callout { margin: 28px 6px 0 0; padding: 20px 22px; border-radius: 18px; background: var(--blush); box-shadow: 6px 6px 0 var(--shadow); }
+  .callout-label { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-text); }
+  .callout-text { margin: 10px 0 0; font-family: var(--font-serif); font-size: 28px; line-height: 1.08; }
+
+  .contents { padding: 48px 24px 0; }
+  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .list { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .card { padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; }
+  .pill { font-family: var(--font-mono); font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--published-bg); color: var(--published-ink); }
+  .pill.pending { background: none; border: 1px dashed var(--ink-faint); color: var(--ink-muted); }
+  .card-link { display: block; margin-top: 8px; color: var(--ink); text-decoration: none; }
+  .card-title { display: block; margin: 8px 0 0; font-family: var(--font-serif); font-size: 28px; line-height: 1.02; color: var(--ink); }
+  .card-link .card-title { margin: 0; }
+  .card-title.link { text-decoration: none; }
+  .teaser { display: block; margin-top: 8px; font-family: var(--font-reading); font-size: 16px; line-height: 1.5; color: var(--ink-soft); }
+  .read { display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: var(--accent-text); }
+  .concept { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
+  .mono-label { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
+  .concept-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+  .concept-tag { font-size: 14px; color: var(--ink-soft); border: 1px dashed var(--ink-faint); border-radius: 999px; padding: 5px 12px; }
+  .applied { display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-decoration: none; }
+  .row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 10px 18px;
+    border: 1px dashed var(--ink-faint); border-radius: 12px;
+  }
+  .row-text { display: flex; flex-direction: column; }
+  .row-title { font-family: var(--font-serif); font-size: 20px; line-height: 1.15; color: var(--ink-soft); }
+  .next { padding: 18px; border: 1px dashed var(--ink-faint); border-radius: 16px; text-align: center; }
+  .next .mono { display: block; }
+  .next-text { display: block; margin-top: 6px; font-family: var(--font-serif); font-style: italic; font-size: 20px; color: var(--ink-soft); }
+  .more { margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+  .more summary { display: flex; align-items: center; min-height: 52px; padding: 0 18px; cursor: pointer; font-size: 15px; font-weight: 500; }
+  .later { margin: 0; padding: 0 18px 12px; list-style: none; }
+  .later li { display: flex; align-items: baseline; gap: 12px; padding: 10px 0; border-top: 1px solid var(--rule); }
+  .later .mono { flex-shrink: 0; min-width: 96px; }
+  .later-title { font-family: var(--font-serif); font-size: 18px; line-height: 1.2; color: var(--ink-soft); }
+
+  .actions { display: flex; gap: 12px; padding: 40px 24px 0; }
+  .button {
+    flex-grow: 1; display: flex; align-items: center; justify-content: center; min-height: 48px;
+    border: 1px solid var(--ink); border-radius: 999px; background: var(--card);
+    color: var(--ink); font-size: 15px; font-weight: 500; text-decoration: none;
+  }
+  .button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+
+  .fed { padding: 44px 24px 0; }
+  .fed-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0 0; padding: 0; list-style: none; }
+  .fed-list a {
+    display: flex; flex-direction: column; justify-content: center; min-height: 72px; padding: 12px 14px 12px 18px;
+    border: 1px solid var(--line); border-radius: 14px; color: var(--ink); text-decoration: none;
+    background: linear-gradient(90deg, var(--bar) 0 5px, transparent 5px), var(--card);
+  }
+  .fed-title { font-family: var(--font-serif); font-size: 20px; line-height: 1.1; margin-top: 2px; }
+</style>

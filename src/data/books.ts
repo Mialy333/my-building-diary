@@ -1,37 +1,45 @@
-import type { Locale } from "../i18n/ui";
+import type { Locale, UiKey } from "../i18n/ui";
 
 export type BookColor = "sage" | "apricot" | "rose";
 export type Shelf = "fundamentals" | "journeys" | "path" | "builds";
 export const shelfOrder: Shelf[] = ["fundamentals", "journeys", "path", "builds"];
 
+type L = Record<Locale, string>;
+
 export interface Chapter {
   number: number;
-  kind: "day" | "chapter";
-  title: Record<Locale, string>;
+  kind: "chapter" | "session" | "step";
+  code?: string;
+  slug?: string;
+  title: L;
   published: boolean;
-}
-
-export interface Cover {
-  title: Record<Locale, string>;
-  accent: Record<Locale, string>;
-  subtitle: Record<Locale, string>;
-  info: Record<Locale, string>;
-  bars: number[];
+  teaser?: L;
+  concept?: number;
+  repo?: string;
 }
 
 export interface Book {
   slug: string;
-  name: Record<Locale, string>;
+  name: L;
   shelf: Shelf;
   color?: BookColor;
   living?: boolean;
   forthcoming?: boolean;
-  total?: number;
+  gauge?: boolean;
   tags?: string[];
-  description?: Record<Locale, string>;
-  cover: Cover;
+  description?: L;
+  heading: { text: L; accent: L };
+  meta?: L;
+  summary?: Record<Locale, string[]>;
+  callout?: { label: L; text: L };
+  repo?: string;
+  cover: { title: L; accent: L; subtitle: L; info: L; bars: number[] };
   chapters: Chapter[];
 }
+
+const session = (number: number, fr: string, en: string, extra: Partial<Chapter> = {}): Chapter => ({
+  number, kind: "session", title: { fr, en }, published: false, ...extra,
+});
 
 export const books: Book[] = [
   {
@@ -43,6 +51,18 @@ export const books: Book[] = [
     description: {
       fr: "Les fondamentaux des agents IA, tirés de ce que les journeys m'apprennent.",
       en: "The fundamentals of AI agents, drawn from what the journeys teach me.",
+    },
+    heading: { text: { fr: "Building AI Agents ", en: "Building AI Agents " }, accent: { fr: "101", en: "101" } },
+    summary: {
+      fr: ["Les bases pour construire un agent IA, et seulement les bases. Chaque chapitre vient d'une leçon apprise sur un vrai projet, puis en est détaché pour valoir pour n'importe quel agent."],
+      en: ["The basics of building an AI agent, and only the basics. Each chapter comes from a lesson learned on a real project, then is stripped of its specifics so it holds for any agent."],
+    },
+    callout: {
+      label: { fr: "Règle d'entrée", en: "Entry rule" },
+      text: {
+        fr: "Un concept entre ici seulement s'il vaut pour <em>n'importe quel agent</em>, quels que soient le framework, le cloud ou le modèle.",
+        en: "A concept gets in only if it holds for <em>any agent</em>, whatever the framework, the cloud or the model.",
+      },
     },
     cover: {
       title: { fr: "BAA ", en: "BAA " },
@@ -60,7 +80,17 @@ export const books: Book[] = [
     name: { fr: "AWS Scholars", en: "AWS Scholars" },
     shelf: "journeys",
     color: "apricot",
-    total: 3,
+    gauge: true,
+    heading: { text: { fr: "Future Agent ", en: "Future Agent " }, accent: { fr: "Engineer", en: "Engineer" } },
+    meta: { fr: "AWS & AI Scholars · Udacity", en: "AWS & AI Scholars · Udacity" },
+    summary: {
+      fr: ["Le parcours Future Agent Engineer du programme AWS & AI Scholars. Au chapitre 2, un agent de support client sur Amazon Bedrock AgentCore, validé par le mentor Udacity : il suit les commandes, traite les remboursements, répond par RAG, se souvient du client entre les sessions et calcule des remises exactes."],
+      en: ["The Future Agent Engineer track of the AWS & AI Scholars program. In chapter 2, a customer support agent on Amazon Bedrock AgentCore, approved by the Udacity mentor: it tracks orders, processes refunds, answers through RAG, remembers the customer across sessions and computes exact discounts."],
+    },
+    callout: {
+      label: { fr: "Fil rouge", en: "Common thread" },
+      text: { fr: "Lire l'appel d'outil, <em>pas la réponse.</em>", en: "Read the tool call, <em>not the answer.</em>" },
+    },
     cover: {
       title: { fr: "Future Agent ", en: "Future Agent " },
       accent: { fr: "Engineer", en: "Engineer" },
@@ -69,8 +99,20 @@ export const books: Book[] = [
       bars: [70, 45, 90],
     },
     chapters: [
-      { number: 1, kind: "chapter", title: { fr: "Customer Support Chatbot with Amazon Bedrock AgentCore", en: "Customer Support Chatbot with Amazon Bedrock AgentCore" }, published: true },
-      { number: 2, kind: "chapter", title: { fr: "AI Support Agent", en: "AI Support Agent" }, published: true },
+      {
+        number: 1, kind: "chapter", published: true,
+        title: { fr: "Customer Support Chatbot with Amazon Bedrock AgentCore", en: "Customer Support Chatbot with Amazon Bedrock AgentCore" },
+        repo: "https://github.com/Mialy333/aws-c1-prompting-llm-reasoning-nd905-cd14762-project",
+      },
+      {
+        number: 2, kind: "chapter", published: true,
+        title: { fr: "AI Support Agent", en: "AI Support Agent" },
+        teaser: {
+          fr: "Un agent de support sur AgentCore : commandes, remboursements, RAG, mémoire long terme, Code Interpreter et Browser.",
+          en: "A support agent on AgentCore: orders, refunds, RAG, long-term memory, Code Interpreter and Browser.",
+        },
+        repo: "https://github.com/Mialy333/cd14763-project-starter",
+      },
       { number: 3, kind: "chapter", title: { fr: "[…]", en: "[…]" }, published: false },
     ],
   },
@@ -79,7 +121,27 @@ export const books: Book[] = [
     name: { fr: "Dev3Pack", en: "Dev3Pack" },
     shelf: "journeys",
     color: "rose",
-    total: 21,
+    gauge: true,
+    heading: { text: { fr: "Dev3Pack AI Engineering ", en: "Dev3Pack AI Engineering " }, accent: { fr: "Bootcamp", en: "Bootcamp" } },
+    meta: { fr: "14.09 → 02.10.2026 · Certificat obtenu", en: "14.09 → 02.10.2026 · Certificate earned" },
+    summary: {
+      fr: [
+        "Trois semaines pour construire un assistant de recherche « source-grounded » : il répond à des questions de développeur à partir de six documents, cite le document utilisé, et refuse quand rien ne soutient la réponse.",
+        "Bootcamp terminé : 5 100/5 100 points sur le parcours, final assignment à 100 %, certificat obtenu.",
+      ],
+      en: [
+        "Three weeks to build a source-grounded research assistant: it answers developer questions from six documents, cites the document it used, and refuses when nothing backs the answer.",
+        "Bootcamp completed: 5,100/5,100 points on the track, final assignment at 100%, certificate earned.",
+      ],
+    },
+    callout: {
+      label: { fr: "Fil rouge", en: "Common thread" },
+      text: {
+        fr: "Un agent que l'on a construit, testé, et que l'on <em>sait défendre.</em>",
+        en: "An agent you built, tested, and <em>can defend.</em>",
+      },
+    },
+    repo: "https://github.com/Mialy333/dev3pack-submissions/tree/ch01/submissions/Mialy333",
     cover: {
       title: { fr: "Dev3", en: "Dev3" },
       accent: { fr: "Pack", en: "Pack" },
@@ -88,7 +150,30 @@ export const books: Book[] = [
       bars: [25, 60, 40, 85],
     },
     chapters: [
-      { number: 1, kind: "day", title: { fr: "Configurer l'assistant", en: "Setting up the assistant" }, published: true },
+      session(1, "Configurer l'assistant", "Setting up the assistant", {
+        published: true,
+        concept: 1,
+        teaser: {
+          fr: "Un filtre tags, deux changements refusés, et une règle : seul le diff fait foi.",
+          en: "A tags filter, two rejected changes, and one rule: only the diff counts.",
+        },
+      }),
+      session(2, "L'adapter de modèle", "The model adapter"),
+      session(3, "Sorties structurées", "Structured outputs"),
+      session(4, "Outils bornés", "Bounded tools"),
+      session(5, "Mini-agent déterministe", "A deterministic mini-agent"),
+      session(6, "Baseline de récupération", "Retrieval baseline"),
+      session(7, "Métriques de récupération et d'ancrage", "Retrieval and grounding metrics"),
+      session(8, "Boucles et graphes", "Loops and graphs"),
+      session(9, "Tracer et évaluer", "Tracing and evaluation"),
+      session(10, "Skills et ADR", "Skills and ADRs"),
+      session(11, "État et mémoire", "State and memory"),
+      session(12, "Architecture MCP", "MCP architecture"),
+      session(13, "Sécuriser un serveur MCP", "Securing an MCP server"),
+      session(14, "Déployer et exploiter", "Deploying and operating"),
+      { number: 15, kind: "step", code: "cap01", slug: "cap01", title: { fr: "Notebook du final", en: "The final's notebook" }, published: false },
+      { number: 16, kind: "step", code: "Final", slug: "final", title: { fr: "Final assignment", en: "Final assignment" }, published: false, repo: "https://github.com/Mialy333/my-final-assignment" },
+      { number: 17, kind: "step", code: "Gecko", slug: "gecko", title: { fr: "Gecko capstone", en: "Gecko capstone" }, published: false, repo: "https://github.com/Mialy333/my-gecko-buyer" },
     ],
   },
   {
@@ -96,10 +181,8 @@ export const books: Book[] = [
     name: { fr: "Mon parcours", en: "My path" },
     shelf: "path",
     forthcoming: true,
-    description: {
-      fr: "De la gestion d'actifs à l'AI Engineering.",
-      en: "From asset management to AI engineering.",
-    },
+    description: { fr: "De la gestion d'actifs à l'AI Engineering.", en: "From asset management to AI engineering." },
+    heading: { text: { fr: "Mon ", en: "My " }, accent: { fr: "parcours", en: "path" } },
     cover: {
       title: { fr: "Mon ", en: "My " },
       accent: { fr: "parcours", en: "path" },
@@ -112,21 +195,17 @@ export const books: Book[] = [
 ];
 
 export const pad = (n: number) => String(n).padStart(2, "0");
-
 export const publishedCount = (book: Book) => book.chapters.filter((c) => c.published).length;
-
 export const progressPercent = (book: Book) =>
-  book.total ? Math.round((publishedCount(book) / book.total) * 100) : 0;
-
+  book.chapters.length ? Math.round((publishedCount(book) / book.chapters.length) * 100) : 0;
 export const isInProgress = (book: Book) =>
-  !book.living && !book.forthcoming && !!book.total && publishedCount(book) < book.total;
-
+  !!book.gauge && publishedCount(book) < book.chapters.length;
 export const bookNumber = (book: Book) => pad(books.indexOf(book) + 1);
-
 export const bookUrl = (locale: Locale, book: Book) => `/${locale}/books/${book.slug}/`;
-
 export const chapterUrl = (locale: Locale, book: Book, chapter: Chapter) =>
-  `/${locale}/books/${book.slug}/${chapter.kind}-${pad(chapter.number)}/`;
+  `/${locale}/books/${book.slug}/${chapter.slug ?? `${chapter.kind}-${pad(chapter.number)}`}/`;
+export const chapterLabel = (chapter: Chapter, t: (key: UiKey) => string) =>
+  chapter.code ?? `${t(chapter.kind === "session" ? "label.session" : "label.chapter")} ${pad(chapter.number)}`;
 
 export function latestChapters() {
   return books

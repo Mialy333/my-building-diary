@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BookPage from "../../../components/BookPage.astro";
+import { books, type Book } from "../../../data/books";
+
+export function getStaticPaths() {
+  return books
+    .filter((book) => !book.forthcoming)
+    .map((book) => ({ params: { slug: book.slug }, props: { book } }));
+}
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+---
+
+<BaseLayout title={`${book.name.en} — My Building Diary`}>
+  <BookPage book={book} />
+</BaseLayout>

@@ -5,11 +5,9 @@ import BookItem from "./BookItem.astro";
 
 const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
-
 const groups = shelfOrder
   .map((shelf) => ({ shelf, books: books.filter((b) => b.shelf === shelf) }))
   .filter((group) => group.books.length > 0);
-
 const tags = [...new Set(books.flatMap((b) => b.tags ?? []))];
 ---
 
@@ -17,7 +15,6 @@ const tags = [...new Set(books.flatMap((b) => b.tags ?? []))];
   <p class="kicker"><span class="dot" aria-hidden="true"></span>{t("shelf.kicker")}</p>
   <h1 set:html={t("shelf.title")} />
   <p class="lead">{t("shelf.intro")}</p>
-
   {tags.length > 0 && (
     <ul class="filters" aria-label={t("shelf.filters")}>
       <li><span class="chip active">{t("shelf.all")}</span></li>
@@ -31,10 +28,8 @@ const tags = [...new Set(books.flatMap((b) => b.tags ?? []))];
     <h2 class="rayon-label">
       <span>{t("shelf.rayon")} {pad(i + 1)} · <span class="rayon-name">{t(`shelf.${group.shelf}` as UiKey)}</span></span>
     </h2>
-    <div class="grid">
-      {group.books.map((book) => (
-        <BookItem book={book} solo={group.books.length === 1} />
-      ))}
+    <div class:list={["grid", { single: group.books.length === 1 }]}>
+      {group.books.map((book) => <BookItem book={book} solo={group.books.length === 1} />)}
     </div>
   </section>
 ))}
@@ -42,57 +37,26 @@ const tags = [...new Set(books.flatMap((b) => b.tags ?? []))];
 <style>
   .intro { padding: 36px 20px 8px; }
   .kicker {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--ink-muted);
+    display: flex; align-items: center; gap: 10px; margin: 0;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
   }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--book-rose); }
-  h1 {
-    margin: 14px 0 0;
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 62px;
-    line-height: 0.95;
-    letter-spacing: -1.5px;
-  }
+  h1 { margin: 14px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 62px; line-height: 0.95; letter-spacing: -1.5px; }
   .lead { margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
   .filters { display: flex; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
   .chip {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 0 20px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--card);
-    font-size: 14px;
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: 14px;
   }
   .chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
   .rayon { padding: 40px 20px 0; }
   .rayon-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 0 0 16px;
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--ink-muted);
+    display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
+    font-family: var(--font-mono); font-weight: 400; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ink-muted);
   }
   .rayon-label::after { content: ""; flex-grow: 1; height: 1px; background: var(--line); }
   .rayon-name { color: var(--ink); }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 18px;
-  }
-  .grid:has(> .solo) { grid-template-columns: 1fr; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 200px)); gap: 28px 18px; }
+  .grid.single { grid-template-columns: 1fr; }
 </style>
