@@ -33,7 +33,7 @@ Cette version remplace entièrement la V1 retro-futuriste (Néon indigo, sphère
 | `--ink-faint` | `#B3A5AC` | Décor uniquement (pointillés, flèches), jamais du texte informatif |
 | `--line` | `#E6DCD9` | Bordures de cartes, en-tête |
 | `--rule` | `#EFE7E3` | Séparateurs, rail de jauge, dos de livre |
-| `--arc` | `#D9C6CC` | Arc de la boucle « auditer » |
+| `--arc` | `#D9C6CC` | Arc du titre « Mes activités » (accueil) |
 | `--accent` | `#7A2E5C` | Prune : CTA, ruban, italique d'accent, liens |
 | `--accent-hover` | `#5A1F43` | Survol |
 | `--on-accent` | `#FFFFFF` | Texte sur prune |
@@ -260,7 +260,7 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - **Jour et nuit** suivent le thème du site : clair = crépuscule, sombre = nuit (étoiles, croissant de lune, fenêtres allumées, halos de la guirlande). Le passage de l'un à l'autre se fait en fondu (0,8 s).
 - **Description pour lecteurs d'écran** : une phrase traduite (clé `scene.label`). Le reste du dessin est masqué aux lecteurs d'écran.
 - **Sous la scène** :
-  - **Boucle** : « RÉCUPÉRER → CITER ou REFUSER → TRACER », sous un arc arrondi légendé *auditer* en serif italique prune ;
+  - **Mes activités** : titre (h2) en serif italique prune, posé sur un arc arrondi, au-dessus des stats. La boucle « récupérer → citer ou refuser → tracer » a été retirée le 9 oct 2026 ;
   - **Stats** : 3 cartes (chiffre en serif prune, label en sans), uniquement des chiffres réels ;
   - **Avatar** : arche 4:5, fond `--blush`, silhouette en trame de points prune, signature « — Mialy », label « photo à venir · arche 4:5 ». La future photo sera recadrée en arche.
 
@@ -284,8 +284,8 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - BAA 101 se limite aux fondamentaux : un concept y entre seulement s'il vaut pour tout agent, quels que soient le framework, le cloud ou le modèle.
 - Aucun contenu inventé : un fait manquant devient un placeholder `[…]` et il est signalé.
 - L'accroche « Building AI agents *in public…* » reste en anglais dans les deux langues. Le sous-titre est à la première personne et traduit (depuis le 9 oct 2026) :
-  - FR : *Ma bibliothèque d'AI engineering : je m'y forme, j'en tire les bases, et je construis mes propres agents, qui citent leurs sources et savent refuser.*
-  - EN : *My AI engineering library: I train here, draw the basics from it, and build my own agents, ones that cite their sources and know when to refuse.*
+  - FR : *Ma bibliothèque d'AI engineering : je m'y forme, j'en tire les bases, et je construis mes propres agents.*
+  - EN : *My AI engineering library: I train here, draw the basics from it, and build my own agents.*
   - Ligne mono au-dessus du titre : « MA BIBLIOTHÈQUE · N CHAPITRES PUBLIÉS » / « BUILDING LIBRARY · N CHAPTERS PUBLISHED ».
 - **Anti-« gamin »** : pas de police manuscrite, pas de cœurs, pas de dégradés pastel, pas de rose bonbon.
   - **Exception validée le 9 oct 2026** : le ciel de la scène d'accueil est un dégradé pêche → rose (prune profond la nuit). C'est le seul dégradé du site.
@@ -305,7 +305,7 @@ Toutes les animations sont en CSS ou SVG, sans bibliothèque. Seul le tampon « 
 | Accueil, scène | Plante qui se balance, vapeur du mug | 5–6 s et 3,2 s |
 | Accueil, scène | Chat : clignement des yeux, queue qui se balance | 5 s et 4 s |
 | Accueil, texte | Montée en fondu, ligne après ligne (décalage 0,1 s) | 0,7 s, une fois |
-| Accueil, boucle | Chaque étape s'allume à tour de rôle, puis un point remonte l'arc *auditer* de droite à gauche | Cycle de 6 s |
+| Accueil, Mes activités | Un point prune parcourt l'arc de droite à gauche | 6 s, en boucle |
 | Thème | Fondu jour ↔ nuit de la scène | 0,8 s |
 | Étagère | Texte sous les livres en cascade (80 ms d'écart), jauges qui se remplissent | 0,5 s et 1 s, une fois |
 | Étagère | Couverture soulevée et légèrement penchée au survol ou au focus | 0,25 s |
