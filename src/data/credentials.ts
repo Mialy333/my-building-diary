@@ -3,6 +3,8 @@
 // (AWS projects 1-3, Dev3Pack). A tool without proof is shown without a link.
 import type { Locale } from "../i18n/ui";
 import { books, bookUrl, chapterUrl } from "./books";
+import udacityCertificate from "../assets/certs/udacity.jpg";
+import dev3packCertificate from "../assets/certs/dev3pack.jpg";
 
 type L = Record<Locale, string>;
 
@@ -78,6 +80,9 @@ export interface Certification {
   date: L;
   book: string; // the book that tells this programme
   verify: { label: L; url: string };
+  extra?: { label: L; url: string }; // a second official proof
+  image: ImageMetadata; // picture of the certificate, shown on the About page
+  imageAlt: L;
   id?: string;
 }
 
@@ -89,6 +94,11 @@ export const certifications: Certification[] = [
     date: { fr: "6 octobre 2026", en: "October 6, 2026" },
     book: "aws-scholars",
     verify: { label: { fr: "Vérifier", en: "Verify" }, url: "https://www.udacity.com/certificate/e/c2ce036c-900d-11f1-adc8-3f80681b4872" },
+    image: udacityCertificate,
+    imageAlt: {
+      fr: "Certificat Udacity Future AWS Agent Engineer, décerné à Mialy Ratsimbazafy le 6 octobre 2026",
+      en: "Udacity Future AWS Agent Engineer certificate, awarded to Mialy Ratsimbazafy on October 6, 2026",
+    },
   },
   {
     title: "AI Engineering Bootcamp",
@@ -98,8 +108,17 @@ export const certifications: Certification[] = [
     book: "dev3pack",
     id: "0MEIAR4GV9KF",
     verify: {
-      label: { fr: "Résultat officiel", en: "Official result" },
+      label: { fr: "Vérifier", en: "Verify" },
+      url: "https://app.dev3pack.xyz/api/bootcamp-cert?certificateId=0meiar4gv9kf&v=4",
+    },
+    extra: {
+      label: { fr: "Résultat 15/15", en: "15/15 result" },
       url: "https://github.com/Gecko-Academy/dev3pack-submissions/blob/main/finals/Mialy333/result.json",
+    },
+    image: dev3packCertificate,
+    imageAlt: {
+      fr: "Certificat de fin de parcours Dev3Pack AI Engineering Bootcamp, délivré à Mialy, ID 0MEIAR4GV9KF",
+      en: "Dev3Pack AI Engineering Bootcamp certificate of completion, issued to Mialy, ID 0MEIAR4GV9KF",
     },
   },
 ];

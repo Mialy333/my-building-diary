@@ -70,11 +70,16 @@ const bookName = (slug: string) => books.find((b) => b.slug === slug);
         const book = bookName(c.book);
         return (
           <li class="cert">
+            {/* The certificate itself: a tap opens the official verification page. */}
+            <a class="cert-image" href={c.verify.url} target="_blank" rel="noopener">
+              <Image src={c.image} alt={c.imageAlt[locale]} widths={[340, 680, 1000]} sizes="(min-width: 720px) 640px, calc(100vw - 86px)" />
+            </a>
             <span class="cert-kind">{c.kind[locale]} · {c.date[locale]}</span>
             <span class="cert-title">{c.title}</span>
             <span class="cert-issuer">{c.issuer}{c.id && <> · ID {c.id}</>}</span>
             <span class="cert-links">
               <a href={c.verify.url} target="_blank" rel="noopener">{c.verify.label[locale]} ↗</a>
+              {c.extra && <a href={c.extra.url} target="_blank" rel="noopener">{c.extra.label[locale]} ↗</a>}
               {book && <a href={bookUrl(locale, book)}>{t("about.readBook")} →</a>}
             </span>
           </li>
@@ -151,6 +156,9 @@ const bookName = (slug: string) => books.find((b) => b.slug === slug);
     display: flex; flex-direction: column; gap: 4px; padding: 16px 18px;
     background: var(--card); border: 1px solid var(--ink); border-radius: 16px; box-shadow: 5px 5px 0 var(--shadow);
   }
+  .cert-image { display: block; margin-bottom: 10px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .cert-image :global(img) { display: block; width: 100%; height: auto; }
+  .cert-image:hover, .cert-image:focus-visible { border-color: var(--accent-text); }
   .cert-kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
   .cert-title { font-family: var(--font-serif); font-size: 26px; line-height: 1.1; }
   .cert-issuer { font-size: 14px; color: var(--ink-soft); }

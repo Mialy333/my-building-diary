@@ -285,7 +285,7 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - En haut : portrait en grande arche (200 × 250), « Qui écrit », h1 « À *propos* », la ligne d'auteure, les boutons de profils.
 - « Ma présentation » : encadré pointillé « à paraître » tant que le texte de Mialy n'est pas écrit.
 - **Ma *stack*** (`src/data/credentials.ts`, source unique) : trois groupes (Langages, AWS, Agents). Chaque outil = nom en serif, précision courte, puis ses preuves en mono : liens vers les chapitres ou repos où il a servi, d'après les runbooks. Un outil sans preuve (React) s'affiche sans lien.
-- **Mes *certifications*** : une carte par certificat (type et date en mono, titre serif, organisme), lien « Vérifier ↗ » vers la page officielle (Udacity) ou le résultat officiel (Dev3Pack, `result.json`), et lien vers le livre du parcours. Pas de logo d'organisme.
+- **Mes *certifications*** : une carte par certificat. En haut, l'image du certificat (`src/assets/certs/`, optimisée par Astro), qui ouvre la page de vérification officielle ; puis type et date en mono, titre serif, organisme (et ID), liens « Vérifier ↗ » (page officielle Udacity ou Dev3Pack), « Résultat 15/15 ↗ » pour Dev3Pack (`result.json` du dépôt du cours) et lien vers le livre du parcours. Pas de logo d'organisme ajouté en dehors des certificats eux-mêmes.
 - Les pages des livres AWS et Dev3Pack affichent aussi leur certificat sous l'en-tête, avec le même lien de vérification.
 
 ### 5.9 Glossaire BAA 101
