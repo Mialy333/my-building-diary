@@ -279,6 +279,15 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - Discord n'a pas d'adresse de profil publique par pseudo : son bouton copie le pseudo, et un message « Pseudo Discord copié : … » s'affiche 3 s (annoncé aux lecteurs d'écran).
 - Placés dans le pied de page plutôt que l'en-tête, qui est déjà plein sur téléphone.
 
+### 5.8 ter Page À propos (première version, 9 oct 2026)
+
+- Rôle : la fiche, courte, à parcourir en 30 secondes. Le récit complet sera le livre « Mon parcours » (rayon Parcours), qui reste « à paraître ».
+- En haut : portrait en grande arche (200 × 250), « Qui écrit », h1 « À *propos* », la ligne d'auteure, les boutons de profils.
+- « Ma présentation » : encadré pointillé « à paraître » tant que le texte de Mialy n'est pas écrit.
+- **Ma *stack*** (`src/data/credentials.ts`, source unique) : trois groupes (Langages, AWS, Agents). Chaque outil = nom en serif, précision courte, puis ses preuves en mono : liens vers les chapitres ou repos où il a servi, d'après les runbooks. Un outil sans preuve (React) s'affiche sans lien.
+- **Mes *certifications*** : une carte par certificat (type et date en mono, titre serif, organisme), lien « Vérifier ↗ » vers la page officielle (Udacity) ou le résultat officiel (Dev3Pack, `result.json`), et lien vers le livre du parcours. Pas de logo d'organisme.
+- Les pages des livres AWS et Dev3Pack affichent aussi leur certificat sous l'en-tête, avec le même lien de vérification.
+
 ### 5.9 Glossaire BAA 101
 
 - Page `/books/baa-101/glossary/`, accessible par une carte placée avant le sommaire de BAA 101.

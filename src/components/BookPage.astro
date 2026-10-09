@@ -7,12 +7,14 @@ import BookCover from "./BookCover.astro";
 import Breadcrumb from "./Breadcrumb.astro";
 import ConceptList from "./ConceptList.astro";
 import { glossary } from "../data/glossary";
+import { certificationOf } from "../data/credentials";
 
 interface Props {
   book: Book;
 }
 
 const { book } = Astro.props;
+const certification = certificationOf(book.slug);
 const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
 const label = (c: Chapter) => chapterLabel(c, t);
@@ -46,6 +48,12 @@ const crumbs = [
     <div class="cover-wrap"><BookCover book={book} size="page" /></div>
     <h1>{book.heading.text[locale]}<em>{book.heading.accent[locale]}</em></h1>
     {book.meta && <p class="meta">{book.meta[locale]}</p>}
+    {certification && (
+      <p class="certificate">
+        <span class="mono caps">{t("book.certificate")} · {certification.kind[locale]} · {certification.date[locale]}</span>
+        <a href={certification.verify.url} target="_blank" rel="noopener">{certification.verify.label[locale]} ↗</a>
+      </p>
+    )}
 
     {book.gauge && (
       <div class="gauge">
@@ -320,6 +328,10 @@ const crumbs = [
   .toc-title.pending { color: var(--ink-muted); }
   .toc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
   .toc + .next, .toc .next { margin-top: 16px; }
+
+  /* Certificate of the programme, with its official verification link. */
+  .certificate { display: flex; flex-wrap: wrap; align-items: center; gap: 0 14px; margin: 10px 0 0; }
+  .certificate a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-underline-offset: 3px; }
 </style>
 
 <script>

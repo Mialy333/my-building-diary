@@ -1,0 +1,159 @@
+---
+// About page, first version: portrait, profiles, stack and certifications.
+// The personal text (written by Mialy) and the "My path" book come later;
+// they are shown as "coming soon", like everything not written yet.
+import { Image } from "astro:assets";
+import { getLocale, useTranslations } from "../i18n/ui";
+import { books, bookUrl } from "../data/books";
+import { stack, certifications, proofHref } from "../data/credentials";
+import SocialLinks from "./SocialLinks.astro";
+import portrait from "../assets/mialy.jpg";
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const bookName = (slug: string) => books.find((b) => b.slug === slug);
+---
+
+<article class="about">
+  <header class="hero">
+    <div class="arch">
+      <Image class="photo" src={portrait} alt={t("author.photoAlt")} widths={[200, 400, 600]} sizes="200px" loading="eager" />
+    </div>
+    <p class="kicker">{t("author.kicker")}</p>
+    <h1 set:html={t("soon.about")} />
+    <p class="line" set:html={t("author.line")} />
+    <SocialLinks />
+  </header>
+
+  <section class="block">
+    <p class="pending">
+      <span class="stamp">{t("book.stamp")}</span>
+      <span>{t("about.introSoon")}</span>
+    </p>
+  </section>
+
+  <section class="block" aria-labelledby="stack-title">
+    <h2 id="stack-title" set:html={t("about.stack")} />
+    <p class="lead">{t("about.stackLead")}</p>
+    {stack.map((group) => (
+      <div class="group">
+        <h3 class="group-title">{group.title[locale]}</h3>
+        <ul class="items">
+          {group.items.map((item) => (
+            <li class="item">
+              <span class="name">{item.name}</span>
+              {item.detail && <span class="detail">{item.detail[locale]}</span>}
+              <span class="proofs">
+                {item.proofs.map((p) => {
+                  const href = proofHref(p, locale);
+                  const external = "url" in p;
+                  return href ? (
+                    <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>
+                      {p.label}{external ? " ↗" : ""}
+                    </a>
+                  ) : (
+                    <span>{p.label}</span>
+                  );
+                })}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section class="block" aria-labelledby="cert-title">
+    <h2 id="cert-title" set:html={t("about.certs")} />
+    <ul class="certs">
+      {certifications.map((c) => {
+        const book = bookName(c.book);
+        return (
+          <li class="cert">
+            <span class="cert-kind">{c.kind[locale]} · {c.date[locale]}</span>
+            <span class="cert-title">{c.title}</span>
+            <span class="cert-issuer">{c.issuer}{c.id && <> · ID {c.id}</>}</span>
+            <span class="cert-links">
+              <a href={c.verify.url} target="_blank" rel="noopener">{c.verify.label[locale]} ↗</a>
+              {book && <a href={bookUrl(locale, book)}>{t("about.readBook")} →</a>}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+
+  <section class="block">
+    <p class="pending">
+      <span class="stamp">{t("book.stamp")}</span>
+      <span>{t("about.pathSoon")}</span>
+    </p>
+  </section>
+</article>
+
+<style>
+  .about { padding: 32px 24px 0; }
+  .hero { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .arch {
+    position: relative; width: 200px; height: 250px; overflow: hidden;
+    border: 1px solid var(--line); border-radius: 999px 999px 16px 16px;
+    background: var(--blush); box-shadow: 6px 6px 0 var(--shadow);
+  }
+  /* Same treatment as on the home page: slightly softened, plum veil. */
+  .arch :global(.photo) {
+    display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%;
+    filter: saturate(0.85) contrast(0.97);
+  }
+  .arch::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(243, 196, 166, 0.35), rgba(122, 46, 92, 0.35));
+    mix-blend-mode: soft-light;
+  }
+  .kicker {
+    margin: 28px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ink-muted);
+  }
+  h1 { margin: 10px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 62px; line-height: 0.94; letter-spacing: -1.5px; }
+  .line { max-width: 24ch; margin: 14px 0 20px; font-family: var(--font-serif); font-size: 24px; line-height: 1.15; }
+  .hero :global(.socials) { justify-content: center; }
+
+  .block { margin-top: 48px; }
+  h2 { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 34px; line-height: 1.05; }
+  .lead { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+
+  .pending {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0; padding: 18px;
+    border: 1px dashed var(--ink-faint); border-radius: 16px; font-size: 15px; color: var(--ink-soft);
+  }
+  .stamp {
+    padding: 4px 12px; border: 1.5px solid var(--accent-text); border-radius: 999px; transform: rotate(-6deg);
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent-text);
+  }
+
+  .group { margin-top: 24px; }
+  .group-title {
+    display: flex; align-items: center; gap: 10px; margin: 0 0 4px;
+    font-family: var(--font-mono); font-weight: 400; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ink-muted);
+  }
+  .group-title::after { content: ""; flex-grow: 1; height: 1px; background: var(--line); }
+  .items { margin: 0; padding: 0; list-style: none; }
+  .item { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+  .name { font-family: var(--font-serif); font-size: 21px; line-height: 1.2; }
+  .detail { font-size: 14px; color: var(--ink-soft); }
+  .proofs { display: flex; flex-wrap: wrap; gap: 4px 10px; width: 100%; font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .proofs a { display: inline-flex; align-items: center; min-height: 32px; text-underline-offset: 3px; }
+  .proofs:empty { display: none; }
+
+  .certs { display: flex; flex-direction: column; gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .cert {
+    display: flex; flex-direction: column; gap: 4px; padding: 16px 18px;
+    background: var(--card); border: 1px solid var(--ink); border-radius: 16px; box-shadow: 5px 5px 0 var(--shadow);
+  }
+  .cert-kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+  .cert-title { font-family: var(--font-serif); font-size: 26px; line-height: 1.1; }
+  .cert-issuer { font-size: 14px; color: var(--ink-soft); }
+  .cert-links { display: flex; flex-wrap: wrap; gap: 0 18px; margin-top: 4px; }
+  .cert-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-underline-offset: 3px; }
+</style>
