@@ -1,7 +1,7 @@
 ---
 import { getLocale, useTranslations, plural, type UiKey } from "../i18n/ui";
 import {
-  books, baa, conceptsOf, appliedIn, type Book, type Chapter, pad, publishedCount, progressPercent, chapterUrl, bookUrl, chapterLabel,
+  books, baa, conceptsOf, appliedIn, type Book, type Chapter, pad, publishedCount, progressPercent, chapterUrl, bookUrl, chapterLabel, chapterSlug,
 } from "../data/books";
 import BookCover from "./BookCover.astro";
 import Breadcrumb from "./Breadcrumb.astro";
@@ -106,7 +106,7 @@ const crumbs = [
               <div class="card-head">
                 <span class="mono caps">{label(c)}</span>
                 {c.published
-                  ? <span class="pill">{t("book.published")}</span>
+                  ? <span class="pills"><span class="read-mark" data-read={`${book.slug}/${chapterSlug(c)}`} hidden>{t("chapter.read")}</span><span class="pill">{t("book.published")}</span></span>
                   : <span class="pill pending">{t("unit.toCome")}</span>}
               </div>
               {c.published
@@ -139,7 +139,7 @@ const crumbs = [
               <li class="card">
                 <div class="card-head">
                   <span class="mono caps">{label(c)}</span>
-                  <span class="pill">{t("book.published")}</span>
+                  <span class="pills"><span class="read-mark" data-read={`${book.slug}/${chapterSlug(c)}`} hidden>{t("chapter.read")}</span><span class="pill">{t("book.published")}</span></span>
                 </div>
                 <a class="card-link" href={chapterUrl(locale, book, c)}>
                   <span class="card-title">{c.title[locale]}</span>
@@ -284,4 +284,23 @@ const crumbs = [
     background: linear-gradient(90deg, var(--bar) 0 5px, transparent 5px), var(--card);
   }
   .fed-title { font-family: var(--font-serif); font-size: 20px; line-height: 1.1; margin-top: 2px; }
+
+  /* "Read" mark next to "Published", shown by the script below. */
+  .pills { display: inline-flex; align-items: center; gap: 8px; }
+  .read-mark {
+    padding: 2px 9px; border: 1.5px solid var(--accent-text); border-radius: 999px;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--accent-text); transform: rotate(-6deg);
+  }
+  .read-mark[hidden] { display: none; }
 </style>
+
+<script>
+  // Shows "Read" on chapters this browser has already read to the end
+  // (stored by the chapter page). Without localStorage, nothing is shown.
+  document.querySelectorAll<HTMLElement>("[data-read]").forEach((mark) => {
+    try {
+      if (localStorage.getItem(`read:${mark.dataset.read}`) === "1") mark.hidden = false;
+    } catch {}
+  });
+</script>

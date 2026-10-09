@@ -1,0 +1,111 @@
+---
+// The drawing on a cover's screen. It is computed from books.ts at build time,
+// so it grows by itself when a chapter is published:
+// - plant (BAA 101): one leaf per published chapter;
+// - cloud (AWS Scholars): one star per chapter, filled once published;
+// - garland (Dev3Pack): one bulb per chapter, lit once published.
+import { type Book, publishedCount } from "../data/books";
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+const art = book.cover.art;
+const total = book.chapters.length;
+const done = publishedCount(book);
+const r = (n: number) => Math.round(n * 10) / 10;
+
+// Plant: the stem grows with the leaves, leaves alternate left and right.
+const stemTop = 35 - Math.min(31, 6 + done * 2.4);
+const leaves = Array.from({ length: done }, (_, i) => {
+  const y = 33 - (i + 0.6) * ((33 - stemTop) / Math.max(done, 1));
+  const side = i % 2 === 0 ? -1 : 1;
+  const s = 1 - i / (done * 2.5);
+  return {
+    d: `M60 ${r(y)} q${r(side * 8 * s)} ${r(-6 * s)} ${r(side * 13 * s)} ${r(-2 * s)} q${r(-side * 5 * s)} ${r(6 * s)} ${r(-side * 13 * s)} ${r(2 * s)} Z`,
+    newest: i === done - 1,
+    // The leaf turns around the point where it meets the stem.
+    origin: side === -1 ? "100% 50%" : "0% 50%",
+  };
+});
+
+// Cloud: stars spread under the cloud.
+const stars = Array.from({ length: total }, (_, i) => ({
+  x: r(60 + (i - (total - 1) / 2) * Math.min(14, 70 / Math.max(total - 1, 1))),
+  lit: i < done,
+}));
+
+// Garland: bulbs placed along the wire, a quadratic curve from (4,12) to (116,12).
+const bulbs = Array.from({ length: total }, (_, i) => {
+  const t = (i + 0.5) / total;
+  return {
+    x: r((1 - t) ** 2 * 4 + 2 * (1 - t) * t * 60 + t * t * 116),
+    y: r((1 - t) ** 2 * 12 + 2 * (1 - t) * t * 36 + t * t * 12 + 3),
+    lit: i < done,
+    delay: r((i % 6) * 0.35),
+  };
+});
+---
+
+{art && (
+  <svg class="art" viewBox="0 0 120 50" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    {art === "plant" && (
+      <g>
+        <path class="line" d={`M60 35 V${r(stemTop)}`}></path>
+        {leaves.map((leaf) => (
+          <path class:list={["ink", { sway: leaf.newest }]} style={`transform-origin: ${leaf.origin}`} d={leaf.d}></path>
+        ))}
+        <rect class="ink" x="47" y="34" width="26" height="4" rx="1.5"></rect>
+        <path class="ink" d="M50 38 H70 L67.5 50 H52.5 Z"></path>
+      </g>
+    )}
+    {art === "cloud" && (
+      <g>
+        <ellipse class="ink" cx="60" cy="20" rx="22" ry="9"></ellipse>
+        <ellipse class="ink" cx="47" cy="22" rx="12" ry="7"></ellipse>
+        <ellipse class="ink" cx="73" cy="22" rx="13" ry="7"></ellipse>
+        <ellipse class="ink" cx="57" cy="13" rx="12" ry="8"></ellipse>
+        {stars.map((s, i) => (
+          <path
+            class:list={[s.lit ? "ink twinkle" : "line"]}
+            style={`--w: ${i * 0.5}s`}
+            d={`M${s.x} 36 l1.6 4 l4 1.6 l-4 1.6 l-1.6 4 l-1.6 -4 l-4 -1.6 l4 -1.6 Z`}
+          ></path>
+        ))}
+      </g>
+    )}
+    {art === "garland" && (
+      <g>
+        <path class="line" d="M4 12 Q60 36 116 12"></path>
+        {bulbs.map((b) => (
+          <circle
+            class:list={[b.lit ? "bulb twinkle" : "line"]}
+            style={`--w: ${b.delay}s`}
+            cx={b.x}
+            cy={b.y}
+            r="2.6"
+          ></circle>
+        ))}
+      </g>
+    )}
+  </svg>
+)}
+
+<style>
+  /* Same ink as the bars it replaces, in both themes: #231A22 at 75 %.
+     The 75 % is set on the whole drawing, so overlapping shapes (the cloud)
+     do not get darker where they cross. */
+  .art { display: block; width: 100%; height: 100%; opacity: .75; }
+  .ink { fill: #231A22; }
+  .line { fill: none; stroke: #231A22; stroke-width: 1.2; stroke-linecap: round; }
+  .bulb { fill: #FFF6DF; stroke: #231A22; stroke-width: 1; }
+
+  .twinkle { animation: cover-twinkle 3s ease-in-out var(--w, 0s) infinite; }
+  .sway { transform-box: fill-box; animation: leaf-sway 4s ease-in-out infinite; }
+  @keyframes cover-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+  @keyframes leaf-sway { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .twinkle, .sway { animation: none; }
+  }
+</style>

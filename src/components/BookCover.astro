@@ -1,6 +1,7 @@
 ---
 import { getLocale, useTranslations } from "../i18n/ui";
 import { type Book, bookNumber, isInProgress } from "../data/books";
+import CoverArt from "./CoverArt.astro";
 
 interface Props {
   book: Book;
@@ -31,7 +32,9 @@ const Title = size === "page" ? "p" : "h3";
     <span class="stamp">{t("book.stamp")}</span>
   ) : (
     <div class="screen" style={`background: var(--book-${book.color})`} aria-hidden="true">
-      {cover.bars.map((h) => <span class="bar" style={`height: ${h}%`}></span>)}
+      {cover.art
+        ? <CoverArt book={book} />
+        : cover.bars.map((h) => <span class="bar" style={`height: ${h}%`}></span>)}
     </div>
   )}
 </div>

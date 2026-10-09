@@ -1,7 +1,7 @@
 ---
 import { getEntry, render } from "astro:content";
 import { getLocale, useTranslations } from "../i18n/ui";
-import { baa, conceptsOf, appliedIn, type Book, type Chapter, pad, bookUrl, chapterUrl, chapterLabel } from "../data/books";
+import { baa, conceptsOf, appliedIn, type Book, type Chapter, bookUrl, chapterUrl, chapterLabel, chapterSlug } from "../data/books";
 import Breadcrumb from "./Breadcrumb.astro";
 import ConceptList from "./ConceptList.astro";
 
@@ -14,7 +14,7 @@ const { book, chapter } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
 
-const slug = chapter.slug ?? `${chapter.kind}-${pad(chapter.number)}`;
+const slug = chapterSlug(chapter);
 const id = `${locale}/${book.slug}/${slug}`;
 const entry = await getEntry("chapters", id);
 const missingPath = `src/content/chapters/${id}.md`;
@@ -27,6 +27,12 @@ const Content = entry ? (await render(entry)).Content : null;
 const workedOn = entry?.data.workedOn
   ? new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(entry.data.workedOn)
   : null;
+
+// Reading time: words in the Markdown source, at about 200 words a minute.
+const words = entry?.body ? entry.body.split(/\s+/).filter(Boolean).length : 0;
+const minutes = Math.max(1, Math.round(words / 200));
+// Key of the "read" stamp, the same in FR and EN: reading one language marks both.
+const readKey = `${book.slug}/${slug}`;
 
 const concepts = conceptsOf(chapter);
 const uses = book === baa ? appliedIn(chapter) : [];
@@ -41,7 +47,9 @@ const crumbs = [
 ];
 ---
 
-<article class="chapter">
+<div class="progress" aria-hidden="true"></div>
+
+<article class="chapter" data-read-key={readKey}>
   <Breadcrumb items={crumbs} />
 
   <header>
@@ -50,7 +58,11 @@ const crumbs = [
       {book.name[locale]} · {chapterLabel(chapter, t)}
     </p>
     <h1>{chapter.title[locale]}</h1>
-    {workedOn && <p class="meta">{t("chapter.workedOn")} {workedOn}</p>}
+    <p class="meta">
+      {workedOn && <span>{t("chapter.workedOn")} {workedOn} · </span>}
+      <span>{minutes} {t("chapter.minutes")}</span>
+      <span class="stamp" data-read-stamp hidden>{t("chapter.read")}</span>
+    </p>
   </header>
 
   {Content ? (
@@ -58,6 +70,8 @@ const crumbs = [
   ) : (
     <p class="missing">{t("chapter.missing")} <code>{missingPath}</code></p>
   )}
+
+  <div class="end-mark" data-read-end aria-hidden="true"></div>
 
   <footer class="end">
     {concepts.length > 0 && (
@@ -108,7 +122,36 @@ const crumbs = [
   }
   .bar { width: 5px; height: 16px; border-radius: 2px; }
   h1 { margin: 14px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 40px; line-height: 1.02; letter-spacing: -0.5px; }
-  .meta { margin: 12px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+  .meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 12px 0 0;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted);
+  }
+
+  /* "Read" stamp: same family as the "coming soon" stamp on covers. */
+  .stamp {
+    margin-left: 8px; padding: 3px 10px; border: 1.5px solid var(--accent-text); border-radius: 999px;
+    color: var(--accent-text); font-weight: 500; letter-spacing: 2px; transform: rotate(-6deg);
+  }
+  .stamp[hidden] { display: none; }
+  .stamp.fresh { animation: read-stamp .45s cubic-bezier(.2, .7, .2, 1.4) both; }
+  @keyframes read-stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.8); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
+
+  /* Reading ribbon: a plum line under the header that grows as you scroll.
+     Driven by the scroll itself (no JavaScript); hidden in browsers that
+     cannot do it. */
+  .progress { display: none; }
+  @supports (animation-timeline: scroll()) {
+    .progress {
+      display: block; position: fixed; top: 64px; left: 0; right: 0; z-index: 9; height: 3px;
+      background: var(--accent); transform-origin: 0 50%;
+      animation: read-progress linear both; animation-timeline: scroll(root);
+    }
+    @keyframes read-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  }
+  .end-mark { height: 1px; }
+  @media (prefers-reduced-motion: reduce) {
+    .stamp.fresh { animation: none; }
+  }
 
   .prose { margin-top: 32px; font-family: var(--font-reading); font-size: 19px; line-height: 1.6; }
   .prose :global(p) { margin: 0 0 1em; }
@@ -148,3 +191,30 @@ const crumbs = [
   .next-title { font-family: var(--font-serif); font-size: 22px; line-height: 1.15; }
   .next-pending .next-title { color: var(--ink-soft); }
 </style>
+
+<script>
+  // "Read" stamp. When the end of the text comes into view, the chapter is
+  // remembered as read in this browser (localStorage), and the stamp appears.
+  // localStorage can be missing or blocked (private mode): then nothing happens.
+  const article = document.querySelector<HTMLElement>("[data-read-key]");
+  const stamp = document.querySelector<HTMLElement>("[data-read-stamp]");
+  const end = document.querySelector<HTMLElement>("[data-read-end]");
+  const key = article ? `read:${article.dataset.readKey}` : null;
+
+  const isRead = () => {
+    try { return key !== null && localStorage.getItem(key) === "1"; } catch { return false; }
+  };
+
+  if (stamp && isRead()) stamp.hidden = false;
+
+  if (key && stamp && end && !isRead() && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      try { localStorage.setItem(key, "1"); } catch { return; }
+      stamp.hidden = false;
+      stamp.classList.add("fresh");
+      observer.disconnect();
+    });
+    observer.observe(end);
+  }
+</script>

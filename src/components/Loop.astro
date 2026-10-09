@@ -4,13 +4,13 @@ const t = useTranslations(getLocale(Astro.currentLocale));
 ---
 
 <section class="loop" aria-label={t("loop.label")}>
-  <div class="arc"><span>{t("loop.audit")}</span></div>
+  <div class="arc"><i class="runner" aria-hidden="true"></i><span>{t("loop.audit")}</span></div>
   <p class="steps">
-    <span>{t("loop.retrieve")}</span>
+    <span class="step" style="--w: 0s">{t("loop.retrieve")}</span>
     <span class="arrow" aria-hidden="true">→</span>
-    <span>{t("loop.cite")} <span class="or">{t("loop.or")}</span> {t("loop.refuse")}</span>
+    <span class="step" style="--w: 1.4s">{t("loop.cite")} <span class="or">{t("loop.or")}</span> {t("loop.refuse")}</span>
     <span class="arrow" aria-hidden="true">→</span>
-    <span>{t("loop.trace")}</span>
+    <span class="step" style="--w: 2.8s">{t("loop.trace")}</span>
   </p>
 </section>
 
@@ -52,4 +52,33 @@ const t = useTranslations(getLocale(Astro.currentLocale));
   }
   .or { color: var(--ink-muted); text-transform: none; }
   .arrow { color: var(--ink-faint); }
+
+  /* The loop runs: each step lights up in turn (retrieve, cite or refuse,
+     trace), then a dot climbs the arc from right to left: the audit goes
+     back to the start. One cycle = 6 s; --w shifts each step in time. */
+  .step { animation: step-on 6s ease-in-out var(--w) infinite; }
+  @keyframes step-on {
+    0%, 22% { color: var(--accent-text); }
+    30%, 100% { color: var(--ink); }
+  }
+  .runner {
+    position: absolute; left: 100%; top: 32px; width: 7px; height: 7px;
+    border-radius: 50%; background: var(--accent); transform: translate(-50%, -50%);
+    opacity: 0; animation: audit 6s linear infinite;
+  }
+  /* The dot follows the arc's border: up the right side, along the top
+     (behind the "audit" label), down the left side. */
+  @keyframes audit {
+    0%, 66% { left: 100%; top: 32px; opacity: 0; }
+    70% { left: 100%; top: 26px; opacity: 1; }
+    74% { left: calc(100% - 4px); top: 17px; }
+    77% { left: calc(100% - 14px); top: 14.5px; }
+    91% { left: 14px; top: 14.5px; }
+    94% { left: 4px; top: 17px; }
+    98% { left: 0; top: 26px; opacity: 1; }
+    100% { left: 0; top: 32px; opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .step, .runner { animation: none; }
+  }
 </style>

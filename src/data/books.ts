@@ -33,7 +33,9 @@ export interface Book {
   summary?: Record<Locale, string[]>;
   callout?: { label: L; text: L };
   repo?: string;
-  cover: { title: L; accent: L; subtitle: L; info: L; bars: number[] };
+  // art: the drawing on the cover's screen; it grows with the published chapters.
+  // Without art, the screen shows the bars.
+  cover: { title: L; accent: L; subtitle: L; info: L; bars: number[]; art?: "plant" | "cloud" | "garland" };
   chapters: Chapter[];
 }
 
@@ -74,6 +76,7 @@ export const books: Book[] = [
       subtitle: { fr: "Building AI Agents 101", en: "Building AI Agents 101" },
       info: { fr: "FR·EN", en: "FR·EN" },
       bars: [30, 55, 80, 100],
+      art: "plant",
     },
     chapters: [
       concept(1, "Vérifier l'effet, pas la parole", "Verify the effect, not the claim", { published: true }),
@@ -117,6 +120,7 @@ export const books: Book[] = [
       subtitle: { fr: "AWS & AI Scholars", en: "AWS & AI Scholars" },
       info: { fr: "AWS", en: "AWS" },
       bars: [70, 45, 90],
+      art: "cloud",
     },
     chapters: [
       {
@@ -183,6 +187,7 @@ export const books: Book[] = [
       subtitle: { fr: "AI Engineering Bootcamp", en: "AI Engineering Bootcamp" },
       info: { fr: "3 SEM.", en: "3 WKS" },
       bars: [25, 60, 40, 85],
+      art: "garland",
     },
     chapters: [
       session(1, "Configurer l'assistant", "Setting up the assistant", {
@@ -369,8 +374,10 @@ export const isInProgress = (book: Book) =>
   !!book.gauge && publishedCount(book) < book.chapters.length;
 export const bookNumber = (book: Book) => pad(books.indexOf(book) + 1);
 export const bookUrl = (locale: Locale, book: Book) => `/${locale}/books/${book.slug}/`;
+// The chapter's slug in URLs and file names; also the key of the "read" stamp.
+export const chapterSlug = (chapter: Chapter) => chapter.slug ?? `${chapter.kind}-${pad(chapter.number)}`;
 export const chapterUrl = (locale: Locale, book: Book, chapter: Chapter) =>
-  `/${locale}/books/${book.slug}/${chapter.slug ?? `${chapter.kind}-${pad(chapter.number)}`}/`;
+  `/${locale}/books/${book.slug}/${chapterSlug(chapter)}/`;
 export const chapterLabel = (chapter: Chapter, t: (key: UiKey) => string) =>
   chapter.code ?? `${t(chapter.kind === "session" ? "label.session" : "label.chapter")} ${pad(chapter.number)}`;
 

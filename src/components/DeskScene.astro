@@ -22,11 +22,12 @@ const t = useTranslations(locale);
         <circle class="twinkle" cx="350" cy="280" r="1.2" style="--d:3.8s;--w:.4s"></circle>
       </g>
 
+      <!-- Clouds stay in the side margins: a decoration never crosses a title. -->
       <g class="clouds">
-        <ellipse cx="58" cy="118" rx="30" ry="8"></ellipse>
-        <ellipse cx="80" cy="112" rx="18" ry="7"></ellipse>
-        <ellipse cx="318" cy="196" rx="36" ry="8"></ellipse>
-        <ellipse cx="342" cy="190" rx="18" ry="6"></ellipse>
+        <ellipse cx="22" cy="176" rx="24" ry="7"></ellipse>
+        <ellipse cx="38" cy="170" rx="14" ry="6"></ellipse>
+        <ellipse cx="370" cy="236" rx="24" ry="7"></ellipse>
+        <ellipse cx="354" cy="230" rx="14" ry="6"></ellipse>
       </g>
 
       <path class="wire" d="M-10 18 Q195 70 400 18"></path>
@@ -244,7 +245,7 @@ const t = useTranslations(locale);
   .tail { transform-box: fill-box; transform-origin: 0 0; animation: tail 4s ease-in-out infinite; }
   .eye { transform-box: fill-box; transform-origin: 50% 50%; animation: cat-blink 5s ease-in-out infinite; }
 
-  @keyframes drift { from { transform: translateX(-26px); } to { transform: translateX(26px); } }
+  @keyframes drift { from { transform: translateX(-12px); } to { transform: translateX(12px); } }
   @keyframes twinkle { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
   @keyframes type-line { 0%, 8% { opacity: 0; } 16%, 88% { opacity: 1; } 100% { opacity: 0; } }
   @keyframes blink { 50% { opacity: 0; } }
