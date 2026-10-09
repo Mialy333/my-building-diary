@@ -41,21 +41,21 @@ const rows = groups.map((group) => ({ ...group, items: group.books.map((book) =>
   .intro { padding: 36px 20px 8px; }
   .kicker {
     display: flex; align-items: center; gap: 10px; margin: 0;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
+    font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
   }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--book-rose); }
   h1 { margin: 14px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 62px; line-height: 0.95; letter-spacing: -1.5px; }
-  .lead { margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
+  .lead { margin: 14px 0 0; font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
   .filters { display: flex; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
   .chip {
     display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px;
-    border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: 14px;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--card); font-size: 15px;
   }
   .chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
   .rayon { padding: 40px 20px 0; }
   .rayon-label {
     display: flex; align-items: center; gap: 10px; margin: 0 0 16px;
-    font-family: var(--font-mono); font-weight: 400; font-size: 12px; letter-spacing: 2px;
+    font-family: var(--font-mono); font-weight: 400; font-size: 13px; letter-spacing: 2px;
     text-transform: uppercase; color: var(--ink-muted);
   }
   .rayon-label::after { content: ""; flex-grow: 1; height: 1px; background: var(--line); }

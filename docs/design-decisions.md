@@ -132,10 +132,10 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 | Titre de carte chapitre | Serif 28 px |
 | Citation d'encadré | Serif 26–30 px |
 | Chiffres de stats | Serif 40 px, en prune |
-| Sous-titre accueil | Sans 17 px · interligne 1.6 |
-| Texte d'interface | Sans 14–16 px |
+| Sous-titre accueil | Sans 18 px · interligne 1.6 |
+| Texte d'interface | Sans 15–17 px |
 | Boutons | Sans 15–16 px · 600 |
-| Labels mono | 12–13 px · majuscules · espacement 1–2 px |
+| Labels mono | 13–14 px · majuscules · espacement 1–2 px (12 px dans l'en-tête et sur les couvertures) |
 | Corps de lecture | Newsreader 19 px · interligne 1.6 |
 | Teaser de chapitre | Newsreader 16 px · interligne 1.5 |
 
@@ -198,7 +198,7 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 
 - Réservée aux journeys.
 - Rail de 6 px en `--rule`, rayon 3 px. Remplissage dans la couleur de jauge du livre.
-- Label mono 12 px : `x/y chapitres` à gauche, pourcentage en `--ink` à droite. Le total est le nombre de chapitres du sommaire, jamais un chiffre saisi à part.
+- Label mono 13 px : `x/y chapitres` à gauche, pourcentage en `--ink` à droite. Le total est le nombre de chapitres du sommaire, jamais un chiffre saisi à part.
 - **BAA 101 n'a pas de jauge.** Il affiche « *Livre vivant* · N chapitre(s) », ou « · 1 chapitre à paraître » tant que rien n'est publié.
 
 ### 5.3 Index « Dernières pages »
@@ -273,7 +273,7 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 
 - Image `public/og-fr.png` et `public/og-en.png` (1200 × 630) : capture de l'accueil (scène au crépuscule, titre, sous-titre, bureau et chat), une par langue. Déclarée par `og:image` et `twitter:card = summary_large_image`, avec un texte alternatif.
 - Le portrait n'est jamais l'image d'aperçu : sans `og:image`, les messageries prenaient la photo de « Qui écrit ».
-- À régénérer quand l'accueil change (sous-titre, nombre de chapitres).
+- À régénérer quand l'accueil change (titre, sous-titre, scène).
 
 ### 5.8 bis Pied de page et profils
 
@@ -317,7 +317,7 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 
 ## 6. Règles
 
-- Taille de texte minimale : **12 px**, sans exception.
+- Taille de texte minimale : **12 px**, sans exception ; 13 px partout hors en-tête et couvertures depuis le 9 oct 2026 (les petits textes ont tous gagné 1 px, les titres et le corps de lecture sont inchangés).
 - Contraste du texte : 4,5:1 minimum, y compris sur le ciel de la scène d'accueil (voir 2.4).
 - Un seul accent d'interface, le prune. Les couleurs des livres ne servent jamais pour du texte.
 - Un décor ne passe jamais sur un titre. L'écran de couverture est un bloc séparé, sous le titre. Sur la scène d'accueil, le texte est posé sur le ciel uni ; nuages, soleil et lune restent hors de la zone de texte.
@@ -330,7 +330,7 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - L'accroche « Building AI agents *in public…* » reste en anglais dans les deux langues. Le sous-titre est à la première personne et traduit (depuis le 9 oct 2026) :
   - FR : *Ma bibliothèque d'AI engineering : je m'y forme, j'en tire les bases, et je construis mes propres agents.*
   - EN : *My AI engineering library: I train here, draw the basics from it, and build my own agents.*
-  - Ligne mono au-dessus du titre : « MA BIBLIOTHÈQUE · N CHAPITRES PUBLIÉS » / « BUILDING LIBRARY · N CHAPTERS PUBLISHED ».
+  - Ligne mono au-dessus du titre : « MA BIBLIOTHÈQUE » / « BUILDING LIBRARY », sans nombre de chapitres (l'image d'aperçu de lien est une capture de cet écran : un nombre la rendrait obsolète à chaque chapitre).
 - **Anti-« gamin »** : pas de police manuscrite, pas de cœurs, pas de dégradés pastel, pas de rose bonbon.
   - **Exception validée le 9 oct 2026** : le ciel de la scène d'accueil est un dégradé pêche → rose (prune profond la nuit). C'est le seul dégradé du site.
 - **Anti-copie** :

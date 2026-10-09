@@ -1,12 +1,12 @@
 ---
-import { getLocale, useTranslations, plural } from "../i18n/ui";
-import { stats } from "../data/books";
+import { getLocale, useTranslations } from "../i18n/ui";
 import DeskScene from "./DeskScene.astro";
 
 const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
-const n = stats.publishedChapters;
-const kicker = `${t("hero.kicker")} · ${n} ${plural(n, t("stats.chapters.one"), t("stats.chapters.other"))}`;
+// No chapter count here: the link-preview image is a picture of this screen,
+// and a number would make it outdated at every new chapter.
+const kicker = t("hero.kicker");
 ---
 
 <DeskScene>
@@ -34,26 +34,26 @@ const kicker = `${t("hero.kicker")} · ${n} ${plural(n, t("stats.chapters.one"),
   .hero { padding: 0 24px 12px; text-align: center; }
   .kicker {
     margin: 0;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px;
+    font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px;
     text-transform: uppercase; color: var(--ink-soft);
   }
   h1 {
     margin: 22px 0 0; font-family: var(--font-serif); font-weight: 400;
     font-size: 62px; line-height: 0.94; letter-spacing: -1.5px;
   }
-  .subtitle { max-width: 34ch; margin: 22px auto 0; font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
+  .subtitle { max-width: 34ch; margin: 22px auto 0; font-size: 18px; line-height: 1.6; color: var(--ink-soft); }
   .subtitle :global(strong) { color: var(--ink); font-weight: 600; }
   .actions { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 26px; }
   .cta {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     width: 250px; min-height: 54px; border-radius: 999px;
     background: var(--accent); color: var(--on-accent); box-shadow: 5px 5px 0 var(--shadow);
-    font-size: 16px; font-weight: 600; text-decoration: none;
+    font-size: 17px; font-weight: 600; text-decoration: none;
   }
   .cta:hover { background: var(--accent-hover); }
   .secondary {
     display: inline-flex; align-items: center; min-height: 44px;
-    font-size: 15px; font-weight: 500; text-underline-offset: 4px;
+    font-size: 16px; font-weight: 500; text-underline-offset: 4px;
   }
 
   @media (min-width: 640px) { .hero { padding-bottom: 28px; } }

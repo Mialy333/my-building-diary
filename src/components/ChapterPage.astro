@@ -118,13 +118,13 @@ const crumbs = [
   header { margin-top: 12px; }
   .label {
     display: flex; align-items: center; gap: 10px; margin: 0;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
+    font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
   }
   .bar { width: 5px; height: 16px; border-radius: 2px; }
   h1 { margin: 14px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 40px; line-height: 1.02; letter-spacing: -0.5px; }
   .meta {
     display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 12px 0 0;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted);
+    font-family: var(--font-mono); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted);
   }
 
   /* "Read" stamp: same family as the "coming soon" stamp on covers. */
@@ -183,18 +183,18 @@ const crumbs = [
     position: fixed; inset: auto 16px 16px; margin: 0 auto; max-width: 520px;
     padding: 16px 18px 8px; border: 1px solid var(--ink); border-radius: 16px;
     background: var(--card); color: var(--ink); box-shadow: 6px 6px 0 var(--shadow);
-    font-family: var(--font-sans); font-size: 16px; line-height: 1.5;
+    font-family: var(--font-sans); font-size: 17px; line-height: 1.5;
   }
   .prose :global(.gloss-pop:popover-open) { display: flex; flex-direction: column; gap: 6px; animation: gloss-up .2s ease-out; }
   .prose :global(.gloss-name) { font-family: var(--font-serif); font-size: 24px; line-height: 1.1; }
   .prose :global(.gloss-def) { color: var(--ink-soft); }
   .prose :global(.gloss-actions) { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
   .prose :global(.gloss-link), .prose :global(.gloss-close) {
-    display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600;
   }
   .prose :global(.gloss-close) {
     padding: 0 4px; border: 0; background: none; color: var(--ink-muted); font-family: var(--font-mono);
-    font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+    font-size: 13px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
   }
   .prose :global(.gloss-pop::backdrop) { background: rgba(35, 26, 34, 0.15); }
   @keyframes gloss-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
@@ -202,18 +202,18 @@ const crumbs = [
     .prose :global(.gloss-pop:popover-open) { animation: none; }
   }
 
-  .missing { margin-top: 32px; padding: 16px 18px; border: 1px dashed var(--accent-text); border-radius: 12px; font-size: 15px; }
+  .missing { margin-top: 32px; padding: 16px 18px; border: 1px dashed var(--accent-text); border-radius: 12px; font-size: 16px; }
 
   .end { margin-top: 40px; padding-top: 8px; border-top: 1px solid var(--line); }
   .block { margin-top: 20px; }
-  .mono-label { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
-  .mono { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .mono-label { margin: 0; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
+  .mono { font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted); }
   .applied {
     display: flex; flex-direction: column; gap: 2px; min-height: 44px; padding: 10px 0;
     border-bottom: 1px solid var(--rule); text-decoration: none;
   }
   .applied-title { font-family: var(--font-serif); font-size: 20px; line-height: 1.15; color: var(--ink); }
-  .code { display: inline-flex; align-items: center; min-height: 44px; margin-top: 16px; font-size: 15px; font-weight: 600; }
+  .code { display: inline-flex; align-items: center; min-height: 44px; margin-top: 16px; font-size: 16px; font-weight: 600; }
   .next-link, .next-pending {
     display: flex; flex-direction: column; gap: 2px; margin: 8px 0 0; padding: 14px 18px;
     border-radius: 14px; text-decoration: none; color: var(--ink);

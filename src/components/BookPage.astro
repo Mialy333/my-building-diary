@@ -50,7 +50,10 @@ const crumbs = [
     {book.meta && <p class="meta">{book.meta[locale]}</p>}
     {certification && (
       <p class="certificate">
-        <span class="mono caps">{t("book.certificate")} · {certification.kind[locale]} · {certification.date[locale]}</span>
+        <span class="mono caps">
+          {/* "Certificate · Nanodegree", but not "Certificate · Certificate of completion". */}
+          {/certifica/i.test(certification.kind[locale]) ? "" : `${t("book.certificate")} · `}{certification.kind[locale]} · {certification.date[locale]}
+        </span>
         <a href={certification.verify.url} target="_blank" rel="noopener">{certification.verify.label[locale]} ↗</a>
       </p>
     )}
@@ -216,18 +219,18 @@ const crumbs = [
   .intro { padding: 12px 24px 0; }
   .kicker {
     display: flex; align-items: center; gap: 10px; margin: 12px 0 0;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
+    font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
   }
   .dot { width: 8px; height: 8px; border-radius: 50%; }
   .cover-wrap { display: flex; justify-content: center; margin-top: 26px; }
   h1 { margin: 30px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 46px; line-height: 0.98; letter-spacing: -1px; }
-  .meta { margin: 12px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
-  .mono { font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .meta { margin: 12px 0 0; font-family: var(--font-mono); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+  .mono { font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted); }
   .caps { letter-spacing: 2px; text-transform: uppercase; }
   .gauge { margin-top: 20px; }
   .rail { height: 6px; border-radius: 3px; background: var(--rule); overflow: hidden; }
   .fill { height: 6px; border-radius: 3px; }
-  .gauge-label { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .gauge-label { display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted); }
   .percent { color: var(--ink); }
   .living { display: flex; align-items: baseline; gap: 10px; margin: 14px 0 0; }
   .living-title { font-family: var(--font-serif); font-style: italic; font-size: 24px; color: var(--accent-text); }
@@ -236,7 +239,7 @@ const crumbs = [
   .reading { padding: 44px 24px 0; }
   .body { margin: 14px 0 0; font-family: var(--font-reading); font-size: 19px; line-height: 1.6; }
   .callout { margin: 28px 6px 0 0; padding: 20px 22px; border-radius: 18px; background: var(--blush); box-shadow: 6px 6px 0 var(--shadow); }
-  .callout-label { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-text); }
+  .callout-label { margin: 0; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-text); }
   .callout-text { margin: 10px 0 0; font-family: var(--font-serif); font-size: 28px; line-height: 1.08; }
 
   .contents { padding: 48px 24px 0; }
@@ -244,17 +247,17 @@ const crumbs = [
   .list { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
   .card { padding: 16px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
   .card-head { display: flex; align-items: center; justify-content: space-between; }
-  .pill { font-family: var(--font-mono); font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--published-bg); color: var(--published-ink); }
+  .pill { font-family: var(--font-mono); font-size: 13px; padding: 3px 10px; border-radius: 999px; background: var(--published-bg); color: var(--published-ink); }
   .pill.pending { background: none; border: 1px dashed var(--ink-faint); color: var(--ink-muted); }
   .card-link { display: block; margin-top: 8px; color: var(--ink); text-decoration: none; }
   .card-title { display: block; margin: 8px 0 0; font-family: var(--font-serif); font-size: 28px; line-height: 1.02; color: var(--ink); }
   .card-link .card-title { margin: 0; }
   .card-title.link { text-decoration: none; }
-  .teaser { display: block; margin-top: 8px; font-family: var(--font-reading); font-size: 16px; line-height: 1.5; color: var(--ink-soft); }
-  .read { display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: var(--accent-text); }
+  .teaser { display: block; margin-top: 8px; font-family: var(--font-reading); font-size: 17px; line-height: 1.5; color: var(--ink-soft); }
+  .read { display: flex; align-items: center; min-height: 44px; font-size: 16px; font-weight: 600; color: var(--accent-text); }
   .concept { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
-  .mono-label { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
-  .applied { display: flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-decoration: none; }
+  .mono-label { margin: 0; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
+  .applied { display: flex; align-items: center; min-height: 44px; font-size: 16px; font-weight: 600; text-decoration: none; }
   .row {
     display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 10px 18px;
     border: 1px dashed var(--ink-faint); border-radius: 12px;
@@ -265,7 +268,7 @@ const crumbs = [
   .next .mono { display: block; }
   .next-text { display: block; margin-top: 6px; font-family: var(--font-serif); font-style: italic; font-size: 20px; color: var(--ink-soft); }
   .more { margin-top: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
-  .more summary { display: flex; align-items: center; min-height: 52px; padding: 0 18px; cursor: pointer; font-size: 15px; font-weight: 500; }
+  .more summary { display: flex; align-items: center; min-height: 52px; padding: 0 18px; cursor: pointer; font-size: 16px; font-weight: 500; }
   .later { margin: 0; padding: 0 18px 12px; list-style: none; }
   .later li { display: flex; align-items: baseline; gap: 12px; padding: 10px 0; border-top: 1px solid var(--rule); }
   .later .mono { flex-shrink: 0; min-width: 96px; }
@@ -282,7 +285,7 @@ const crumbs = [
   .button {
     flex-grow: 1; display: flex; align-items: center; justify-content: center; min-height: 48px;
     border: 1px solid var(--ink); border-radius: 999px; background: var(--card);
-    color: var(--ink); font-size: 15px; font-weight: 500; text-decoration: none;
+    color: var(--ink); font-size: 16px; font-weight: 500; text-decoration: none;
   }
   .button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
 
@@ -299,7 +302,7 @@ const crumbs = [
   .pills { display: inline-flex; align-items: center; gap: 8px; }
   .read-mark {
     padding: 2px 9px; border: 1.5px solid var(--accent-text); border-radius: 999px;
-    font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 1px;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500; letter-spacing: 1px;
     text-transform: uppercase; color: var(--accent-text); transform: rotate(-6deg);
   }
   .read-mark[hidden] { display: none; }
@@ -312,7 +315,7 @@ const crumbs = [
   }
   .toc-nums a {
     display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 44px;
-    font-family: var(--font-mono); font-size: 14px; color: var(--ink); text-decoration: none;
+    font-family: var(--font-mono); font-size: 15px; color: var(--ink); text-decoration: none;
   }
   .toc-nums a:hover { color: var(--accent-text); }
   .toc { margin: 8px 0 0; padding: 0; list-style: none; }
@@ -321,17 +324,17 @@ const crumbs = [
     border-bottom: 1px solid var(--rule); scroll-margin-top: 190px;
   }
   .toc-row:target { background: linear-gradient(90deg, var(--blush), transparent); }
-  .toc-num { flex: none; width: 28px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted); }
+  .toc-num { flex: none; width: 28px; font-family: var(--font-mono); font-size: 14px; color: var(--ink-muted); }
   .toc-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
   .toc-title { font-family: var(--font-serif); font-size: 22px; line-height: 1.15; color: var(--ink); text-decoration: none; }
   a.toc-title:hover { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
   .toc-title.pending { color: var(--ink-muted); }
-  .toc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .toc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted); }
   .toc + .next, .toc .next { margin-top: 16px; }
 
   /* Certificate of the programme, with its official verification link. */
   .certificate { display: flex; flex-wrap: wrap; align-items: center; gap: 0 14px; margin: 10px 0 0; }
-  .certificate a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-underline-offset: 3px; }
+  .certificate a { display: inline-flex; align-items: center; min-height: 44px; font-size: 16px; font-weight: 600; text-underline-offset: 3px; }
 </style>
 
 <script>

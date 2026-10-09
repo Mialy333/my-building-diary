@@ -30,7 +30,7 @@
 :root[data-theme="dark"] .theme-moon { display: none; }
 :root[data-theme="dark"] .theme-sun { display: block; }
 *, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.6; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 17px; line-height: 1.6; }
 .page { max-width: var(--page-max); margin-inline: auto; }
 em { font-style: italic; color: var(--accent-text); }
 a { color: var(--accent-text); }

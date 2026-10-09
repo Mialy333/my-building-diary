@@ -115,7 +115,7 @@ const bookName = (slug: string) => books.find((b) => b.slug === slug);
     mix-blend-mode: soft-light;
   }
   .kicker {
-    margin: 28px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px;
+    margin: 28px 0 0; font-family: var(--font-mono); font-size: 13px; letter-spacing: 2px;
     text-transform: uppercase; color: var(--ink-muted);
   }
   h1 { margin: 10px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 62px; line-height: 0.94; letter-spacing: -1.5px; }
@@ -124,15 +124,15 @@ const bookName = (slug: string) => books.find((b) => b.slug === slug);
 
   .block { margin-top: 48px; }
   h2 { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 34px; line-height: 1.05; }
-  .lead { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+  .lead { margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: var(--ink-soft); }
 
   .pending {
     display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0; padding: 18px;
-    border: 1px dashed var(--ink-faint); border-radius: 16px; font-size: 15px; color: var(--ink-soft);
+    border: 1px dashed var(--ink-faint); border-radius: 16px; font-size: 16px; color: var(--ink-soft);
   }
   .stamp {
     padding: 4px 12px; border: 1.5px solid var(--accent-text); border-radius: 999px; transform: rotate(-6deg);
-    font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 2px;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500; letter-spacing: 2px;
     text-transform: uppercase; color: var(--accent-text);
   }
 
@@ -140,15 +140,15 @@ const bookName = (slug: string) => books.find((b) => b.slug === slug);
   /* Group title, centred between two rules, like a chapter divider. */
   .group-title {
     display: flex; align-items: center; gap: 14px; margin: 0 0 6px;
-    font-family: var(--font-mono); font-weight: 500; font-size: 16px; letter-spacing: 3px;
+    font-family: var(--font-mono); font-weight: 500; font-size: 17px; letter-spacing: 3px;
     text-transform: uppercase; color: var(--ink);
   }
   .group-title::before, .group-title::after { content: ""; flex-grow: 1; height: 1px; background: var(--line); }
   .items { margin: 0; padding: 0; list-style: none; }
   .item { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
   .name { font-family: var(--font-serif); font-size: 21px; line-height: 1.2; }
-  .detail { font-size: 14px; color: var(--ink-soft); }
-  .proofs { display: flex; flex-wrap: wrap; gap: 4px 10px; width: 100%; font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .detail { font-size: 15px; color: var(--ink-soft); }
+  .proofs { display: flex; flex-wrap: wrap; gap: 4px 10px; width: 100%; font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted); }
   .proofs a { display: inline-flex; align-items: center; min-height: 32px; text-underline-offset: 3px; }
   .proofs:empty { display: none; }
 
@@ -160,9 +160,9 @@ const bookName = (slug: string) => books.find((b) => b.slug === slug);
   .cert-image { display: block; margin-bottom: 10px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .cert-image :global(img) { display: block; width: 100%; height: auto; }
   .cert-image:hover, .cert-image:focus-visible { border-color: var(--accent-text); }
-  .cert-kind { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+  .cert-kind { font-family: var(--font-mono); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
   .cert-title { font-family: var(--font-serif); font-size: 26px; line-height: 1.1; }
-  .cert-issuer { font-size: 14px; color: var(--ink-soft); }
+  .cert-issuer { font-size: 15px; color: var(--ink-soft); }
   .cert-links { display: flex; flex-wrap: wrap; gap: 0 18px; margin-top: 4px; }
-  .cert-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; text-underline-offset: 3px; }
+  .cert-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 16px; font-weight: 600; text-underline-offset: 3px; }
 </style>
