@@ -9,13 +9,9 @@ const n = stats.publishedChapters;
 const kicker = `${t("hero.kicker")} · ${n} ${plural(n, t("stats.chapters.one"), t("stats.chapters.other"))}`;
 ---
 
-<section class="hero">
-  <DeskScene />
-
-  <p class="kicker">
-    <span class="dot" aria-hidden="true"></span>
-    {kicker}
-  </p>
+<DeskScene>
+<div class="hero">
+  <p class="kicker">{kicker}</p>
 
   <h1>Building<br />AI agents<br /><em>in public…</em></h1>
 
@@ -31,23 +27,23 @@ const kicker = `${t("hero.kicker")} · ${n} ${plural(n, t("stats.chapters.one"),
     </a>
     <a class="secondary" href={`/${locale}/books/baa-101/`}>{t("hero.baa")}</a>
   </div>
-</section>
+</div>
+</DeskScene>
 
 <style>
-  .hero { padding: 24px 24px 0; text-align: center; }
+  .hero { padding: 0 24px 12px; text-align: center; }
   .kicker {
-    display: inline-flex; align-items: center; gap: 10px; margin: 28px 0 0;
+    margin: 0;
     font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--ink-muted);
+    text-transform: uppercase; color: var(--ink-soft);
   }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--book-rose); }
   h1 {
     margin: 22px 0 0; font-family: var(--font-serif); font-weight: 400;
     font-size: 62px; line-height: 0.94; letter-spacing: -1.5px;
   }
   .subtitle { max-width: 34ch; margin: 22px auto 0; font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
   .subtitle :global(strong) { color: var(--ink); font-weight: 600; }
-  .actions { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 30px; }
+  .actions { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 26px; }
   .cta {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     width: 250px; min-height: 54px; border-radius: 999px;
@@ -59,6 +55,8 @@ const kicker = `${t("hero.kicker")} · ${n} ${plural(n, t("stats.chapters.one"),
     display: inline-flex; align-items: center; min-height: 44px;
     font-size: 15px; font-weight: 500; text-underline-offset: 4px;
   }
+
+  @media (min-width: 640px) { .hero { padding-bottom: 28px; } }
 
   /* The text rises in after the scene, one line after the other. */
   .kicker, h1, .subtitle, .actions { animation: rise .7s ease both; }

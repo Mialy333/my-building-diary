@@ -14,7 +14,7 @@ const cover = book.cover;
 const Title = size === "page" ? "p" : "h3";
 ---
 
-<div class:list={["cover", size, { forthcoming: book.forthcoming }]}>
+<div class:list={["cover", size, { forthcoming: book.forthcoming }]} style={`view-transition-name: book-${book.slug}`}>
   {isInProgress(book) && (
     <>
       <span class="ribbon" aria-hidden="true"></span>
@@ -50,6 +50,10 @@ const Title = size === "page" ? "p" : "h3";
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
   }
   .page .ribbon { width: 18px; height: 46px; right: 18px; }
+  /* The ribbon sways a little, like a bookmark hanging from the top. */
+  .ribbon { transform-origin: 50% 0; animation: ribbon 4.5s ease-in-out infinite; }
+  @keyframes ribbon { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  @media (prefers-reduced-motion: reduce) { .ribbon { animation: none; } }
   .meta {
     display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 8px; padding-right: 24px;
     font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; color: var(--ink-muted);

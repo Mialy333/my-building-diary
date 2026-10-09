@@ -9,6 +9,9 @@ const groups = shelfOrder
   .map((shelf) => ({ shelf, books: books.filter((b) => b.shelf === shelf) }))
   .filter((group) => group.books.length > 0);
 const tags = [...new Set(books.flatMap((b) => b.tags ?? []))];
+// Position of each book on the whole shelf, across rayons: it staggers the entry animation.
+let position = 0;
+const rows = groups.map((group) => ({ ...group, items: group.books.map((book) => ({ book, index: position++ })) }));
 ---
 
 <section class="intro">
@@ -23,13 +26,13 @@ const tags = [...new Set(books.flatMap((b) => b.tags ?? []))];
   )}
 </section>
 
-{groups.map((group, i) => (
+{rows.map((group, i) => (
   <section class="rayon">
     <h2 class="rayon-label">
       <span>{t("shelf.rayon")} {pad(i + 1)} · <span class="rayon-name">{t(`shelf.${group.shelf}` as UiKey)}</span></span>
     </h2>
     <div class="grid">
-      {group.books.map((book) => <BookItem book={book} solo={group.books.length === 1} />)}
+      {group.items.map(({ book, index }) => <BookItem book={book} index={index} solo={group.items.length === 1} />)}
     </div>
   </section>
 ))}

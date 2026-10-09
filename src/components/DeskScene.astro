@@ -1,5 +1,6 @@
 ---
-// Illustrated home scene: a desk in front of an arched window over the city.
+// Full-screen illustrated scene for the home page: sky on top, the hero text
+// in the middle (passed in through the slot), the city and the desk at the bottom.
 // Pure SVG + CSS, no JavaScript, no dependency. Day/night follows the site theme.
 import { getLocale, useTranslations } from "../i18n/ui";
 
@@ -7,146 +8,152 @@ const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
 ---
 
-<div class="scene">
-  <svg viewBox="0 0 342 360" role="img" aria-label={t("scene.label")}>
-    <defs>
-      <linearGradient id="desk-sky" x1="0" y1="0" x2="0" y2="1">
-        <stop class="sky-top" offset="0"></stop>
-        <stop class="sky-bottom" offset="1"></stop>
-      </linearGradient>
-      <clipPath id="desk-arch"><path d="M0 360 L0 171 A171 171 0 0 1 342 171 L342 360 Z"></path></clipPath>
-    </defs>
-
-    <g clip-path="url(#desk-arch)">
-      <rect width="342" height="360" fill="url(#desk-sky)"></rect>
-
+<section class="scene">
+  <div class="sky" aria-hidden="true">
+    <svg viewBox="0 0 390 300">
       <g class="night stars">
-        <circle class="twinkle" cx="60" cy="130" r="1.4" style="--d:3.2s"></circle>
-        <circle class="twinkle" cx="110" cy="64" r="1.1" style="--d:2.6s;--w:.8s"></circle>
-        <circle class="twinkle" cx="150" cy="150" r="1.3" style="--d:4s;--w:.3s"></circle>
-        <circle class="twinkle" cx="205" cy="60" r="1.2" style="--d:3s;--w:1.4s"></circle>
-        <circle class="twinkle" cx="300" cy="128" r="1.4" style="--d:3.6s;--w:.6s"></circle>
-        <circle class="twinkle" cx="88" cy="176" r="1" style="--d:2.8s;--w:1.9s"></circle>
-        <circle class="twinkle" cx="318" cy="186" r="1.1" style="--d:3.4s;--w:1.1s"></circle>
+        <circle class="twinkle" cx="40" cy="92" r="1.4" style="--d:3.2s"></circle>
+        <circle class="twinkle" cx="92" cy="148" r="1.1" style="--d:2.6s;--w:.8s"></circle>
+        <circle class="twinkle" cx="24" cy="204" r="1.3" style="--d:4s;--w:.3s"></circle>
+        <circle class="twinkle" cx="206" cy="88" r="1.2" style="--d:3s;--w:1.4s"></circle>
+        <circle class="twinkle" cx="366" cy="150" r="1.4" style="--d:3.6s;--w:.6s"></circle>
+        <circle class="twinkle" cx="300" cy="236" r="1" style="--d:2.8s;--w:1.9s"></circle>
+        <circle class="twinkle" cx="62" cy="268" r="1.1" style="--d:3.4s;--w:1.1s"></circle>
+        <circle class="twinkle" cx="350" cy="280" r="1.2" style="--d:3.8s;--w:.4s"></circle>
       </g>
-
-      <circle class="orb" cx="252" cy="140" r="24"></circle>
-      <circle class="night crescent" cx="262" cy="134" r="20"></circle>
 
       <g class="clouds">
-        <ellipse cx="80" cy="150" rx="34" ry="9"></ellipse>
-        <ellipse cx="104" cy="143" rx="22" ry="8"></ellipse>
-        <ellipse cx="230" cy="186" rx="40" ry="8"></ellipse>
-        <ellipse cx="256" cy="180" rx="20" ry="7"></ellipse>
+        <ellipse cx="58" cy="118" rx="30" ry="8"></ellipse>
+        <ellipse cx="80" cy="112" rx="18" ry="7"></ellipse>
+        <ellipse cx="318" cy="196" rx="36" ry="8"></ellipse>
+        <ellipse cx="342" cy="190" rx="18" ry="6"></ellipse>
       </g>
 
-      <g class="city">
-        <rect x="0" y="250" width="40" height="60"></rect>
-        <rect x="40" y="230" width="30" height="80"></rect>
-        <rect x="70" y="205" width="46" height="105"></rect>
-        <rect x="116" y="240" width="28" height="70"></rect>
-        <rect x="144" y="190" width="40" height="120"></rect>
-        <rect x="184" y="225" width="34" height="85"></rect>
-        <rect x="218" y="200" width="44" height="110"></rect>
-        <rect x="262" y="235" width="30" height="75"></rect>
-        <rect x="292" y="215" width="50" height="95"></rect>
-      </g>
-      <g class="night windows">
-        <rect class="twinkle" x="80" y="216" width="5" height="6" style="--d:6s"></rect>
-        <rect x="96" y="236" width="5" height="6"></rect>
-        <rect class="twinkle" x="154" y="202" width="5" height="6" style="--d:7s;--w:2s"></rect>
-        <rect x="168" y="230" width="5" height="6"></rect>
-        <rect class="twinkle" x="228" y="214" width="5" height="6" style="--d:5s;--w:1s"></rect>
-        <rect x="244" y="250" width="5" height="6"></rect>
-        <rect x="302" y="228" width="5" height="6"></rect>
-        <rect class="twinkle" x="318" y="246" width="5" height="6" style="--d:8s;--w:3s"></rect>
-      </g>
-
-      <path class="wire" d="M30 70 Q171 120 312 70"></path>
+      <path class="wire" d="M-10 18 Q195 70 400 18"></path>
       <g class="night halos">
-        <circle cx="58" cy="84" r="8"></circle>
-        <circle cx="171" cy="100" r="8"></circle>
-        <circle cx="284" cy="84" r="8"></circle>
+        <circle cx="31" cy="27" r="8"></circle>
+        <circle cx="195" cy="44" r="8"></circle>
+        <circle cx="359" cy="27" r="8"></circle>
       </g>
       <g class="bulbs">
-        <circle class="twinkle" cx="58" cy="84" r="3.4" style="--d:2.4s"></circle>
-        <circle class="twinkle" cx="86" cy="91" r="3.4" style="--d:2.4s;--w:.3s"></circle>
-        <circle class="twinkle" cx="115" cy="96" r="3.4" style="--d:2.4s;--w:.6s"></circle>
-        <circle class="twinkle" cx="143" cy="99" r="3.4" style="--d:2.4s;--w:.9s"></circle>
-        <circle class="twinkle" cx="171" cy="100" r="3.4" style="--d:2.4s;--w:1.2s"></circle>
-        <circle class="twinkle" cx="199" cy="99" r="3.4" style="--d:2.4s;--w:1.5s"></circle>
-        <circle class="twinkle" cx="227" cy="96" r="3.4" style="--d:2.4s;--w:1.8s"></circle>
-        <circle class="twinkle" cx="256" cy="91" r="3.4" style="--d:2.4s;--w:2.1s"></circle>
-        <circle class="twinkle" cx="284" cy="84" r="3.4" style="--d:2.4s;--w:.15s"></circle>
+        <circle class="twinkle" cx="31" cy="27" r="3.4" style="--d:2.4s"></circle>
+        <circle class="twinkle" cx="72" cy="35" r="3.4" style="--d:2.4s;--w:.3s"></circle>
+        <circle class="twinkle" cx="113" cy="40" r="3.4" style="--d:2.4s;--w:.6s"></circle>
+        <circle class="twinkle" cx="154" cy="43" r="3.4" style="--d:2.4s;--w:.9s"></circle>
+        <circle class="twinkle" cx="195" cy="44" r="3.4" style="--d:2.4s;--w:1.2s"></circle>
+        <circle class="twinkle" cx="236" cy="43" r="3.4" style="--d:2.4s;--w:1.5s"></circle>
+        <circle class="twinkle" cx="277" cy="40" r="3.4" style="--d:2.4s;--w:1.8s"></circle>
+        <circle class="twinkle" cx="318" cy="35" r="3.4" style="--d:2.4s;--w:2.1s"></circle>
+        <circle class="twinkle" cx="359" cy="27" r="3.4" style="--d:2.4s;--w:.15s"></circle>
       </g>
-    </g>
+    </svg>
+  </div>
 
-    <path class="frame" d="M0 360 L0 171 A171 171 0 0 1 342 171 L342 360"></path>
+  <div class="copy">
+    <slot />
+  </div>
 
-    <rect class="desk-top" x="0" y="300" width="342" height="12"></rect>
-    <rect class="desk-front" x="0" y="312" width="342" height="48"></rect>
+  <div class="ground" role="img" aria-label={t("scene.label")}>
+    <svg class="orb-svg" viewBox="0 0 48 48" aria-hidden="true">
+      <circle class="orb" cx="24" cy="24" r="20"></circle>
+      <circle class="night crescent" cx="31" cy="18" r="17"></circle>
+    </svg>
 
-    <g class="computer">
-      <rect class="monitor" x="64" y="294" width="48" height="8" rx="2" stroke-width="1"></rect>
-      <rect class="monitor" x="24" y="204" width="128" height="94" rx="12" stroke-width="1.2"></rect>
-      <rect class="screen" x="36" y="214" width="104" height="64" rx="7"></rect>
-      <g class="code">
-        <text class="type" x="44" y="234">&gt; retrieve</text>
-        <text class="type" x="44" y="250" style="--w:1s">&gt; cite | refuse</text>
-        <text class="type" x="44" y="266" style="--w:2s">&gt; trace</text>
+    <svg class="city" width="100%" height="100" aria-hidden="true">
+      <defs>
+        <pattern id="desk-city" width="390" height="100" patternUnits="userSpaceOnUse">
+          <g class="buildings">
+            <rect x="0" y="40" width="40" height="60"></rect>
+            <rect x="40" y="20" width="30" height="80"></rect>
+            <rect x="70" y="0" width="46" height="100"></rect>
+            <rect x="116" y="30" width="28" height="70"></rect>
+            <rect x="144" y="0" width="40" height="100"></rect>
+            <rect x="184" y="15" width="34" height="85"></rect>
+            <rect x="218" y="0" width="44" height="100"></rect>
+            <rect x="262" y="25" width="30" height="75"></rect>
+            <rect x="292" y="5" width="50" height="95"></rect>
+            <rect x="342" y="35" width="48" height="65"></rect>
+          </g>
+          <g class="night windows">
+            <rect class="twinkle" x="80" y="6" width="5" height="6" style="--d:6s"></rect>
+            <rect x="96" y="26" width="5" height="6"></rect>
+            <rect class="twinkle" x="154" y="4" width="5" height="6" style="--d:7s;--w:2s"></rect>
+            <rect x="168" y="20" width="5" height="6"></rect>
+            <rect class="twinkle" x="228" y="4" width="5" height="6" style="--d:5s;--w:1s"></rect>
+            <rect x="244" y="40" width="5" height="6"></rect>
+            <rect x="302" y="18" width="5" height="6"></rect>
+            <rect class="twinkle" x="318" y="36" width="5" height="6" style="--d:8s;--w:3s"></rect>
+            <rect x="360" y="50" width="5" height="6"></rect>
+          </g>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100" fill="url(#desk-city)"></rect>
+    </svg>
+
+    <div class="desk"></div>
+
+    <svg class="objects" viewBox="0 200 342 130" aria-hidden="true">
+      <g class="computer">
+        <rect class="monitor" x="64" y="294" width="48" height="8" rx="2" stroke-width="1"></rect>
+        <rect class="monitor" x="24" y="204" width="128" height="94" rx="12" stroke-width="1.2"></rect>
+        <rect class="screen" x="36" y="214" width="104" height="64" rx="7"></rect>
+        <g class="code">
+          <text class="type" x="44" y="234">&gt; retrieve</text>
+          <text class="type" x="44" y="250" style="--w:1s">&gt; cite | refuse</text>
+          <text class="type" x="44" y="266" style="--w:2s">&gt; trace</text>
+        </g>
+        <rect class="cursor" x="84" y="259" width="6" height="9"></rect>
+        <circle class="power" cx="132" cy="288" r="2"></circle>
       </g>
-      <rect class="cursor" x="84" y="259" width="6" height="9"></rect>
-      <circle class="power" cx="132" cy="288" r="2"></circle>
-    </g>
 
-    <g transform="translate(-8 0)">
-      <path class="leaf sway" d="M200 272 C186 258 188 240 196 232 C202 246 204 258 200 272 Z" style="--d:5s"></path>
-      <path class="leaf dark sway" d="M202 272 C210 252 222 246 232 248 C226 260 216 268 202 272 Z" style="--d:6s;--w:.7s"></path>
-      <path class="leaf sway" d="M199 272 C188 264 176 264 170 270 C180 276 190 276 199 272 Z" style="--d:5.5s;--w:1.3s"></path>
-      <path class="pot" d="M186 272 h30 l-4 28 h-22 z"></path>
-    </g>
+      <g transform="translate(-8 0)">
+        <path class="leaf sway" d="M200 272 C186 258 188 240 196 232 C202 246 204 258 200 272 Z" style="--d:5s"></path>
+        <path class="leaf dark sway" d="M202 272 C210 252 222 246 232 248 C226 260 216 268 202 272 Z" style="--d:6s;--w:.7s"></path>
+        <path class="leaf sway" d="M199 272 C188 264 176 264 170 270 C180 276 190 276 199 272 Z" style="--d:5.5s;--w:1.3s"></path>
+        <path class="pot" d="M186 272 h30 l-4 28 h-22 z"></path>
+      </g>
 
-    <g transform="translate(-24 0)">
-      <path class="steam" d="M268 270 q-4 -6 0 -12 q4 -6 0 -12"></path>
-      <path class="steam" d="M277 268 q-4 -6 0 -12 q4 -6 0 -12" style="--w:1.1s"></path>
-      <path class="handle" d="M290 282 q10 0 10 7 q0 7 -10 7"></path>
-      <rect class="mug" x="262" y="276" width="28" height="24" rx="5"></rect>
-    </g>
+      <g transform="translate(-24 0)">
+        <path class="steam" d="M268 270 q-4 -6 0 -12 q4 -6 0 -12"></path>
+        <path class="steam" d="M277 268 q-4 -6 0 -12 q4 -6 0 -12" style="--w:1.1s"></path>
+        <path class="handle" d="M290 282 q10 0 10 7 q0 7 -10 7"></path>
+        <rect class="mug" x="262" y="276" width="28" height="24" rx="5"></rect>
+      </g>
 
-    <g class="cat" transform="translate(-30 0)">
-      <path class="tail" d="M332 296 C346 298 346 316 337 326"></path>
-      <path class="fur" d="M308 301 C305 285 310 271 321 269 C332 271 337 285 334 301 Z"></path>
-      <path class="fur" d="M310 256 L312 243 L320 251 Z"></path>
-      <path class="fur" d="M322 251 L330 243 L332 256 Z"></path>
-      <circle class="fur" cx="321" cy="259" r="11"></circle>
-      <path class="pink" d="M312.5 253 L313.5 247 L317 251 Z" opacity=".7"></path>
-      <path class="pink" d="M325 251 L328.5 247 L329.5 253 Z" opacity=".7"></path>
-      <ellipse class="eye" cx="317" cy="258" rx="1.7" ry="2.1"></ellipse>
-      <ellipse class="eye" cx="325" cy="258" rx="1.7" ry="2.1"></ellipse>
-      <path class="pink" d="M319.8 262.5 h2.4 l-1.2 1.4 z"></path>
-    </g>
-  </svg>
-</div>
+      <g transform="translate(-30 0)">
+        <path class="tail" d="M332 296 C346 298 346 316 337 326"></path>
+        <path class="fur" d="M308 301 C305 285 310 271 321 269 C332 271 337 285 334 301 Z"></path>
+        <path class="fur" d="M310 256 L312 243 L320 251 Z"></path>
+        <path class="fur" d="M322 251 L330 243 L332 256 Z"></path>
+        <circle class="fur" cx="321" cy="259" r="11"></circle>
+        <path class="pink" d="M312.5 253 L313.5 247 L317 251 Z" opacity=".7"></path>
+        <path class="pink" d="M325 251 L328.5 247 L329.5 253 Z" opacity=".7"></path>
+        <ellipse class="eye" cx="317" cy="258" rx="1.7" ry="2.1"></ellipse>
+        <ellipse class="eye" cx="325" cy="258" rx="1.7" ry="2.1"></ellipse>
+        <path class="pink" d="M319.8 262.5 h2.4 l-1.2 1.4 z"></path>
+      </g>
+    </svg>
+  </div>
+</section>
 
 <style>
   /* Day palette: scene-only colours, on top of the site tokens. */
   .scene {
     --night: 0;
-    --sky-top: #F3C4A6; --sky-bottom: #E8A7B6; --sky-mid: #EDB5AE;
-    --orb: #FBE3B8; --cloud: #FFF3EA; --cloud-opacity: .85;
+    --sky-mid: #EDB5AE; --orb: #FBE3B8; --cloud: #FFF3EA; --cloud-opacity: .85;
     --city: #D59AA8; --wire: #9C6B7E; --bulb: #F6D58E;
     --desk-top: #E3C2B4; --desk-front: #EAD3C8; --monitor: #F1E6DA;
     --leaf: #8FB394; --leaf-dark: #6F9A78; --mug: #F4DDE2;
     --fur: #4A3F47; --eye: #F6D58E;
-    max-width: 420px; margin-inline: auto;
+    --desk-h: 56px;     /* height of the desk band at the bottom */
+    --obj-w: 342px;     /* width of the desk objects drawing */
   }
   /* Night palette: same two selectors as global.css, so the scene follows
      both the system preference and the theme button. */
   @media (prefers-color-scheme: dark) {
     :global(:root:not([data-theme="light"])) .scene {
       --night: 1;
-      --sky-top: #1C1424; --sky-bottom: #4A2E4F; --sky-mid: #2C1E33;
-      --orb: #F4E6C8; --cloud: #6B4A68; --cloud-opacity: .5;
+      --sky-mid: #3E2744; --orb: #F4E6C8; --cloud: #6B4A68; --cloud-opacity: .5;
       --city: #2E2030; --wire: #6B4A62; --bulb: #FFD98A;
       --desk-top: #3A2A35; --desk-front: #2D2129; --monitor: #CBBFB3;
       --leaf: #6F9A78; --leaf-dark: #557D5E; --mug: #7A2E5C;
@@ -155,32 +162,64 @@ const t = useTranslations(locale);
   }
   :global(:root[data-theme="dark"]) .scene {
     --night: 1;
-    --sky-top: #1C1424; --sky-bottom: #4A2E4F; --sky-mid: #2C1E33;
-    --orb: #F4E6C8; --cloud: #6B4A68; --cloud-opacity: .5;
+    --sky-mid: #3E2744; --orb: #F4E6C8; --cloud: #6B4A68; --cloud-opacity: .5;
     --city: #2E2030; --wire: #6B4A62; --bulb: #FFD98A;
     --desk-top: #3A2A35; --desk-front: #2D2129; --monitor: #CBBFB3;
     --leaf: #6F9A78; --leaf-dark: #557D5E; --mug: #7A2E5C;
     --fur: #120D11; --eye: #F2C46D;
   }
+  @media (min-width: 640px) {
+    .scene { --obj-w: 400px; --desk-h: 64px; }
+  }
 
-  svg { display: block; width: 100%; height: auto; }
+  /* Layout: the scene fills the first screen under the 64px header.
+     svh = the visible height on phones, without the browser bars. */
+  .scene {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    min-height: calc(100svh - 64px);
+    background: linear-gradient(#F3C4A6, #E8A7B6);
+  }
+  /* The night sky is a second gradient laid on top: a gradient cannot fade
+     into another one, but an opacity can. */
+  .scene::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(#1C1424, #4A2E4F);
+    opacity: var(--night); transition: opacity .8s;
+  }
+
+  .sky {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: min(100%, 720px);
+  }
+  .sky svg { display: block; width: 100%; height: auto; }
+
+  /* The text starts just below the garland, which grows with the screen. */
+  .copy { position: relative; padding-top: clamp(64px, 12vw, 96px); }
+
+  .ground { position: relative; margin-top: auto; }
+  /* Sun by day, moon by night: low on the right, just above the cat. */
+  .orb-svg { position: absolute; top: -56px; right: max(16px, 10%); width: 48px; }
+  .city { display: block; }
+  .desk { height: var(--desk-h); background: var(--desk-front); border-top: 12px solid var(--desk-top); transition: background .8s, border-color .8s; }
+  /* The objects drawing has its desk line 30 units above its bottom edge
+     (on a 342-unit width). This puts that line exactly on the desk band. */
+  .objects {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    width: var(--obj-w); bottom: calc(var(--desk-h) - var(--obj-w) * 30 / 342);
+  }
 
   /* Colours come from CSS, so the theme switch can fade them. */
-  .sky-top { stop-color: var(--sky-top); transition: stop-color .8s; }
-  .sky-bottom { stop-color: var(--sky-bottom); transition: stop-color .8s; }
   .night { opacity: var(--night); transition: opacity .8s; }
   .stars { fill: #F7EBD0; }
   .orb { fill: var(--orb); transition: fill .8s; }
   .crescent { fill: var(--sky-mid); }
   .clouds { fill: var(--cloud); opacity: var(--cloud-opacity); transition: opacity .8s; animation: drift 26s ease-in-out infinite alternate; }
-  .city { fill: var(--city); transition: fill .8s; }
+  .buildings { fill: var(--city); transition: fill .8s; }
   .windows { fill: #F2C46D; }
   .wire { fill: none; stroke: var(--wire); stroke-width: 1; }
   .halos { fill: #FFD98A; opacity: calc(var(--night) * .22); }
   .bulbs { fill: var(--bulb); }
-  .frame { fill: none; stroke: var(--ink); stroke-width: 1.5; }
-  .desk-top { fill: var(--desk-top); transition: fill .8s; }
-  .desk-front { fill: var(--desk-front); transition: fill .8s; }
   .monitor { fill: var(--monitor); stroke: var(--ink); }
   .screen { fill: #241A26; }
   .code { font-family: var(--font-mono), monospace; font-size: 9px; fill: #F4B6CF; }
@@ -216,7 +255,7 @@ const t = useTranslations(locale);
 
   /* Reduced motion: a still picture, with the code lines visible. */
   @media (prefers-reduced-motion: reduce) {
-    .scene * { animation: none !important; transition: none !important; }
+    .scene *, .scene::before { animation: none !important; transition: none !important; }
     .type { opacity: 1; }
   }
 </style>

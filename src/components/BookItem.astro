@@ -6,9 +6,10 @@ import BookCover from "./BookCover.astro";
 interface Props {
   book: Book;
   solo?: boolean;
+  index?: number;
 }
 
-const { book, solo = false } = Astro.props;
+const { book, solo = false, index = 0 } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 const t = useTranslations(locale);
 const published = publishedCount(book);
@@ -18,7 +19,7 @@ const unit = (n: number) => plural(n, t("unit.chapter.one"), t("unit.chapter.oth
 const gaugeColor = book.color === "apricot" ? "var(--gauge-apricot)" : "var(--gauge-rose)";
 ---
 
-<article class:list={["item", { solo }]}>
+<article class:list={["item", { solo }]} style={`--i: ${index}`}>
   <div class="cover-slot">
     {book.forthcoming ? (
       <BookCover book={book} />
@@ -76,4 +77,24 @@ const gaugeColor = book.color === "apricot" ? "var(--gauge-apricot)" : "var(--ga
   .gauge-label { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 8px; margin-top: 8px; }
   .gauge-label span { white-space: nowrap; }
   .percent { color: var(--ink); }
+
+  /* Living shelf. The cover lifts when hovered or focused, like a book
+     pulled from the shelf. */
+  .cover-link :global(.cover) { transition: transform .25s ease, box-shadow .25s ease; }
+  .cover-link:hover :global(.cover),
+  .cover-link:focus-visible :global(.cover) {
+    transform: translateY(-6px) rotate(-1deg);
+    box-shadow: 8px 10px 0 var(--shadow);
+  }
+  /* The details arrive one book after the other (--i = position on the shelf),
+     and the gauge fills up from the left. The covers themselves do not
+     animate in: they are the ones that glide between pages. */
+  .details { animation: shelf-in .5s ease both; animation-delay: calc(var(--i) * 80ms + .1s); }
+  .fill { transform-origin: 0 50%; animation: gauge 1s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--i) * 80ms + .35s); }
+  @keyframes shelf-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes gauge { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .cover-link :global(.cover), .details, .fill { animation: none; transition: none; }
+    .cover-link:hover :global(.cover), .cover-link:focus-visible :global(.cover) { transform: none; }
+  }
 </style>

@@ -3,14 +3,12 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
 import Loop from "../../components/Loop.astro";
 import Stats from "../../components/Stats.astro";
-import LatestPages from "../../components/LatestPages.astro";
 import Author from "../../components/Author.astro";
 ---
 
 <BaseLayout>
-  <Hero />
+  <Hero slot="hero" />
   <Loop />
   <Stats />
-  <LatestPages />
   <Author />
 </BaseLayout>
