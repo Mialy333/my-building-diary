@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ComingSoonPage from "../../components/ComingSoonPage.astro";
+import { useTranslations } from "../../i18n/ui";
+const t = useTranslations("fr");
+---
+
+<BaseLayout title={`${t("footer.about")} — My Building Library`}>
+  <ComingSoonPage heading={t("soon.about")} />
+</BaseLayout>
