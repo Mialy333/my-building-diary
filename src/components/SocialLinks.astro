@@ -1,0 +1,70 @@
+---
+// Profile links as round paper buttons with the platform's icon (or "DEV").
+// The name is not written on screen but is read by screen readers (aria-label)
+// and shown on hover (title). Links open in a new tab; rel="me" tells the
+// profile it belongs to this site.
+// Discord: a button that copies the username (a few lines of JavaScript).
+import { getLocale, useTranslations } from "../i18n/ui";
+import { socials, type Social } from "../data/social";
+
+const t = useTranslations(getLocale(Astro.currentLocale));
+const name = (s: Social) => (s.href ? `${s.label} (${t("social.newTab")})` : `${s.label} : ${s.handle}. ${t("social.copy")}`);
+---
+
+<div class="wrap">
+  <ul class="socials" aria-label={t("social.label")}>
+    {socials.map((s) => {
+      const face = s.icon ? (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          {s.icon.map((d) => <path d={d}></path>)}
+        </svg>
+      ) : (
+        <span class="text" aria-hidden="true">{s.text}</span>
+      );
+      return (
+        <li>
+          {s.href ? (
+            <a class="pill" href={s.href} target="_blank" rel="me noopener" aria-label={name(s)} title={s.label}>{face}</a>
+          ) : (
+            <button class="pill" type="button" data-copy={s.handle} aria-label={name(s)} title={`${s.label} · ${s.handle}`}>{face}</button>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+  <p class="copied" data-copied data-done={t("social.copied")} role="status"></p>
+</div>
+
+<style>
+  .socials { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .pill {
+    display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0;
+    border: 1px solid var(--line); border-radius: 50%; background: var(--card); color: var(--ink);
+    text-decoration: none; cursor: pointer; transition: transform .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .pill:hover, .pill:focus-visible { border-color: var(--accent-text); color: var(--accent-text); transform: translateY(-2px); }
+  .text { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 1px; }
+  /* Message after copying the Discord username; empty (and invisible) otherwise. */
+  .copied { min-height: 18px; margin: 8px 0 0; font-family: var(--font-mono); font-size: 12px; color: var(--published-ink); }
+  @media (prefers-reduced-motion: reduce) { .pill { transition: none; } .pill:hover { transform: none; } }
+</style>
+
+<script>
+  // Discord: copy the username and say so for 3 seconds (role="status" makes
+  // screen readers announce it too).
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const status = button.closest(".wrap")?.querySelector<HTMLElement>("[data-copied]");
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy ?? "");
+      } catch {
+        if (status) status.textContent = `Discord : ${button.dataset.copy}`;
+        return;
+      }
+      if (!status) return;
+      status.textContent = `${status.dataset.done ?? ""} ${button.dataset.copy}`;
+      setTimeout(() => (status.textContent = ""), 3000);
+    });
+  });
+</script>

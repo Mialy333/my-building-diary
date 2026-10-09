@@ -267,7 +267,17 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - **Sous la scène** :
   - **Mes activités** : titre (h2) en serif italique prune, posé sur un arc arrondi, au-dessus des stats. La boucle « récupérer → citer ou refuser → tracer » a été retirée le 9 oct 2026 ;
   - **Stats** : 3 cartes (chiffre en serif prune, label en sans), uniquement des chiffres réels ;
-  - **Avatar** : arche 4:5, fond `--blush`, silhouette en trame de points prune, signature « — Mialy », label « photo à venir · arche 4:5 ». La future photo sera recadrée en arche.
+  - **Portrait** (depuis le 9 oct 2026) : la photo de Mialy (`src/assets/mialy.jpg`, optimisée par Astro), recadrée dans l'arche 4:5 (visage gardé en haut du cadre), bordure `--line`, ombre portée `--shadow`. Pour l'accorder à la palette : saturation légèrement réduite et voile pêche → prune en « soft light ». Signature « — Mialy », lien « À propos → ».
+
+### 5.8 bis Pied de page et profils
+
+- Sur toutes les pages : titre « *Me retrouver ailleurs* » (serif italique prune), puis les profils, puis « @ellebuild · 2026 » et les liens À propos · Blog.
+- Profils (`src/data/social.ts`, source unique, réutilisée par la page À propos) : boutons ronds papier de 48 px, une icône au trait par plateforme, ouverture dans un nouvel onglet, `rel="me"`.
+  - Icônes : Tabler Icons (licence MIT), style « outline », trait 1,6 px, couleur `--ink` (prune au survol). LinkedIn, GitHub, X, Discord.
+  - Dev.to n'existe pas chez Tabler : le bouton affiche « DEV » en mono.
+  - Le nom de la plateforme est lu par les lecteurs d'écran (`aria-label`) et apparaît au survol (`title`).
+- Discord n'a pas d'adresse de profil publique par pseudo : son bouton copie le pseudo, et un message « Pseudo Discord copié : … » s'affiche 3 s (annoncé aux lecteurs d'écran).
+- Placés dans le pied de page plutôt que l'en-tête, qui est déjà plein sur téléphone.
 
 ### 5.9 Glossaire BAA 101
 
@@ -346,7 +356,6 @@ Toutes les animations sont en CSS ou SVG, sans bibliothèque. Seul le tampon « 
 - Three.js et WebGL. Une scène 3D est prévue en V2 : island `client:visible`, repli mobile, `prefers-reduced-motion`.
 - Bibliothèques d'animation (GSAP, Framer Motion, Lottie) : le mouvement reste en CSS et SVG (§ 7).
 - Tout l'univers retro-futuriste : sphères, grille en perspective, néons, magenta et cyan.
-- Photo réelle : un placeholder la remplace en V1.
 - Design des pages À propos, CV et blog : phase suivante.
 
 ## 9. Points ouverts
