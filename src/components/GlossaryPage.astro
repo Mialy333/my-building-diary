@@ -1,7 +1,7 @@
 ---
 import { getLocale, useTranslations } from "../i18n/ui";
 import { baa, bookUrl, chapterUrl, type Chapter } from "../data/books";
-import { glossary, glossaryByLetter } from "../data/glossary";
+import { glossary, glossaryByLetter, termId } from "../data/glossary";
 import Breadcrumb from "./Breadcrumb.astro";
 
 const locale = getLocale(Astro.currentLocale);
@@ -41,7 +41,7 @@ const crumbs = [
             .map(conceptOf)
             .filter((c): c is Chapter => c !== undefined);
           return (
-            <div class="entry">
+            <div class="entry" id={termId(entry, locale)}>
               <dt>{entry.term[locale]}</dt>
               <dd>
                 <p>{entry.definition[locale]}</p>
@@ -87,7 +87,9 @@ const crumbs = [
   .group { scroll-margin-top: 180px; padding-top: 28px; }
   .letter { margin: 0; font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 44px; line-height: 1; color: var(--accent-text); }
   dl { margin: 8px 0 0; }
-  .entry { padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  .entry { padding: 16px 0; border-bottom: 1px solid var(--rule); scroll-margin-top: 190px; }
+  /* The term reached from a chapter's bubble is briefly highlighted. */
+  .entry:target { background: linear-gradient(90deg, var(--blush), transparent); }
   dt { font-family: var(--font-serif); font-size: 24px; line-height: 1.15; }
   dd { margin: 6px 0 0; }
   dd p { margin: 0; font-family: var(--font-reading); font-size: 17px; line-height: 1.55; }

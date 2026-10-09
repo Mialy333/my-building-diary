@@ -435,6 +435,13 @@ export const glossary: Term[] = [
   },
 ];
 
+// Anchor of a term on the glossary page, e.g. "Appel d'outil" -> "appel-d-outil".
+// Used by the glossary page (id) and by the links and bubbles in the chapters.
+export const termId = (entry: Term, locale: Locale) =>
+  entry.term[locale]
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
 const letterOf = (word: string) =>
   word.normalize("NFD").replace(/[̀-ͯ]/g, "").charAt(0).toUpperCase();
 

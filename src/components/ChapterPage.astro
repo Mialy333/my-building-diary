@@ -170,6 +170,38 @@ const crumbs = [
   .prose :global(blockquote p) { margin: 0; }
   .prose :global(a) { text-underline-offset: 3px; }
 
+  /* Glossary bubbles (added by src/plugins/glossary-bubbles.ts).
+     The word: same text, a dotted plum underline, a "?" cursor. */
+  .prose :global(.gloss-term) {
+    padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: help;
+    text-decoration: underline dotted var(--accent-text); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
+  }
+  .prose :global(.gloss-term:hover), .prose :global(.gloss-term:focus-visible) { color: var(--accent-text); }
+  /* The bubble: a card that slides up from the bottom of the screen, over the
+     text, so the reader keeps their place. Closes on tap outside, Escape or "Close". */
+  .prose :global(.gloss-pop) {
+    position: fixed; inset: auto 16px 16px; margin: 0 auto; max-width: 520px;
+    padding: 16px 18px 8px; border: 1px solid var(--ink); border-radius: 16px;
+    background: var(--card); color: var(--ink); box-shadow: 6px 6px 0 var(--shadow);
+    font-family: var(--font-sans); font-size: 16px; line-height: 1.5;
+  }
+  .prose :global(.gloss-pop:popover-open) { display: flex; flex-direction: column; gap: 6px; animation: gloss-up .2s ease-out; }
+  .prose :global(.gloss-name) { font-family: var(--font-serif); font-size: 24px; line-height: 1.1; }
+  .prose :global(.gloss-def) { color: var(--ink-soft); }
+  .prose :global(.gloss-actions) { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .prose :global(.gloss-link), .prose :global(.gloss-close) {
+    display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600;
+  }
+  .prose :global(.gloss-close) {
+    padding: 0 4px; border: 0; background: none; color: var(--ink-muted); font-family: var(--font-mono);
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  }
+  .prose :global(.gloss-pop::backdrop) { background: rgba(35, 26, 34, 0.15); }
+  @keyframes gloss-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .prose :global(.gloss-pop:popover-open) { animation: none; }
+  }
+
   .missing { margin-top: 32px; padding: 16px 18px; border: 1px dashed var(--accent-text); border-radius: 12px; font-size: 15px; }
 
   .end { margin-top: 40px; padding-top: 8px; border-top: 1px solid var(--line); }

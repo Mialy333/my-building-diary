@@ -98,38 +98,40 @@ const crumbs = [
     </div>
 
     {book.living ? (
-      <ol class="list">
-        {book.chapters.map((c) => {
-          const uses = appliedIn(c);
-          return (
-            <li class="card">
-              <div class="card-head">
-                <span class="mono caps">{label(c)}</span>
-                {c.published
-                  ? <span class="pills"><span class="read-mark" data-read={`${book.slug}/${chapterSlug(c)}`} hidden>{t("chapter.read")}</span><span class="pill">{t("book.published")}</span></span>
-                  : <span class="pill pending">{t("unit.toCome")}</span>}
-              </div>
-              {c.published
-                ? <a class="card-title link" href={chapterUrl(locale, book, c)}>{c.title[locale]}</a>
-                : <p class="card-title">{c.title[locale]}</p>}
-              {uses.length > 0 && (
-                <div class="concept">
-                  <p class="mono-label">{t("book.appliedIn")}</p>
-                  {uses.map((u) => (
-                    <a class="applied" href={chapterUrl(locale, u.book, u.chapter)}>
-                      {u.book.name[locale]} · {label(u.chapter)} →
-                    </a>
-                  ))}
-                </div>
-              )}
-            </li>
-          );
-        })}
-        <li class="next">
-          <span class="mono caps">{t("label.chapter")} {pad(book.chapters.length + 1)}</span>
-          <span class="next-text">{t("book.nextChapter")}</span>
-        </li>
-      </ol>
+      <>
+        {/* Jump bar: one number per chapter, stays under the header while scrolling. */}
+        <nav class="toc-nums" aria-label={t("book.jump")}>
+          {book.chapters.map((c) => <a href={`#ch-${pad(c.number)}`}>{pad(c.number)}</a>)}
+        </nav>
+
+        {/* Compact contents: one line per chapter, like a printed table of contents.
+            Where the concept is applied is on the chapter page itself. */}
+        <ol class="toc">
+          {book.chapters.map((c) => {
+            const uses = appliedIn(c).length;
+            return (
+              <li class="toc-row" id={`ch-${pad(c.number)}`}>
+                <span class="toc-num">{pad(c.number)}</span>
+                <span class="toc-body">
+                  {c.published
+                    ? <a class="toc-title" href={chapterUrl(locale, book, c)}>{c.title[locale]}</a>
+                    : <span class="toc-title pending">{c.title[locale]}</span>}
+                  <span class="toc-meta">
+                    {c.published
+                      ? (uses > 0 ? `${t("book.appliedIn")} ${uses} ${plural(uses, t("unit.chapter.one"), t("unit.chapter.other"))}` : t("book.published"))
+                      : t("unit.toCome")}
+                    {c.published && <span class="read-mark" data-read={`${book.slug}/${chapterSlug(c)}`} hidden>{t("chapter.read")}</span>}
+                  </span>
+                </span>
+              </li>
+            );
+          })}
+          <li class="next">
+            <span class="mono caps">{t("label.chapter")} {pad(book.chapters.length + 1)}</span>
+            <span class="next-text">{t("book.nextChapter")}</span>
+          </li>
+        </ol>
+      </>
     ) : (
       <>
         <ol class="list">
@@ -293,6 +295,31 @@ const crumbs = [
     text-transform: uppercase; color: var(--accent-text); transform: rotate(-6deg);
   }
   .read-mark[hidden] { display: none; }
+
+  /* Living book: compact contents. */
+  .toc-nums {
+    position: sticky; top: 64px; z-index: 1;
+    display: flex; flex-wrap: wrap; gap: 2px; margin: 16px -24px 0; padding: 6px 20px;
+    background: var(--paper); border-block: 1px solid var(--line);
+  }
+  .toc-nums a {
+    display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 44px;
+    font-family: var(--font-mono); font-size: 14px; color: var(--ink); text-decoration: none;
+  }
+  .toc-nums a:hover { color: var(--accent-text); }
+  .toc { margin: 8px 0 0; padding: 0; list-style: none; }
+  .toc-row {
+    display: flex; align-items: baseline; gap: 14px; padding: 14px 0;
+    border-bottom: 1px solid var(--rule); scroll-margin-top: 190px;
+  }
+  .toc-row:target { background: linear-gradient(90deg, var(--blush), transparent); }
+  .toc-num { flex: none; width: 28px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-muted); }
+  .toc-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .toc-title { font-family: var(--font-serif); font-size: 22px; line-height: 1.15; color: var(--ink); text-decoration: none; }
+  a.toc-title:hover { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+  .toc-title.pending { color: var(--ink-muted); }
+  .toc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-muted); }
+  .toc + .next, .toc .next { margin-top: 16px; }
 </style>
 
 <script>

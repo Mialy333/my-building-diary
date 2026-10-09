@@ -230,6 +230,11 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
   - les 3 prochains éléments sont affichés en lignes : label mono (« Session 02 ») + titre serif + « à paraître » ;
   - le reste va dans un `<details>` natif « + N à paraître », en liste (label + titre) ;
   - pas de JavaScript.
+- **Sommaire d'un livre vivant** (BAA 101, depuis le 9 oct 2026) : sommaire compact, pensé pour grandir sans faire défiler indéfiniment.
+  - Une ligne par chapitre : numéro mono, titre serif 22 px (lien s'il est publié), puis une ligne mono « Appliqué dans N chapitres », « Publié » ou « à paraître », avec le tampon « LU » le cas échéant.
+  - Le détail « Appliqué dans » reste sur la page du chapitre.
+  - Barre de numéros collante sous l'en-tête (01 02 03 …), comme la barre de lettres du glossaire ; la ligne atteinte est surlignée en `--blush`.
+  - Pas de JavaScript. Pistes notées pour plus tard : filtres par journey, recherche Pagefind sur tout le site, parties thématiques définies par Mialy.
 - **Labels de chapitre** : « Session NN » pour les sessions d'un cours, « Chapitre NN » ailleurs, code propre pour les étapes hors numérotation (cap01, Final, Gecko).
 
 ### 5.7 Page chapitre (lecture)
@@ -270,6 +275,20 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - Notions classées par ordre alphabétique, regroupées par lettre (accents ignorés), dans une liste de définitions (`<dl>`).
 - Barre de lettres collante, sous l'en-tête. Chaque notion renvoie vers les chapitres de BAA 101 qui la traitent.
 - Les termes propres au cours (outillage de rendu) et à Solana sont exclus.
+- Chaque notion a une ancre (`#appel-d-outil`) ; la notion atteinte depuis un chapitre est surlignée en `--blush`.
+
+### 5.10 Bulles du glossaire (dans les chapitres)
+
+- **But** : le lecteur ne reste jamais bloqué sur une notion, sans quitter le texte qu'il lit.
+- La **première** apparition d'une notion du glossaire dans un chapitre devient un mot souligné en pointillés prune. Les suivantes restent du texte simple, pour ne pas surcharger la page.
+- Un appui ouvre une bulle (popover HTML natif, sans JavaScript) : nom de la notion en serif, définition, lien « Voir dans le glossaire → » et bouton « Fermer ». Elle se ferme aussi d'un appui à côté ou avec Échap.
+- La bulle monte du bas de l'écran, par-dessus le texte : carte `--card`, bordure `--ink`, ombre portée, largeur 520 px maximum.
+- **Repérage** (`src/plugins/glossary-bubbles.ts`, au build, dans le processeur Markdown Sätteri d'Astro) :
+  - le terme et sa variante entre parenthèses (« Grounding (ancrage) »), avec pluriel en s/x et apostrophe droite ou courbe ;
+  - mot entier seulement (« trace » ne prend pas « tracer ») ; sigles en majuscules seulement (LLM, RAG) ;
+  - jamais dans un lien, du code, un titre ou un bouton ;
+  - variantes trop courantes exclues : « passage ».
+- S'applique à tous les chapitres, des trois livres, en FR et en EN. Rien à faire à la rédaction : une notion ajoutée au glossaire est repérée au build suivant.
 
 ## 6. Règles
 
@@ -312,6 +331,7 @@ Toutes les animations sont en CSS ou SVG, sans bibliothèque. Seul le tampon « 
 | Couvertures | Ruban qui se balance ; feuille la plus récente, étoiles et ampoules qui vivent | 3–4,5 s, en boucle |
 | Pages | Transition étagère → livre : la couverture glisse jusqu'à sa place, l'en-tête reste fixe, le reste fond | 0,45 s |
 | Chapitre | Ruban de lecture lié au défilement ; tampon « LU » qui se pose | Défilement, 0,45 s |
+| Chapitre | Bulle du glossaire qui monte du bas de l'écran | 0,2 s |
 
 - **Transitions entre pages** : View Transitions natives du navigateur (`@view-transition { navigation: auto; }`), sans routeur JavaScript. Chaque couverture porte `view-transition-name: book-<slug>`, unique par page. Un navigateur sans support charge simplement la page suivante.
 - **Les couvertures n'ont pas d'animation d'entrée sur l'étagère** : ce sont elles qui voyagent entre les pages, et deux animations sur le même objet le feraient clignoter.
