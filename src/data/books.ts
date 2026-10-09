@@ -348,6 +348,27 @@ export const books: Book[] = [
     },
     chapters: [],
   },
+  {
+    // Builds: the agents Mialy designs on her own, from the BAA 101 concepts.
+    // Placeholder until the first project: shown as "coming soon", no invented title.
+    slug: "my-agents",
+    name: { fr: "Mes agents", en: "My agents" },
+    shelf: "builds",
+    forthcoming: true,
+    description: {
+      fr: "Les agents IA que je construis par moi-même, à partir des notions de BAA 101.",
+      en: "The AI agents I build on my own, from the BAA 101 concepts.",
+    },
+    heading: { text: { fr: "Mes ", en: "My " }, accent: { fr: "agents", en: "agents" } },
+    cover: {
+      title: { fr: "Mes ", en: "My " },
+      accent: { fr: "agents", en: "agents" },
+      subtitle: { fr: "", en: "" },
+      info: { fr: "", en: "" },
+      bars: [],
+    },
+    chapters: [],
+  },
 ];
 
 export const baa = books.find((b) => b.slug === "baa-101");

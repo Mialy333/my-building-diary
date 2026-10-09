@@ -1,13 +1,17 @@
-# My Building Diary — Design decisions (V2)
+# My Building Library — Design decisions (V2)
 
 Référence pour toutes les sessions (design et code Astro).
 Source : maquette mobile V2 « Papier & prune », figée le 29 sep 2026, mise à jour le 8 oct 2026 après la construction des pages livre et chapitre. Elle comporte 5 écrans : accueil, étagère, page Dev3Pack en clair et en sombre, page BAA 101.
 Mise à jour le 9 oct 2026 : accueil illustré plein écran, bouton de thème, en-tête collant, mouvement (§ 7), couvertures illustrées, ruban de lecture.
+Renommé le 9 oct 2026 : le site s'appelait « My Building *Diary* », il devient « My Building *Library* ». Le repo et le dossier local gardent leur nom (`my-building-diary`).
 Cette version remplace entièrement la V1 retro-futuriste (Néon indigo, sphères, grille).
 
 ## 1. Principes
 
-- **Direction.** Style éditorial print, doux et personnel, sans rien de gamin. Le site doit se lire comme un journal de bord : papier, encre, ruban marque-page.
+- **Direction.** Style éditorial print, doux et personnel, sans rien de gamin. Le site se lit comme une bibliothèque personnelle que Mialy construit : papier, encre, ruban marque-page. On y trouve trois sortes de livres :
+  - les formations et bootcamps suivis (Journeys) ;
+  - les fondamentaux qu'elle en tire (BAA 101 et son glossaire) ;
+  - les agents qu'elle construit par elle-même à partir de ces notions (Builds).
 - **Illustration (depuis le 9 oct 2026).** Une touche illustrée « cosy lo-fi » : un bureau devant la ville, au crépuscule ou la nuit, avec un écran, une plante, un mug et un chat. Dessinée en SVG et CSS, sans image ni bibliothèque.
   - Les images de référence (dont une illustration de Debbie Balboa) ont servi pour l'ambiance uniquement. Rien n'en est copié.
 - **Références.** Krabat.ai (serif condensé, labels mono, boucle) et les publicités Apple des années 80 (papier blanc, titre qui domine, ton humain).
@@ -158,7 +162,8 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - **Cibles tactiles** : 44 px minimum.
 - **En-tête** :
   - 64 px de haut, collant : il reste visible pendant le défilement, sur fond `--paper` ;
-  - à gauche, logo ruban et « My Building *Diary* » en serif 20 px ;
+  - à gauche, logo ruban et « My Building *Library* » en serif 20 px ;
+  - sous 380 px de large, le lien Étagère réduit ses marges (4 px au lieu de 8 px) pour que tout tienne sur une ligne ;
   - à droite, lien Étagère, sélecteur FR/EN en mono et bouton de thème rond de 44 px avec `aria-label`.
 
 ## 5. Composants
@@ -272,14 +277,16 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
 - Contraste du texte : 4,5:1 minimum, y compris sur le ciel de la scène d'accueil (voir 2.4).
 - Un seul accent d'interface, le prune. Les couleurs des livres ne servent jamais pour du texte.
 - Un décor ne passe jamais sur un titre. L'écran de couverture est un bloc séparé, sous le titre. Sur la scène d'accueil, le texte est posé sur le ciel uni ; nuages, soleil et lune restent hors de la zone de texte.
-- Un tag sans livre est masqué ; en V1 du site, seul « dev » est affiché. Un rayon vide est masqué ; en V1, Builds l'est.
+- Un tag sans livre est masqué ; en V1 du site, seul « dev » est affiché. Un rayon vide est masqué.
+- **Rayon Builds** : affiché depuis le 9 oct 2026 avec un livre « *Mes agents* · à paraître » (sans titre de projet inventé). Il sera remplacé par le premier projet réel.
 - Les livres et chapitres en cours restent visibles avec « à paraître ».
 - Un concept BAA 101 n'est cliquable que si son chapitre est publié.
 - BAA 101 se limite aux fondamentaux : un concept y entre seulement s'il vaut pour tout agent, quels que soient le framework, le cloud ou le modèle.
 - Aucun contenu inventé : un fait manquant devient un placeholder `[…]` et il est signalé.
-- L'accroche « Building AI agents *in public…* » reste en anglais dans les deux langues. Le sous-titre est traduit :
-  - EN : *Agents that cite their sources, refuse when nothing backs the answer, and leave a trace you can audit.*
-  - FR : *Des agents qui citent leurs sources, refusent quand rien ne soutient la réponse, et laissent une trace vérifiable.*
+- L'accroche « Building AI agents *in public…* » reste en anglais dans les deux langues. Le sous-titre est à la première personne et traduit (depuis le 9 oct 2026) :
+  - FR : *Ma bibliothèque d'AI engineering : je m'y forme, j'en tire les bases, et je construis mes propres agents, qui citent leurs sources et savent refuser.*
+  - EN : *My AI engineering library: I train here, draw the basics from it, and build my own agents, ones that cite their sources and know when to refuse.*
+  - Ligne mono au-dessus du titre : « MA BIBLIOTHÈQUE · N CHAPITRES PUBLIÉS » / « BUILDING LIBRARY · N CHAPTERS PUBLISHED ».
 - **Anti-« gamin »** : pas de police manuscrite, pas de cœurs, pas de dégradés pastel, pas de rose bonbon.
   - **Exception validée le 9 oct 2026** : le ciel de la scène d'accueil est un dégradé pêche → rose (prune profond la nuit). C'est le seul dégradé du site.
 - **Anti-copie** :

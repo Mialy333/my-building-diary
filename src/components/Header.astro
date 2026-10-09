@@ -14,7 +14,7 @@ const onShelf = Astro.url.pathname.replace(/\/?$/, "/") === shelfHref;
 <header class="site-header">
   <a class="brand" href={`/${locale}/`}>
     <span class="ribbon" aria-hidden="true"></span>
-    <span class="brand-name">My Building <em>Diary</em></span>
+    <span class="brand-name">My Building <em>Library</em></span>
   </a>
 
   <div class="right">
@@ -142,4 +142,10 @@ const onShelf = Astro.url.pathname.replace(/\/?$/, "/") === shelfHref;
     cursor: pointer;
   }
   .theme:hover { color: var(--accent-text); }
+  /* Small phones (under 380 px): "Library" is longer than "Diary", so the
+     shelf link gives back a little padding to keep everything on one line. */
+  @media (max-width: 379px) {
+    .nav-link { padding: 0 4px; }
+    .brand { gap: 8px; }
+  }
 </style>
