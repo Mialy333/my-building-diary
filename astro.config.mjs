@@ -2,6 +2,8 @@
 import { defineConfig, fontProviders } from 'astro/config';
 
 export default defineConfig({
+  // Public address of the site: used to build absolute links (canonical URL, link previews).
+  site: "https://my-building-library.vercel.app",
   i18n: {
     locales: ["fr", "en"],
     defaultLocale: "en",

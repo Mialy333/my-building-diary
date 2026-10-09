@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { locales, getLocale, useTranslations } from "../i18n/ui";
 import "../styles/global.css";
 
 interface Props {
@@ -9,6 +10,14 @@ interface Props {
 }
 
 const { title = "My Building Library" } = Astro.props;
+
+// Link previews and search engines. Astro.site comes from `site` in astro.config.mjs.
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const description = t("hero.subtitle").replace(/<[^>]+>/g, ""); // the subtitle, without its <strong> tags
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// Same page in the other language: only the /fr/ or /en/ prefix changes (same slugs in both).
+const inLocale = (l: string) => new URL(Astro.url.pathname.replace(/^\/(en|fr)(?=\/|$)/, `/${l}`), Astro.site);
 ---
 
 <html lang={Astro.currentLocale}>
@@ -17,6 +26,16 @@ const { title = "My Building Library" } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => <link rel="alternate" hreflang={l} href={inLocale(l)} />)}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="My Building Library" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === "fr" ? "fr_FR" : "en_US"} />
+    <meta name="twitter:card" content="summary" />
     <script is:inline>
       try {
         const saved = localStorage.getItem("theme");
