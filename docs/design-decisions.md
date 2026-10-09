@@ -3,7 +3,7 @@
 Référence pour toutes les sessions (design et code Astro).
 Source : maquette mobile V2 « Papier & prune », figée le 29 sep 2026, mise à jour le 8 oct 2026 après la construction des pages livre et chapitre. Elle comporte 5 écrans : accueil, étagère, page Dev3Pack en clair et en sombre, page BAA 101.
 Mise à jour le 9 oct 2026 : accueil illustré plein écran, bouton de thème, en-tête collant, mouvement (§ 7), couvertures illustrées, ruban de lecture.
-Renommé le 9 oct 2026 : le site s'appelait « My Building *Diary* », il devient « My Building *Library* ». Le repo et le dossier local gardent leur nom (`my-building-diary`).
+Renommé le 9 oct 2026 : le site s'appelait « My Building *Diary* », il devient « My Building *Library* ». Le repo GitHub et le dossier local sont renommés en `my-building-library` (GitHub redirige l'ancienne adresse).
 Cette version remplace entièrement la V1 retro-futuriste (Néon indigo, sphères, grille).
 
 ## 1. Principes
