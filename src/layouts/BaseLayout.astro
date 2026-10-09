@@ -35,7 +35,14 @@ const inLocale = (l: string) => new URL(Astro.url.pathname.replace(/^\/(en|fr)(?
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={locale === "fr" ? "fr_FR" : "en_US"} />
-    <meta name="twitter:card" content="summary" />
+    {/* Link preview picture (1200 × 630): the home scene, not the portrait.
+        Without it, messaging apps pick any large image on the page. */}
+    <meta property="og:image" content={new URL(`/og-${locale}.png`, Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t("og.alt")} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL(`/og-${locale}.png`, Astro.site)} />
     <script is:inline>
       try {
         const saved = localStorage.getItem("theme");

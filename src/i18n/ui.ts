@@ -10,6 +10,7 @@ const en = {
   "breadcrumb.label": "Breadcrumb",
   "theme.toggle": "Switch between light and dark theme",
   "hero.kicker": "Building library",
+  "og.alt": "My Building Library home page: a desk with a computer, a plant, a mug and a cat, in front of a city at dusk, under the title Building AI agents in public…",
   "scene.label": "A desk in front of an arched window over the city at dusk, with a computer, a plant, a mug and a cat",
   "hero.subtitle":
     "My AI engineering library: <strong>I train here</strong>, draw <strong>the basics</strong> from it, and build <strong>my own agents</strong>.",
@@ -107,6 +108,7 @@ const fr: Record<keyof typeof en, string> = {
   "breadcrumb.label": "Fil d'Ariane",
   "theme.toggle": "Basculer entre thème clair et sombre",
   "hero.kicker": "Ma bibliothèque",
+  "og.alt": "Accueil de My Building Library : un bureau avec un ordinateur, une plante, un mug et un chat, devant la ville au crépuscule, sous le titre Building AI agents in public…",
   "scene.label": "Un bureau devant une fenêtre en arche ouverte sur la ville au crépuscule, avec un ordinateur, une plante, un mug et un chat",
   "hero.subtitle":
     "Ma bibliothèque d'AI engineering : <strong>je m'y forme</strong>, j'en tire <strong>les bases</strong>, et je construis <strong>mes propres agents</strong>.",

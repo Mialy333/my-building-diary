@@ -269,6 +269,12 @@ Sur la scène, la ligne mono du haut passe donc en `--ink-soft` : `--ink-muted` 
   - **Stats** : 3 cartes (chiffre en serif prune, label en sans), uniquement des chiffres réels ;
   - **Portrait** (depuis le 9 oct 2026) : la photo de Mialy (`src/assets/mialy.jpg`, optimisée par Astro), recadrée dans l'arche 4:5 (visage gardé en haut du cadre), bordure `--line`, ombre portée `--shadow`. Pour l'accorder à la palette : saturation légèrement réduite et voile pêche → prune en « soft light ». Signature « — Mialy », lien « À propos → ».
 
+### 5.8 quater Aperçu de lien (LinkedIn, messageries)
+
+- Image `public/og-fr.png` et `public/og-en.png` (1200 × 630) : capture de l'accueil (scène au crépuscule, titre, sous-titre, bureau et chat), une par langue. Déclarée par `og:image` et `twitter:card = summary_large_image`, avec un texte alternatif.
+- Le portrait n'est jamais l'image d'aperçu : sans `og:image`, les messageries prenaient la photo de « Qui écrit ».
+- À régénérer quand l'accueil change (sous-titre, nombre de chapitres).
+
 ### 5.8 bis Pied de page et profils
 
 - Sur toutes les pages : titre « *Me retrouver ailleurs* » (serif italique prune), puis les profils, puis « @ellebuild · 2026 » et les liens À propos · Blog.
