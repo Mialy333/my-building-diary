@@ -1,0 +1,97 @@
+---
+import { getLocale, useTranslations } from "../i18n/ui";
+import { baa, bookUrl, chapterUrl, type Chapter } from "../data/books";
+import { glossary, glossaryByLetter } from "../data/glossary";
+import Breadcrumb from "./Breadcrumb.astro";
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const groups = glossaryByLetter(locale);
+const conceptOf = (n: number) => baa?.chapters.find((c) => c.number === n);
+
+const crumbs = [
+  { label: t("nav.shelf"), href: `/${locale}/shelf/` },
+  ...(baa ? [{ label: baa.name[locale], href: bookUrl(locale, baa) }] : []),
+  { label: t("glossary.title") },
+];
+---
+
+<article class="glossary">
+  <Breadcrumb items={crumbs} />
+
+  <header>
+    <p class="kicker">
+      <span class="bar" aria-hidden="true"></span>
+      BAA 101 · {glossary.length} {t("glossary.terms")}
+    </p>
+    <h1 set:html={t("glossary.heading")} />
+    <p class="intro">{t("glossary.intro")}</p>
+  </header>
+
+  <nav class="letters" aria-label={t("glossary.letters")}>
+    {groups.map((g) => <a href={`#letter-${g.letter}`}>{g.letter}</a>)}
+  </nav>
+
+  {groups.map((g) => (
+    <section class="group" id={`letter-${g.letter}`}>
+      <h2 class="letter">{g.letter}</h2>
+      <dl>
+        {g.terms.map((entry) => {
+          const concepts = (entry.concepts ?? [])
+            .map(conceptOf)
+            .filter((c): c is Chapter => c !== undefined);
+          return (
+            <div class="entry">
+              <dt>{entry.term[locale]}</dt>
+              <dd>
+                <p>{entry.definition[locale]}</p>
+                {baa && concepts.length > 0 && (
+                  <p class="see">
+                    <span class="see-label">{t("glossary.see")}</span>
+                    {concepts.map((c) => (
+                      <a href={chapterUrl(locale, baa, c)}>{c.title[locale]}</a>
+                    ))}
+                  </p>
+                )}
+              </dd>
+            </div>
+          );
+        })}
+      </dl>
+    </section>
+  ))}
+</article>
+
+<style>
+  .glossary { padding: 12px 24px 0; }
+  header { margin-top: 12px; }
+  .kicker {
+    display: flex; align-items: center; gap: 10px; margin: 0;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted);
+  }
+  .bar { width: 5px; height: 16px; border-radius: 2px; background: var(--book-sage); }
+  h1 { margin: 14px 0 0; font-family: var(--font-serif); font-weight: 400; font-size: 52px; line-height: 0.98; letter-spacing: -1px; }
+  .intro { margin: 14px 0 0; font-family: var(--font-reading); font-size: 18px; line-height: 1.55; color: var(--ink-soft); }
+
+  .letters {
+    position: sticky; top: 64px; z-index: 1;
+    display: flex; flex-wrap: wrap; gap: 2px; margin: 28px -24px 0; padding: 6px 20px;
+    background: var(--paper); border-block: 1px solid var(--line);
+  }
+  .letters a {
+    display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 44px;
+    font-family: var(--font-mono); font-size: 14px; color: var(--ink); text-decoration: none;
+  }
+  .letters a:hover { color: var(--accent-text); }
+
+  .group { scroll-margin-top: 180px; padding-top: 28px; }
+  .letter { margin: 0; font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 44px; line-height: 1; color: var(--accent-text); }
+  dl { margin: 8px 0 0; }
+  .entry { padding: 16px 0; border-bottom: 1px solid var(--rule); }
+  dt { font-family: var(--font-serif); font-size: 24px; line-height: 1.15; }
+  dd { margin: 6px 0 0; }
+  dd p { margin: 0; font-family: var(--font-reading); font-size: 17px; line-height: 1.55; }
+  .see { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; margin-top: 6px !important; }
+  .see-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+  .see a { display: inline-flex; align-items: center; min-height: 44px; font-family: var(--font-sans); font-size: 14px; font-weight: 500; text-underline-offset: 3px; }
+</style>
